@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@600;700&family=Saira:wght@400;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@400;500;600;700;800&family=Saira:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
 
     <style>
@@ -108,7 +108,7 @@
             font-size: 1.1em;
             line-height: 1.7;
             color: var(--text-primary);
-            font-weight: 400;
+            font-weight: 500;
             text-align: left;
         }
 
@@ -775,6 +775,7 @@
             text-decoration-thickness: 1px;
             text-underline-offset: 4px;
             margin: 15px 0;
+            color: var(--accent-gold);
         }
 
         /* 2. Estilo para la frase de transición "Información, sí..." */
@@ -830,11 +831,15 @@
             background-color: var(--surface-color);
             border: 1px solid var(--accent-gold);
             border-radius: 12px;
-            padding: 40px;
+            padding: 30px;
+            /* Reducimos padding para pantallas pequeñas */
             max-width: 500px;
-            width: 90%;
+            width: calc(100% - 40px);
+            /* ¡ESTA ES LA LÍNEA CLAVE! */
             position: relative;
             box-shadow: 0 0 40px rgba(240, 185, 11, 0.3);
+            box-sizing: border-box;
+            /* Asegura que el padding no afecte el ancho total */
         }
 
         .popup-content h4 {
@@ -885,34 +890,32 @@
 
 
 
+        /* --- INICIA REEMPLAZO DEFINITIVO: DE GRID A FLEXBOX --- */
+
+        /* --- INICIA REEMPLAZO DEFINITIVO: SECCIÓN DE MICRO-TARJETAS COMPLETA --- */
+
         .unified-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            /* Flexible para móviles */
-            gap: 25px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
             margin-top: 40px;
         }
 
-        @media (min-width: 768px) {
-            .unified-grid {
-                grid-template-columns: repeat(4, 1fr);
-                /* 4 columnas en tabletas y más */
-            }
-        }
-
-        /* --- INICIA EL NUEVO BLOQUE DE ESTILOS PARA MICRO-TARJETAS (REEMPLAZO) --- */
-
         .micro-card {
+            /* Estilos Visuales */
             background-color: var(--background-primary);
-            /* Fondo negro */
             border: 2px solid var(--border-color);
-            /* Borde más grueso, color por defecto */
             border-radius: 12px;
-            padding: 10px 10px 10px 10px;
+            padding: 10px;
             position: relative;
             min-height: 50px;
             display: flex;
             align-items: center;
+
+            /* Lógica Flexbox */
+            flex-grow: 1;
+            flex-basis: 100%;
+            /* Default: 1 columna en móvil */
         }
 
         .card-icon {
@@ -926,7 +929,6 @@
             align-items: center;
             justify-content: center;
             font-size: 1em;
-            /* Emojis más grandes */
             border: 2px solid var(--background-primary);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
         }
@@ -938,12 +940,11 @@
             color: var(--text-primary);
             margin: 0;
             font-weight: 600;
-            /* Texto ligeramente más audaz */
-            padding-left: 10px;
-            /* Espacio para que el texto no toque el ícono */
+            padding-left: 20px;
+            /* Espacio para el ícono */
         }
 
-        /* Tono 1: Amarillo Pastel / Crema */
+        /* Paleta de Colores por Grupo */
         .group-1 .card-icon {
             background-color: #f1d881;
             color: #5C4033;
@@ -953,7 +954,6 @@
             border-color: #f1d881;
         }
 
-        /* Tono 2: Amarillo Ocre */
         .group-2 .card-icon {
             background-color: var(--accent-gold);
             color: #111;
@@ -963,7 +963,6 @@
             border-color: var(--accent-gold);
         }
 
-        /* Tono 3: Dorado Intenso (El original) */
         .group-3 .card-icon {
             background-color: #a6842d;
             color: #111;
@@ -973,7 +972,6 @@
             border-color: #a6842d;
         }
 
-        /* Tono 4: Dorado Verdoso Oscuro / Oliva */
         .group-4 .card-icon {
             background-color: #5f4808;
         }
@@ -981,6 +979,32 @@
         .micro-card.group-4 {
             border-color: #5f4808;
         }
+
+
+        /* Media Queries para la Maquetación Responsiva */
+
+        /* Tablets pequeñas y móviles grandes (2 columnas) */
+        @media (min-width: 550px) {
+            .micro-card {
+                flex-basis: calc(50% - 10px);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .micro-card {
+                flex-basis: calc(33.33% - 14px);
+                /* 20px de gap / 3 * 2 = ~14px */
+            }
+        }
+
+        /* Tablets grandes y escritorio (4 columnas) */
+        @media (min-width: 992px) {
+            .micro-card {
+                flex-basis: calc(25% - 15px);
+            }
+        }
+
+        /* --- FIN REEMPLAZO DEFINITIVO --- */
 
 
 
@@ -1111,9 +1135,10 @@
     <section id="hero">
         <div class="container">
             <div>
-                <p class="section-kicker">La mayoría de los profesionales ya integró la IA a su flujo de trabajo</p>
-                <h1>Solo el 5% domina el arte del <span style="color: var(--accent-gold);">Prompting Estratégico</span>
-                </h1>
+                <p class="section-kicker">No te reemplaza la IA. Te reemplaza alguien que sabe usarla mejor que tú</p>
+                <h1>La Inteligencia Artificial no llegó para&nbsp;reemplazarte. <br> <span
+                        style="color: var(--accent-gold);">Llegó
+                        para potenciar tus 20&nbsp;años de&nbsp;experiencia.</span></h1>
             </div>
             <picture class="hero-image">
                 <source media="(min-width: 768px)"
@@ -1124,12 +1149,14 @@
             <p style="max-width: 700px; margin: 0 auto;">La verdadera Alquimia del siglo XXI no es convertir plomo en
                 metal precioso. Es transformar décadas de experiencia profesional en resultados estratégicos a la
                 velocidad de la IA.</p>
-            <p style="max-width: 700px; margin: 20px auto 0 auto;">Este no es un curso de tecnología. Es tu iniciación
-                para convertirte en un <strong>Experto Augmentado</strong>: el profesional que fusiona su sabiduría con
-                la <strong>fórmula secreta</strong> del prompting para producir resultados que un novato, por más rápido
-                que sea, no puede igualar.</p>
-            <div style="text-align: center;"><a href="#inscripcion" class="cta-button">QUIERO DOMINAR EL ARTE DEL
-                    PROMPTING</a>
+            <p style="max-width: 700px; margin: 20px auto 0 auto;">Este no es un curso de tecnología. Es la
+                <strong>actualización definitiva para tu arsenal directivo</strong>. Te convierte en un <strong>Experto
+                    Augmentado</strong>: el profesional que aprende a <strong>dirigir la IA como un socio
+                    estratégico</strong>, desplegando su experiencia con una <strong>contundencia y velocidad</strong>
+                que dejan a la competencia fuera de juego.
+            </p>
+            <div style="text-align: center;"><a href="#inscripcion" class="cta-button">QUIERO DIRIGIR LA IA CON MAESTRÍA
+                </a>
                 <p style="font-size: 0.9em; margin-top: 15px; color: var(--text-secondary); text-align: center;">
                     <em>Cupo limitado. Primera generación.</em>
                 </p>
@@ -1177,8 +1204,8 @@
         <div class="container">
             <div>
                 <p class="section-kicker">El secreto no está en la IA.</p>
-                <h2 style="max-width: 800px; margin-left: auto; margin-right: auto;"> Está en la fórmula con la que
-                    construyes la instrucción. (Prompt)</h2>
+                <h2 style="max-width: 800px; margin-left: auto; margin-right: auto;"> El secreto reside en la fórmula
+                    con la que diseñas la instrucción perfecta: el Prompt.</h2>
             </div>
             <p style="text-align: center; max-width: 700px; margin: 20px auto 50px auto;">La verdadera revolución es lo
                 que sucede cuando un profesional experimentado dirige la IA con la fórmula correcta. Imagina que recibes
@@ -1223,7 +1250,9 @@
                     </div>
                     <div class="result-card">
                         <h4>EL RESULTADO:</h4>
-                        <p class="result-text">Un memorándum internamente correcto, pero estratégicamente inútil.
+                        <p class="result-text"><span style="color: var(--accent-gold) !important;">Un memorándum
+                                internamente
+                                correcto, pero estratégicamente inútil.</span>
                         </p>
                         <div style="border-top: 1px solid var(--border-color); margin-top: 15px; padding-top: 15px;">
                             <p style="font-family: var(--font-heading); color: var(--text-secondary);">MEMORÁNDUM
@@ -1384,15 +1413,13 @@
                 <!-- Grupo 2: Tu Coach de IA (Púrpura) -->
                 <div class="micro-card group-2">
                     <div class="card-icon">🤖</div>
-                    <p>Acceso a AlquimI.A., tu Coach de IA</p>
+                    <p>Acceso a ALQU<strong style="color: var(--accent-gold); font-weight: 900;">IA</strong>, tu Coach
+                        de IA</p>
                 </div>
-                <div class="micro-card group-2">
-                    <div class="card-icon">💡</div>
-                    <p>Laboratorio IA guiado por AlquimIA</p>
-                </div>
+
                 <div class="micro-card group-2">
                     <div class="card-icon">🧠</div>
-                    <p>Feedback para tus Proyectos Reales</p>
+                    <p>Práctica aplicada a tu contexto profesional </p>
                 </div>
                 <div class="micro-card group-2">
                     <div class="card-icon">🎯</div>
@@ -1402,7 +1429,7 @@
                 <!-- Grupo 3: Crecimiento y Comunidad (Verde) -->
                 <div class="micro-card group-3">
                     <div class="card-icon">💬</div>
-                    <p>4 Sesiones de Consultoría en Vivo</p>
+                    <p>4 Sesiones para resolver dudas</p>
                 </div>
                 <div class="micro-card group-3">
                     <div class="card-icon">❓</div>
@@ -1410,7 +1437,7 @@
                 </div>
                 <div class="micro-card group-3">
                     <div class="card-icon">👥</div>
-                    <p>Feedback de Expertos y Pares</p>
+                    <p>Feedback de Pares</p>
                 </div>
                 <div class="micro-card group-3">
                     <div class="card-icon">📈</div>
@@ -1424,7 +1451,8 @@
                 </div>
                 <div class="micro-card group-4">
                     <div class="card-icon">💰</div>
-                    <p>Gana Puntos para concursar por hasta el Reembolso de tu Curso</p>
+                    <p>Gana Puntos para obtener una sesión de mentoría privada con nuestros expertos para impulsar tu
+                        carrera.</p>
                 </div>
             </div>
         </div>
@@ -1474,8 +1502,8 @@
                 <div class="pricing-context">
                     <div>
                         <p class="section-kicker">Datos, no opiniones</p>
-                        <h2 style="text-align: left;">Si la Alquimia no te convence, <span
-                                style="color: var(--accent-gold);">que lo hagan los números.</span></h2>
+                        <h2 style="text-align: left;">Si la Alquimia no te convence... <br> <span
+                                style="color: var(--accent-gold);">...que lo hagan los números.</span></h2>
                     </div>
                     <p style="text-align: left; font-style: italic; color: var(--text-secondary);">Realidades del
                         "Future of Jobs Report" del World Economic Forum que definen el campo de juego profesional:</p>
@@ -1494,7 +1522,7 @@
                 </div>
 
                 <!-- COLUMNA DERECHA: LA TARJETA DE PRECIOS -->
-                <div class="pricing-card-wrapper">
+                <div id="pago" class="pricing-card-wrapper">
                     <div class="offer-box">
                         <div>
                             <p class="section-kicker" style="color: var(--text-secondary);">Tu Inversión</p>
@@ -1504,12 +1532,19 @@
 
                         <p><strong>Incluye:</strong></p>
                         <ul>
-                            <li>Acceso a la Generación Noviembre-Diciembre (del 10/11/2025 al 10/12/2025).</li>
+                            <li>Acceso a la Generación <strong>Noviembre-Diciembre</strong> <br> <small>
+                                    (del 10/11/2025 al
+                                    10/12/2025)
+                                </small></li>
                             <li>12 Módulos de aprendizaje estratégico a tu ritmo.</li>
-                            <li>Acceso ilimitado al coach de IA <strong>AlquimI.A.</strong></li>
-                            <li>4 Sesiones de consultoría en vivo.</li>
+                            <li>Acceso ilimitado al coach de IA: <strong>
+                                    ALQU<span style="color: var(--accent-gold); font-weight: 900;">IA</span>
+                                </strong></li>
+                            <li>4 Sesiones para resolver dudas.</li>
                             <li>Plantillas y "fórmulas" de prompting para uso profesional.</li>
-                            <li><strong>Oportunidad de ganar hasta el reembolso completo de tu inversión.</strong></li>
+                            <li>Oportunidad para obtener una <strong>sesión de mentoría privada</strong> con nuestros
+                                expertos
+                                para impulsar tu carrera.</li>
                             <li>Certificado de "Alquimista Estratégico de I.A."</li>
                         </ul>
                         <a href="#URL_DE_PAGO_STRIPE" class="cta-button">INSCRIBIRME AHORA</a>
@@ -1552,12 +1587,15 @@
             <details class="faq-item">
                 <summary>¿Necesito comprar software o suscripciones de IA adicionales?</summary>
                 <p>No. El curso está diseñado para funcionar con las herramientas de IA más accesibles (muchas de ellas
-                    gratuitas). Te daremos acceso a nuestro coach <strong>AlquimI.A.</strong> y no necesitarás nada más
+                    gratuitas). Te daremos acceso a nuestro coach ALQU<strong
+                        style="color: var(--accent-gold); font-weight: 900;">IA</strong> y no necesitarás nada más
                     para completar el programa.</p>
             </details>
             <details class="faq-item">
                 <summary>¿Qué pasa cuando terminan las 4 semanas? ¿Pierdo el acceso?</summary>
-                <p>Tu acceso a la plataforma, al coach AlquimI.A. y a las sesiones en vivo estará activo durante las 4
+                <p>Tu acceso a la plataforma, al coach ALQU<strong
+                        style="color: var(--accent-gold); font-weight: 900;">IA</strong> y a las sesiones en vivo estará
+                    activo durante las 4
                     semanas de duración del programa. El objetivo es que sea un entrenamiento intensivo y enfocado.</p>
             </details>
         </div>
@@ -1565,27 +1603,24 @@
     <div id="lead-magnet-popup" class="popup-overlay">
         <div class="popup-content">
             <button class="popup-close-button">&times;</button>
-            <h4>La Anatomía de un Prompt Estratégico</h4>
-            <p>El prompt que transforma un simple reporte en un análisis estratégico no es magia, es una fórmula. Así se
-                deconstruye:</p>
-            <div
-                style="text-align: left; margin: 20px 0; border-left: 2px solid var(--accent-gold); padding-left: 20px;">
-                <p><strong>1. Asignación de Rol (Persona):</strong><br><span
-                        style="color: var(--text-secondary); font-style: italic;">"Actúa como un Director Financiero
-                        escéptico..."</span><br>Esto le da a la IA una personalidad y un punto de vista.</p>
-                <p style="margin-top: 20px;"><strong>2. Definición de Tarea y Contexto:</strong><br><span
-                        style="color: var(--text-secondary); font-style: italic;">"...analiza este reporte,
-                        identificando los 3 riesgos ocultos..."</span><br>Aquí le damos el "qué" y el "cómo". Este es el
-                    núcleo.</p>
-                <p style="margin-top: 20px;"><strong>3. Especificación de Formato (El Secreto Final):</strong><br><span
-                        style="color: var(--text-secondary); font-style: italic;">"...y preséntalo en una
-                        tabla..."</span><br>La forma en que estructuras la petición de formato determina el 90% de la
-                    calidad. La fórmula completa incluye 5 modificadores que...</p>
+
+            <h4>La Fórmula del Prompt Estratégico</h4>
+            <p style="text-align: center;">Un prompt de élite no pide, dirige. Se construye con 3 pilares clave:</p>
+
+            <div style="text-align: left; margin: 30px 0;">
+                <p><strong>1. Rol Experto:</strong><br>
+                    Asignar una personalidad a la IA ("Actúa como un Director Financiero...").</p>
+
+                <p style="margin-top: 20px;"><strong>2. Tarea Específica:</strong><br>
+                    Definir un objetivo claro y con restricciones ("...identificando 3 riesgos ocultos...").</p>
+
+                <p style="margin-top: 20px;"><strong>3. Formato Profesional (El Cliffhanger):</strong><br>
+                    La forma en que pides el resultado lo es todo. La fórmula completa usa 5 modificadores de formato
+                    que...</p>
             </div>
-            <div
-                style="background-image: linear-gradient(to top, var(--surface-color) 30%, transparent); text-align: center; padding-top: 30px; margin-top: -30px;">
-                <a href="#inscripcion" class="cta-button">QUIERO OBTENER TODAS
-                    LAS FÓRMULAS</a>
+
+            <div style="text-align: center;">
+                <a href="#pago" class="cta-button">QUIERO OBTENER TODAS LAS FÓRMULAS</a>
             </div>
         </div>
     </div>
@@ -1629,7 +1664,7 @@
                         e.preventDefault();
                         popupOverlay.classList.remove('active');
 
-                        const inscripcionSection = document.querySelector('#inscripcion');
+                        const inscripcionSection = document.querySelector('#pago');
                         if (inscripcionSection) {
                             inscripcionSection.scrollIntoView({
                                 behavior: 'smooth',
@@ -1638,7 +1673,7 @@
                         }
 
                         // También actualiza la URL con el hash sin recargar
-                        history.pushState(null, '', '#inscripcion');
+                        history.pushState(null, '', '#pago');
                     });
                 }
             }
