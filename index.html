@@ -1,0 +1,1651 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alquimistas de I.A. - El Prompt Estratégico</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@600;700&family=Saira:wght@400;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --background-primary: #0a0a0a;
+            --background-secondary: #121212;
+            --surface-color: #1c1c1c;
+            --border-color: #333333;
+            --text-primary: #f0f0f0;
+            --text-secondary: #a0a0a0;
+            --accent-gold: #f0b90b;
+            --font-paragraph: 'Saira', sans-serif;
+            --font-heading: 'Saira Semi Condensed', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-paragraph);
+            background-color: var(--background-primary);
+            color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        section:nth-of-type(even) {
+            background-color: var(--background-secondary);
+        }
+
+        section:last-of-type {
+            border-bottom: none;
+        }
+
+        picture {
+            display: block;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 12px;
+        }
+
+        .hero-image {
+            margin: 40px auto;
+            max-width: 900px;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: var(--font-heading);
+            color: #ffffff;
+            font-weight: 700;
+            line-height: 1.2;
+            text-align: left;
+        }
+
+        h1,
+        h2 {
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3em;
+        }
+
+        h2 {
+            font-size: 2.5em;
+            margin-bottom: 50px;
+        }
+
+        h3 {
+            font-size: 1.8em;
+            color: var(--accent-gold);
+            margin-bottom: 15px;
+        }
+
+        p,
+        li {
+            font-family: var(--font-paragraph);
+            font-size: 1.1em;
+            line-height: 1.7;
+            color: var(--text-primary);
+            font-weight: 400;
+            text-align: left;
+        }
+
+        strong {
+            color: #ffffff;
+        }
+
+        .conclusion-phrase,
+        .conclusion-phrase strong {
+            color: #0a0a0a;
+            text-align: center;
+            font-size: 2rem !important;
+
+        }
+
+        .conclusion-phrase strong {
+            font-weight: 700 !important;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-image: linear-gradient(to top, #e8a900, #f0b90b);
+            color: var(--background-primary);
+            font-family: var(--font-heading);
+            font-size: 1.2em;
+            font-weight: 700;
+            text-decoration: none;
+            padding: 15px 40px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 30px;
+            border: none;
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(240, 185, 11, 0.25);
+        }
+
+        .problem-section-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        @media (min-width: 768px) {
+            .problem-section-grid {
+                grid-template-columns: 3fr 7fr;
+                gap: 50px;
+                align-items: center;
+            }
+        }
+
+        .full-width-strip {
+            background-color: var(--accent-gold);
+            padding: 25px 0;
+        }
+
+        .full-width-strip p {
+            color: var(--background-primary);
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.5em;
+            text-align: center !important;
+            margin: 0;
+            padding: 0 20px;
+        }
+
+        .revelation-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            /* 1 columna por defecto para móvil */
+            gap: 30px;
+            align-items: stretch;
+        }
+
+        @media (min-width: 768px) {
+            .revelation-grid {
+                grid-template-columns: 1fr 1fr;
+                /* 2 columnas para tableta y más */
+                grid-template-rows: auto auto;
+            }
+        }
+
+        .result-content {
+            border-radius: 12px;
+            padding: 30px;
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        .result-content.alchemist {
+            background-color: #1a160f;
+            border: 2px solid var(--accent-gold);
+            box-shadow: 0 0 35px rgba(240, 185, 11, 0.25);
+        }
+
+        .result-content p,
+        .result-content ul {
+            font-family: monospace;
+            /* Tipografía SLAB para el resultado */
+            font-size: 1em;
+        }
+
+        .revelation-box {
+            border-radius: 12px;
+            padding: 30px;
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 30px;
+        }
+
+        .revelation-box h4 {
+            font-size: 1.3em;
+            margin-top: 0;
+        }
+
+        .revelation-box pre {
+            border-radius: 5px;
+            font-size: 1em;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            padding: 20px;
+            margin: 15px 0;
+            font-family: monospace;
+        }
+
+        .revelation-box ul {
+            list-style: disc;
+            padding-left: 20px;
+        }
+
+        .revelation-box ul li {
+            font-size: 1em;
+            line-height: 1.6;
+        }
+
+        .revelation-box.basic pre {
+            background-color: #2a2a2a;
+            color: var(--text-secondary);
+        }
+
+        .revelation-box.alchemist {
+            background-color: #1a160f;
+            border: 2px solid var(--accent-gold);
+            box-shadow: 0 0 35px rgba(240, 185, 11, 0.25);
+        }
+
+        .revelation-box.alchemist pre {
+            background-color: #0a0a0a;
+            color: var(--text-primary);
+        }
+
+        .alchemist-result-divider {
+            border: 0;
+            height: 1px;
+            background-image: linear-gradient(to right, rgba(240, 185, 11, 0), rgba(240, 185, 11, 0.75), rgba(240, 185, 11, 0));
+            margin: 20px 0;
+        }
+
+        .desktop-only {
+            display: none;
+        }
+
+        .mobile-only {
+            display: block;
+        }
+
+        @media (min-width: 768px) {
+            .desktop-only {
+                display: table;
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            .mobile-only {
+                display: none;
+            }
+        }
+
+        .desktop-only th,
+        .desktop-only td {
+            padding: 15px;
+            text-align: left;
+            color: var(--text-primary);
+            border-bottom: 1px solid #4d4d4d;
+        }
+
+        .desktop-only th {
+            background-color: #2c2410;
+            color: var(--accent-gold);
+            font-family: var(--font-heading);
+        }
+
+        .mobile-results-list .result-card {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            padding: 15px;
+        }
+
+        .mobile-results-list .result-card h5 {
+            font-family: var(--font-heading);
+            font-size: 1.2em;
+            color: var(--accent-gold);
+            margin: 0 0 10px 0;
+        }
+
+        .mobile-results-list .result-card strong {
+            color: var(--text-secondary);
+        }
+
+        .benefit-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        @media (min-width: 768px) {
+            .benefit-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .benefit-card-ui {
+            background-color: var(--surface-color);
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            border-left: 3px solid var(--accent-gold);
+            background-image: radial-gradient(circle at top left, rgba(240, 185, 11, 0.05), transparent 40%);
+        }
+
+        .benefit-card-ui .icon {
+            font-size: 2em;
+            color: var(--accent-gold);
+            line-height: 1;
+        }
+
+        .benefit-card-ui h4 {
+            margin-top: 15px;
+            font-size: 1.5em;
+            color: var(--accent-gold);
+        }
+
+        .testimonials-grid {
+            display: flex;
+            /* Usamos Flexbox */
+            flex-wrap: wrap;
+            /* Permitimos que se envuelvan */
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .testimonial-card {
+            background-color: transparent;
+            border: none;
+            /* Eliminamos el borde perimetral */
+            padding: 60px 30px 80px 30px;
+            /* Aumentamos padding vertical para dar espacio a los ornamentos y al crédito fijo */
+            position: relative;
+            /* Contexto para elementos absolutos */
+            flex: 1 1 100%;
+            /* Por defecto (móvil), ocupa 1 columna */
+            box-sizing: border-box;
+            /* Asegura que el padding no afecte el ancho */
+        }
+
+        /* Las "comillas" ornamentales */
+        .testimonial-card::before {
+            content: '“';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-family: Georgia, serif;
+            font-size: 4em;
+            color: var(--accent-gold);
+            /* Color dorado para el ornamento */
+            line-height: 1;
+            opacity: 0.8;
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            margin: 0;
+            position: relative;
+            z-index: 2;
+            padding-left: 30px;
+            /* Crea espacio para la comilla */
+        }
+
+        /* El crédito, fijo en la esquina inferior derecha */
+        .testimonial-card footer {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            text-align: right;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            color: var(--text-secondary);
+            /* Color neutro como pediste */
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 767px) {
+            .testimonial-card {
+                min-height: 260px;
+                /* Asegura que la tarjeta tenga suficiente altura en móvil */
+            }
+        }
+
+        /* ESTADO TABLETA (768px a 991px): 1 columna con ancho restringido */
+        @media (min-width: 768px) and (max-width: 991px) {
+            .testimonials-grid {
+                justify-content: center;
+                flex-flow: column;
+                align-items: center;
+                /* Centra la columna de testimonios */
+            }
+
+            .testimonial-card {
+                max-width: 400px;
+
+                /* Ancho máximo ornamental */
+            }
+        }
+
+        /* ESTADO ESCRITORIO (992px y más): Vuelve a 3 columnas */
+        @media (min-width: 992px) {
+            .testimonial-card {
+                flex-basis: calc(33.33% - 20px);
+            }
+        }
+
+
+
+        /* Los ornamentos de líneas horizontales */
+        .line-ornament {
+            position: absolute;
+            left: 30px;
+            right: 30px;
+            height: 1px;
+            background-image: linear-gradient(to right, transparent, rgba(240, 185, 11, 0.4) 50%, transparent);
+        }
+
+        .line-ornament.top {
+            top: 0;
+        }
+
+        .line-ornament.bottom {
+            bottom: 0;
+        }
+
+        .line-ornament.thin {
+            transform: scaleY(0.5);
+        }
+
+
+
+        /* --- FIN REEMPLAZO COMPLETO --- */
+
+        #inscripcion {
+            background: var(--background-primary) radial-gradient(circle at 50% 100%, rgba(240, 185, 11, 0.1), transparent 50%);
+        }
+
+        .offer-box {
+            text-align: center;
+            background-color: var(--surface-color);
+            border: 2px solid var(--accent-gold);
+            border-radius: 12px;
+            padding: 40px;
+        }
+
+        .offer-box .section-kicker {
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+        }
+
+        .offer-box p {
+            text-align: center;
+        }
+
+        .offer-box .price {
+            font-size: 3em;
+            color: var(--accent-gold);
+            margin: 10px 0;
+            font-family: var(--font-heading);
+        }
+
+        .offer-box ul {
+            list-style: none;
+            padding: 0;
+            margin: 30px 0;
+            text-align: left;
+            display: inline-block;
+        }
+
+        .offer-box ul li::before {
+            content: '✓';
+            color: var(--accent-gold);
+            position: absolute;
+            left: 0;
+        }
+
+        .offer-box ul li {
+            padding-left: 25px;
+            position: relative;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        .faq-item {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            padding: 15px 25px;
+        }
+
+        .faq-item summary {
+            font-family: var(--font-heading);
+            font-size: 1.2em;
+            font-weight: 700;
+            color: var(--accent-gold);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            list-style: none;
+        }
+
+        .faq-item summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .faq-item summary::after {
+            content: '+';
+            font-size: 2em;
+            color: var(--accent-gold);
+            transition: transform 0.2s ease-out;
+        }
+
+        .faq-item[open] summary::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-item p {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2em;
+            }
+
+            h2 {
+                font-size: 1.8em;
+            }
+
+            h3 {
+                font-size: 1.5em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.6em;
+            }
+
+            h3 {
+                font-size: 1.4em;
+            }
+
+            p,
+            li {
+                font-size: 1em;
+            }
+
+            /* --- INICIO CORRECCIÓN PADDING MÓVIL --- */
+            .revelation-box,
+            .benefit-card-ui,
+            .testimonial-card,
+            .offer-box,
+            .faq-item,
+            .callout-box {
+                padding: 20px;
+            }
+
+            /* --- FIN CORRECCIÓN PADDING MÓVIL --- */
+        }
+
+
+        /* --- INICIA EL NUEVO BLOQUE DE ESTILOS PARA LA SECCIÓN DE COMPARACIÓN --- */
+
+        /* Contenedor principal para una fila de comparación */
+        .comparison-row {
+            position: relative;
+            /* Establece el contexto de posicionamiento */
+            margin-bottom: 60px;
+        }
+
+        /* Tarjeta del Resultado (la que va en el fondo, más ancha) */
+        .result-card {
+            border-radius: 12px;
+            padding: 30px;
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            margin-top: 0;
+            /* Sin margen en móvil, se controla abajo */
+        }
+
+        /* Tarjeta del Prompt (la que va encima, más angosta) */
+        .prompt-card {
+            border-radius: 12px;
+            padding: 30px;
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            margin-top: 30px;
+            /* Espacio en la vista móvil */
+            margin-bottom: 30px;
+            /* LÍNEA AÑADIDA PARA CREAR EL GAP VERTICAL */
+            box-shadow: 0 0 35px rgba(0, 0, 0, 0.676);
+        }
+
+        .prompt-card h4,
+        .result-card h4 {
+            font-size: 1.3em;
+            margin-top: 0;
+        }
+
+        .prompt-card pre {
+            border-radius: 5px;
+            font-size: 1em;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            padding: 20px;
+            margin: 15px 0;
+            font-family: monospace;
+            background-color: #2a2a2a;
+            color: var(--text-secondary);
+            text-align: left;
+        }
+
+        .result-card p,
+        .result-card ul {
+            font-size: 1em;
+        }
+
+        /* Estilos para la versión Alquimista (dorada) */
+        .prompt-card.alchemist {
+            background-color: #1a160f;
+            border: 2px solid var(--accent-gold);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+        }
+
+        .prompt-card.alchemist pre {
+            background-color: #0a0a0a;
+            color: var(--text-primary);
+        }
+
+        .result-card.alchemist {
+            border: 1px solid var(--accent-gold);
+        }
+
+        /* Media Query para la maquetación infográfica en tabletas y escritorio */
+        @media (min-width: 768px) {
+            .comparison-row {
+                position: relative;
+                /* ¡ESTA ES LA LÍNEA CLAVE QUE FALTABA! */
+                padding-top: 66px;
+                /* Espacio para que la tarjeta superior no se salga */
+            }
+
+            .result-card {
+                width: 80%;
+                /* Ocupa el 80% del ancho */
+                padding-top: 200px;
+                margin-top: 0;
+                margin-left: auto;
+                /* ¡NUEVO! Alinea la tarjeta de resultado a la derecha */
+            }
+
+            .prompt-card {
+                position: absolute;
+                top: 0;
+                left: 0;
+                /* ¡CAMBIADO! Alinea la tarjeta de prompt a la izquierda */
+                width: 80%;
+                z-index: 10;
+                margin-top: 0;
+            }
+        }
+
+        /* --- FIN DEL NUEVO BLOQUE DE ESTILOS --- */
+
+
+        /* --- INICIA EL NUEVO BLOQUE: CLASES PARA VISIBILIDAD DE COMPONENTES --- */
+        .desktop-view {
+            display: none;
+            /* Oculto en móvil por defecto */
+        }
+
+        .mobile-view {
+            display: block;
+            /* Visible en móvil por defecto */
+        }
+
+        @media (min-width: 768px) {
+            .desktop-view {
+                display: block;
+                /* Visible en tabletas y más */
+            }
+
+            .mobile-view {
+                display: none;
+                /* Oculto en tabletas y más */
+            }
+        }
+
+
+        .cta-container {
+            text-align: center;
+            padding-top: 60px;
+            /* Espacio para separar el botón de la comparativa */
+        }
+
+        .section-kicker {
+            display: block;
+            font-family: var(--font-heading);
+            font-size: 1em;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        /* --- FIN DEL NUEVO BLOQUE --- */
+        /* --- INICIA EL NUEVO BLOQUE DE ESTILOS --- */
+
+        /* 1. Estilo para las frases destacadas dentro de los resultados */
+        .result-text {
+            font-family: var(--font-paragraph);
+            /* Usa la fuente Saira (sans-serif) */
+            font-size: 1em;
+            /* Mismo tamaño que el texto de las listas */
+            font-weight: bold;
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 4px;
+            margin: 15px 0;
+        }
+
+        /* 2. Estilo para la frase de transición "Información, sí..." */
+        .transition-phrase {
+            text-align: center !important;
+            font-family: var(--font-paragraph);
+            font-size: 1.3em;
+            font-style: italic;
+            color: var(--text-secondary);
+            width: 100%;
+            margin: 60px auto !important;
+            padding: 20px;
+            border-top: 2px solid var(--accent-gold);
+            border-bottom: 2px solid var(--accent-gold);
+        }
+
+        .transition-phrase p {
+            text-align: center !important;
+
+        }
+
+        /* 3. Ajuste de interlineado para el prompt del Alquimista */
+        .prompt-card.alchemist pre {
+            line-height: 1.6;
+        }
+
+        /* --- FIN DEL NUEVO BLOQUE --- */
+
+        /* --- INICIO: REEMPLAZO COMPLETO DE ESTILOS PARA EL POPUP --- */
+
+        /* El overlay que cubre toda la pantalla */
+        .popup-overlay {
+            display: none;
+            /* ¡IMPORTANTE! Oculto por defecto */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        /* La clase "active" que lo hace visible con JavaScript */
+        .popup-overlay.active {
+            display: flex;
+        }
+
+        /* El contenido del popup */
+        .popup-content {
+            background-color: var(--surface-color);
+            border: 1px solid var(--accent-gold);
+            border-radius: 12px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 0 40px rgba(240, 185, 11, 0.3);
+        }
+
+        .popup-content h4 {
+            font-size: 1.8em;
+            color: var(--accent-gold);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .popup-content p {
+            font-size: 1em;
+            line-height: 1.6;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            text-align: left;
+            /* Alineado a la izquierda para mejor lectura */
+        }
+
+        .popup-content .cta-button {
+            margin-top: 10px;
+            padding: 12px 30px;
+            font-size: 1.1em;
+        }
+
+        /* El botón de cerrar (X) */
+        .popup-close-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        /* --- FIN: REEMPLAZO COMPLETO DE ESTILOS PARA EL POPUP --- */
+
+
+        .text-gold {
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        /* --- INICIA EL NUEVO BLOQUE DE ESTILOS PARA LA SECCIÓN DE MICRO-TARJETAS --- */
+
+
+
+        .unified-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            /* Flexible para móviles */
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        @media (min-width: 768px) {
+            .unified-grid {
+                grid-template-columns: repeat(4, 1fr);
+                /* 4 columnas en tabletas y más */
+            }
+        }
+
+        /* --- INICIA EL NUEVO BLOQUE DE ESTILOS PARA MICRO-TARJETAS (REEMPLAZO) --- */
+
+        .micro-card {
+            background-color: var(--background-primary);
+            /* Fondo negro */
+            border: 2px solid var(--border-color);
+            /* Borde más grueso, color por defecto */
+            border-radius: 12px;
+            padding: 10px 10px 10px 10px;
+            position: relative;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+        }
+
+        .card-icon {
+            position: absolute;
+            top: -12px;
+            left: -12px;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1em;
+            /* Emojis más grandes */
+            border: 2px solid var(--background-primary);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        .micro-card p {
+            font-family: var(--font-paragraph);
+            font-size: 1em;
+            line-height: 1.4;
+            color: var(--text-primary);
+            margin: 0;
+            font-weight: 600;
+            /* Texto ligeramente más audaz */
+            padding-left: 10px;
+            /* Espacio para que el texto no toque el ícono */
+        }
+
+        /* Tono 1: Amarillo Pastel / Crema */
+        .group-1 .card-icon {
+            background-color: #f1d881;
+            color: #5C4033;
+        }
+
+        .micro-card.group-1 {
+            border-color: #f1d881;
+        }
+
+        /* Tono 2: Amarillo Ocre */
+        .group-2 .card-icon {
+            background-color: var(--accent-gold);
+            color: #111;
+        }
+
+        .micro-card.group-2 {
+            border-color: var(--accent-gold);
+        }
+
+        /* Tono 3: Dorado Intenso (El original) */
+        .group-3 .card-icon {
+            background-color: #a6842d;
+            color: #111;
+        }
+
+        .micro-card.group-3 {
+            border-color: #a6842d;
+        }
+
+        /* Tono 4: Dorado Verdoso Oscuro / Oliva */
+        .group-4 .card-icon {
+            background-color: #5f4808;
+        }
+
+        .micro-card.group-4 {
+            border-color: #5f4808;
+        }
+
+
+
+        /* --- FIN DEL NUEVO BLOQUE --- */
+
+
+        /* --- INICIA BLOQUE: ESTILOS PARA LA SECCIÓN DE PRICING --- */
+        .pricing-flex-container {
+            display: flex;
+            flex-wrap: wrap;
+            /* Apila las columnas en móvil por defecto */
+            gap: 40px;
+            align-items: center;
+        }
+
+        .pricing-context {
+            flex: 1 1 100%;
+            /* Ocupa todo el ancho en móvil */
+        }
+
+        .pricing-card-wrapper {
+            flex: 1 1 100%;
+            /* Ocupa todo el ancho en móvil */
+        }
+
+        .pricing-context ul {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 30px;
+        }
+
+        .pricing-context ul li {
+            padding-left: 35px;
+            position: relative;
+            font-size: 1em;
+            /* Ajustado para mejor lectura */
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .pricing-context ul li::before {
+            content: '⚠️';
+            /* Cambiado a un ícono más relacionado a "datos" */
+            position: absolute;
+            left: 0;
+            font-size: 1.2em;
+        }
+
+        /* En tabletas y más grandes, activa el layout 2/3 + 1/3 */
+        /* --- INICIA REEMPLAZO: LÓGICA DE 3 ESTADOS PARA LA SECCIÓN DE PRICING --- */
+
+        /* ESTADO TABLETA (768px a 991px): 1 columna con ancho restringido */
+        @media (min-width: 768px) and (max-width: 991px) {
+            .pricing-flex-container {
+                flex-direction: column;
+                /* Apila los elementos verticalmente */
+                align-items: center;
+                /* Los centra en la página */
+            }
+
+            .pricing-context,
+            .pricing-card-wrapper {
+                flex-basis: auto;
+                /* Resetea la base de flex */
+                width: 100%;
+                /* Ocupa el ancho del contenedor */
+                max-width: 600px;
+                /* El ancho ornamental restringido */
+            }
+        }
+
+        /* ESTADO ESCRITORIO (992px y más): Vuelve a 2 columnas asimétricas */
+        @media (min-width: 992px) {
+            .pricing-context {
+                flex-basis: 55%;
+                order: 1;
+            }
+
+            .pricing-card-wrapper {
+                flex-basis: 40%;
+                order: 2;
+            }
+        }
+
+        /* --- FIN REEMPLAZO --- */
+
+        /* --- FIN REEMPLAZO --- */
+
+        /* --- FIN BLOQUE --- */
+        offer-box h3 {
+            margin-bottom: 0;
+            /* Reduce el espacio bajo el título */
+        }
+
+        .offer-box .price {
+            margin-top: 5px;
+            /* Reduce drásticamente el espacio sobre el precio */
+            margin-bottom: 10px;
+        }
+
+        .offer-box p[style*="margin-top: -10px"] {
+            margin-top: -15px !important;
+            /* Reduce espacio bajo el precio */
+        }
+
+        .offer-box p strong {
+            margin-top: 20px;
+            display: block;
+            /* Le da al "Incluye:" su propio espacio */
+        }
+
+        .offer-box ul {
+            margin-top: 10px;
+            /* Reduce drásticamente el espacio entre "Incluye:" y la lista */
+            margin-bottom: 20px;
+        }
+
+        .offer-box .cta-button {
+            margin-top: 20px;
+        }
+
+        /* --- FIN NUEVO BLOQUE --- */
+    </style>
+</head>
+
+<body>
+
+    <section id="hero">
+        <div class="container">
+            <div>
+                <p class="section-kicker">La mayoría de los profesionales ya integró la IA a su flujo de trabajo</p>
+                <h1>Solo el 5% domina el arte del <span style="color: var(--accent-gold);">Prompting Estratégico</span>
+                </h1>
+            </div>
+            <picture class="hero-image">
+                <source media="(min-width: 768px)"
+                    srcset="https://images-editor-acmb.s3.amazonaws.com/images_pages/acumbamail_ljB3dewITsUmGLf1QcfS/alquimistas-imagen-incial.jpg">
+                <img src="https://images-editor-acmb.s3.amazonaws.com/images_pages/acumbamail_ljB3dewITsUmGLf1QcfS/alquimistas-imagen-incial-square.jpg"
+                    alt="Ilustración de Inteligencia Artificial y Estrategia">
+            </picture>
+            <p style="max-width: 700px; margin: 0 auto;">La verdadera Alquimia del siglo XXI no es convertir plomo en
+                metal precioso. Es transformar décadas de experiencia profesional en resultados estratégicos a la
+                velocidad de la IA.</p>
+            <p style="max-width: 700px; margin: 20px auto 0 auto;">Este no es un curso de tecnología. Es tu iniciación
+                para convertirte en un <strong>Experto Augmentado</strong>: el profesional que fusiona su sabiduría con
+                la <strong>fórmula secreta</strong> del prompting para producir resultados que un novato, por más rápido
+                que sea, no puede igualar.</p>
+            <div style="text-align: center;"><a href="#inscripcion" class="cta-button">QUIERO DOMINAR EL ARTE DEL
+                    PROMPTING</a>
+                <p style="font-size: 0.9em; margin-top: 15px; color: var(--text-secondary); text-align: center;">
+                    <em>Cupo limitado. Primera generación.</em>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="problema">
+        <div class="container">
+            <div class="problem-section-grid">
+                <div>
+                    <p class="section-kicker">¿Piensas que la IA es muy básica o hace lo que quiere?</p>
+                    <h2>Cuando todos persiguen el brillo, tu experiencia busca el oro</h2>
+                </div>
+                <div>
+                    <p>Ves a otros —colegas más jóvenes, competidores— produciendo entregables a una velocidad
+                        deslumbrante. Presentaciones pulidas, dashboards que brillan, análisis de datos en minutos. A
+                        primera vista, sus resultados <strong>parecen oro puro</strong>.</p>
+                    <p>Pero tu experiencia te permite ver las grietas. Detectas la falta de contexto, los atajos y las
+                        conclusiones superficiales. Sabes que, bajo esa capa brillante, <strong>muchos de esos
+                            resultados son de latón.</strong></p>
+                    <p>Mientras tanto, tú, con toda tu experiencia, te encuentras con una frustración diferente. Le
+                        pides a la IA un análisis y te devuelve una lista. Le pides una estrategia y te da una
+                        definición de manual. Y en tu mente, surge la verdadera pregunta:</p>
+                    <p
+                        style="font-style:italic; font-size:1.2em; color: #ffffff; margin-top: 20px; border-left: 3px solid var(--accent-gold); padding: 10px 20px;">
+                        "Soy un experto en mi campo. Sé que mi visión estratégica es superior. ¿Por qué no puedo hacer
+                        que esta herramienta trabaje para mí? ¿Cuál es el secreto que yo no conozco?"</p>
+                </div>
+            </div>
+
+    </section>
+    <div class="full-width-strip">
+        <div style="max-width: 600px; margin: auto;">
+            <p class="section-kicker">La respuesta es simple:</p>
+            <h3 class="conclusion-phrase"> No te falta experiencia.
+                Te falta la fórmula para transformar tu conocimiento en oro.
+            </h3>
+        </div>
+    </div>
+
+
+    <!-- REEMPLAZA TODA LA SECCIÓN "revelacion" CON ESTO 👇 -->
+    <section id="revelacion">
+        <div class="container">
+            <div>
+                <p class="section-kicker">El secreto no está en la IA.</p>
+                <h2 style="max-width: 800px; margin-left: auto; margin-right: auto;"> Está en la fórmula con la que
+                    construyes la instrucción. (Prompt)</h2>
+            </div>
+            <p style="text-align: center; max-width: 700px; margin: 20px auto 50px auto;">La verdadera revolución es lo
+                que sucede cuando un profesional experimentado dirige la IA con la fórmula correcta. Imagina que recibes
+                el informe trimestral y le pides a la IA que te ayude a analizarlo.</p>
+
+            <!-- PRIMERA FILA DE COMPARACIÓN: USUARIO COMÚN -->
+            <div>
+                <!-- VERSIÓN PARA ESCRITORIO Y TABLETA -->
+                <div class="desktop-view">
+                    <div class="comparison-row">
+                        <div class="result-card">
+                            <h4>EL RESULTADO:</h4>
+                            <p class="result-text">Un memorándum internamente correcto, pero estratégicamente
+                                inútil.</p>
+                            <div
+                                style="border-top: 1px solid var(--border-color); margin-top: 15px; padding-top: 15px;">
+                                <p style="font-family: var(--font-heading); color: var(--text-secondary);">MEMORÁNDUM
+                                    INTERNO<br>PARA: Todos los interesados<br>DE: Asistente de IA<br>ASUNTO: Resumen de
+                                    Resultados Q3</p>
+                                <p class="result-text">A continuación se presentan los puntos clave del informe:
+                                </p>
+                                <ul>
+                                    <li>Las ventas totales del Q3 fueron de $10.8M, un aumento del 8% sobre el Q2.</li>
+                                    <li>El "Producto A" fue el de mayor crecimiento, con un 15% en ventas.</li>
+                                    <li>Los costos operativos aumentaron en un 5% debido a una mayor inversión en
+                                        marketing.</li>
+                                    <li>El retorno de la inversión en la campaña del "Producto A" fue del 250%.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="prompt-card">
+                            <h4>Un usuario común le pide a la IA:</h4>
+                            <pre>"Dame un resumen de los puntos clave de este informe trimestral".</pre>
+                        </div>
+                    </div>
+                </div>
+                <!-- VERSIÓN PARA MÓVIL -->
+                <div class="mobile-view">
+                    <div class="prompt-card">
+                        <h4>Un usuario común le pide a la IA:</h4>
+                        <pre>"Dame un resumen de los puntos clave de este informe trimestral".</pre>
+                    </div>
+                    <div class="result-card">
+                        <h4>EL RESULTADO:</h4>
+                        <p class="result-text">Un memorándum internamente correcto, pero estratégicamente inútil.
+                        </p>
+                        <div style="border-top: 1px solid var(--border-color); margin-top: 15px; padding-top: 15px;">
+                            <p style="font-family: var(--font-heading); color: var(--text-secondary);">MEMORÁNDUM
+                                INTERNO<br>PARA: Todos los interesados<br>DE: Asistente de IA<br>ASUNTO: Resumen de
+                                Resultados Q3</p>
+                            <p class="result-text">A continuación se presentan los puntos clave del informe:</p>
+                            <ul>
+                                <li>Las ventas totales del Q3 fueron de $10.8M, un aumento del 8% sobre el Q2.</li>
+                                <li>El "Producto A" fue el de mayor crecimiento, con un 15% en ventas.</li>
+                                <li>Los costos operativos aumentaron en un 5% debido a una mayor inversión en marketing.
+                                </li>
+                                <li>El retorno de la inversión en la campaña del "Producto A" fue del 250%.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FRASE DE TRANSICIÓN -->
+            <div class="transition-phrase">
+                <p>Información, sí... <strong>Estrategia, no.</strong></p>
+            </div>
+
+            <!-- SEGUNDA FILA DE COMPARACIÓN: ALQUIMISTA -->
+            <div>
+                <!-- VERSIÓN PARA ESCRITORIO Y TABLETA -->
+                <div class="desktop-view">
+                    <div class="comparison-row">
+                        <div class="result-card alchemist">
+                            <h4>EL RESULTADO:</h4>
+                            <p class="result-text">Un análisis estratégico listo para la acción.</p>
+                            <hr class="alchemist-result-divider">
+                            <p style="font-family: var(--font-heading); color: var(--accent-gold);">Análisis de Riesgos
+                                Estratégicos Ocultos (Q3)</p>
+                            <table class="desktop-only">
+                                <thead>
+                                    <tr>
+                                        <th>Riesgo Oculto</th>
+                                        <th>Evidencia</th>
+                                        <th>Implicación</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Crecimiento Engañoso</strong></td>
+                                        <td>El 80% del crecimiento del "Producto A" proviene de un solo cliente...</td>
+                                        <td>Alta dependencia y riesgo de churn. Necesitamos diversificar...</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Margen Comprometido</strong></td>
+                                        <td>El aumento del 5% en costos operativos se concentra en un 25% más de
+                                            inversión...</td>
+                                        <td>El crecimiento del producto es menos rentable de lo que parece...</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Canibalización de Cartera</strong></td>
+                                        <td>El crecimiento del "Producto A" coincide con una caída del 10% en "Producto
+                                            B".</td>
+                                        <td>Estamos sacrificando rentabilidad por volumen. Se necesita una estrategia...
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="prompt-card alchemist">
+                            <h4>Un Alquimista de la IA le instruye con la fórmula:</h4>
+                            <pre>"Actúa como un Director Financiero escéptico y analiza este reporte trimestral, identificando los 3 riesgos ocultos que un optimista pasaría por alto, y preséntalo en una tabla para la junta directiva".</pre>
+                        </div>
+                    </div>
+                </div>
+                <!-- VERSIÓN PARA MÓVIL -->
+                <div class="mobile-view">
+                    <div class="prompt-card alchemist">
+                        <h4>Un Alquimista de la IA le instruye con la fórmula:</h4>
+                        <pre>"Actúa como un Director Financiero escéptico y analiza este reporte trimestral, identificando los 3 riesgos ocultos que un optimista pasaría por alto, y preséntalo en una tabla para la junta directiva".</pre>
+                    </div>
+                    <div class="result-card alchemist">
+                        <h4>EL RESULTADO:</h4>
+                        <p class="result-text">Un análisis estratégico listo para la acción.</p>
+                        <hr class="alchemist-result-divider">
+                        <p style="font-family: var(--font-heading); color: var(--accent-gold);">Análisis de Riesgos
+                            Estratégicos Ocultos (Q3)</p>
+                        <div class="mobile-results-list">
+                            <div class="result-card">
+                                <h5>Crecimiento Engañoso</h5>
+                                <p><strong>Evidencia:</strong> El 80% del crecimiento del "Producto A" proviene de un
+                                    solo cliente con un descuento del 40%...</p>
+                                <p><strong>Implicación:</strong> Alta dependencia y riesgo de churn...</p>
+                            </div>
+                            <div class="result-card">
+                                <h5>Margen Comprometido</h5>
+                                <p><strong>Evidencia:</strong> El aumento del 5% en costos operativos se concentra en un
+                                    25% más de inversión en marketing...</p>
+                                <p><strong>Implicación:</strong> El crecimiento del producto es menos rentable de lo que
+                                    parece...</p>
+                            </div>
+                            <div class="result-card">
+                                <h5>Canibalización de Cartera</h5>
+                                <p><strong>Evidencia:</strong> El crecimiento del "Producto A" coincide con una caída
+                                    del 10% en nuestro producto más rentable...</p>
+                                <p><strong>Implicación:</strong> Estamos sacrificando rentabilidad por volumen...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="cta-container">
+            <a href="#" id="open-popup-button" class="cta-button">¿Cuál es la fórmula de ese prompt?</a>
+        </div>
+    </section>
+
+    <section id="solucion">
+        <div class="container">
+            <div>
+                <p class="section-kicker">Presentamos nuestro curso:</p>
+                <h2>Alquimistas de I.A. - <span style="color: var(--accent-gold);">El Prompt Estratégico</span></h2>
+                <h3 style="text-align: center; margin-top: -20px;">DEL 10 DE NOVIEMBRE AL 10 DE DICIEMBRE</h3>
+                <p style="text-align: center; max-width: 700px; margin: 15px auto 50px auto;">Un entrenamiento intensivo
+                    de 4 semanas en formato híbrido que te otorga el método para convertirte en un <strong
+                        class="text-gold">Experto Augmentado.</strong></p>
+                <picture>
+                    <source media="(min-width: 768px)"
+                        srcset="https://images-editor-acmb.s3.amazonaws.com/images_pages/acumbamail_ljB3dewITsUmGLf1QcfS/alquimistas-mujer.jpg">
+                    <img src="https://images-editor-acmb.s3.amazonaws.com/images_pages/acumbamail_ljB3dewITsUmGLf1QcfS/alquimistas-mujer-square.jpg"
+                        alt="Alquimista de la IA" style="margin-bottom: 50px;">
+                </picture>
+                <h3 style="text-align:center;">Tu Viaje como Alquimista Incluye:</h3>
+            </div>
+
+            <div class="unified-grid">
+                <!-- Grupo 1: El Método y Contenido (Azul) -->
+                <div class="micro-card group-1">
+                    <div class="card-icon">📚</div>
+                    <p>12 Módulos Asincrónicos en Video</p>
+                </div>
+                <div class="micro-card group-1">
+                    <div class="card-icon">🧪</div>
+                    <p>Fórmulas de Prompting Estratégico</p>
+                </div>
+                <div class="micro-card group-1">
+                    <div class="card-icon">🏗️</div>
+                    <p>Frameworks Listos para Usar</p>
+                </div>
+                <div class="micro-card group-1">
+                    <div class="card-icon">⏳</div>
+                    <p>Aprendizaje Flexible a tu Ritmo</p>
+                </div>
+                <div class="micro-card group-1">
+                    <div class="card-icon">🌐</div>
+                    <p>Acceso 24/7 a la Plataforma</p>
+                </div>
+                <div class="micro-card group-1">
+                    <div class="card-icon">🚀</div>
+                    <p>Aplicación Práctica desde el Día 1</p>
+                </div>
+
+                <!-- Grupo 2: Tu Coach de IA (Púrpura) -->
+                <div class="micro-card group-2">
+                    <div class="card-icon">🤖</div>
+                    <p>Acceso a AlquimI.A., tu Coach de IA</p>
+                </div>
+                <div class="micro-card group-2">
+                    <div class="card-icon">💡</div>
+                    <p>Laboratorio IA guiado por AlquimIA</p>
+                </div>
+                <div class="micro-card group-2">
+                    <div class="card-icon">🧠</div>
+                    <p>Feedback para tus Proyectos Reales</p>
+                </div>
+                <div class="micro-card group-2">
+                    <div class="card-icon">🎯</div>
+                    <p>Cero Ejercicios Genéricos</p>
+                </div>
+
+                <!-- Grupo 3: Crecimiento y Comunidad (Verde) -->
+                <div class="micro-card group-3">
+                    <div class="card-icon">💬</div>
+                    <p>4 Sesiones de Consultoría en Vivo</p>
+                </div>
+                <div class="micro-card group-3">
+                    <div class="card-icon">❓</div>
+                    <p>Resuelve tus Dudas Complejas</p>
+                </div>
+                <div class="micro-card group-3">
+                    <div class="card-icon">👥</div>
+                    <p>Feedback de Expertos y Pares</p>
+                </div>
+                <div class="micro-card group-3">
+                    <div class="card-icon">📈</div>
+                    <p>Networking con Profesionales</p>
+                </div>
+
+                <!-- Grupo 4: Resultados y Reconocimiento (Dorado) -->
+                <div class="micro-card group-4">
+                    <div class="card-icon">🏆</div>
+                    <p>Retos Semanales para Aplicar</p>
+                </div>
+                <div class="micro-card group-4">
+                    <div class="card-icon">💰</div>
+                    <p>Gana Puntos para concursar por hasta el Reembolso de tu Curso</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonios">
+        <div class="container">
+            <div>
+                <p class="section-kicker">Resultados reales</p>
+                <h2>Validado por profesionales como tú</h2>
+            </div>
+            <p
+                style="text-align:center; font-style:italic; margin-top:-30px; margin-bottom: 40px; color: var(--text-secondary);">
+                (Resultados de nuestro programa piloto)</p>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="line-ornament top"></div>
+                    <p>Para una junta importante, me pidieron 5 estrategias de marketing. Usando lo que aprendí, no
+                        solo generé 20, sino que cada una tenía una profundidad y un enfoque distintos. Mi jefe quedó
+                        alucinado."</p>
+                    <footer>— Elton W. Plaza, Gerente de Marketing</footer>
+                    <div class="line-ornament bottom"></div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="line-ornament top"></div>
+                    <p>La diferencia abismal fue aprender a asignar roles y ser ultra específico en las instrucciones.
+                        Es como pasar de darle órdenes a un recluta a dirigir a un experto."</p>
+                    <footer>— Mary García, Analista Senior</footer>
+                    <div class="line-ornament bottom"></div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="line-ornament top"></div>
+                    <p>Mi mayor logro es que ahora los textos que genero con IA suenan como si los hubiera escrito yo.
+                        Aprendí a refinarla para que no se sienta automatizada. Mis resultados ahora tienen mi voz."</p>
+                    <footer>— Marita Muriago, Consultora de Negocios</footer>
+                    <div class="line-ornament bottom"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- REEMPLAZA TODA LA SECCIÓN "inscripcion" CON ESTO 👇 -->
+    <section id="inscripcion">
+        <div class="container">
+            <div class="pricing-flex-container">
+                <!-- COLUMNA IZQUIERDA: CONTEXTO CON DATOS DEL WEF -->
+                <div class="pricing-context">
+                    <div>
+                        <p class="section-kicker">Datos, no opiniones</p>
+                        <h2 style="text-align: left;">Si la Alquimia no te convence, <span
+                                style="color: var(--accent-gold);">que lo hagan los números.</span></h2>
+                    </div>
+                    <p style="text-align: left; font-style: italic; color: var(--text-secondary);">Realidades del
+                        "Future of Jobs Report" del World Economic Forum que definen el campo de juego profesional:</p>
+                    <ul>
+                        <li><strong>El 44% de las habilidades profesionales caducará en 5 años.</strong> El Prompting
+                            Estratégico es tu seguro de relevancia.</li>
+                        <li><strong>Con el 75% de las empresas adoptando IA,</strong> la ventaja ya no está en usarla,
+                            sino en dominarla.</li>
+                        <li><strong>El Pensamiento Analítico es la habilidad #1 más demandada.</strong> Nuestro método
+                            te da la herramienta definitiva para aplicarla.</li>
+                        <li><strong>Ante la transformación de 1 de cada 4 roles,</strong> dirigir la IA es la diferencia
+                            entre liderar el cambio o ser arrastrado por él.</li>
+                        <li><strong>Tus competidores no están esperando:</strong> 6 de cada 10 empresas ya están
+                            capacitando a su personal en IA ahora mismo.</li>
+                    </ul>
+                </div>
+
+                <!-- COLUMNA DERECHA: LA TARJETA DE PRECIOS -->
+                <div class="pricing-card-wrapper">
+                    <div class="offer-box">
+                        <div>
+                            <p class="section-kicker" style="color: var(--text-secondary);">Tu Inversión</p>
+
+                        </div>
+                        <p class="price">$2,500 MXN</p>
+
+                        <p><strong>Incluye:</strong></p>
+                        <ul>
+                            <li>Acceso a la Generación Noviembre-Diciembre (del 10/11/2025 al 10/12/2025).</li>
+                            <li>12 Módulos de aprendizaje estratégico a tu ritmo.</li>
+                            <li>Acceso ilimitado al coach de IA <strong>AlquimI.A.</strong></li>
+                            <li>4 Sesiones de consultoría en vivo.</li>
+                            <li>Plantillas y "fórmulas" de prompting para uso profesional.</li>
+                            <li><strong>Oportunidad de ganar hasta el reembolso completo de tu inversión.</strong></li>
+                            <li>Certificado de "Alquimista Estratégico de I.A."</li>
+                        </ul>
+                        <a href="#URL_DE_PAGO_STRIPE" class="cta-button">INSCRIBIRME AHORA</a>
+                        <p style="font-size: 0.9em; margin-top: 15px; color: var(--text-secondary);"><em>Transacción
+                                segura. Cupos limitados.</em></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq">
+        <div class="container" style="max-width: 800px;">
+            <div>
+                <p class="section-kicker">¿Tienes dudas?</p>
+                <h2>Preguntas Frecuentes</h2>
+            </div>
+            <details class="faq-item">
+                <summary>¿Necesito saber de programación o ser un experto en tecnología?</summary>
+                <p>No, en absoluto. Si sabes dar instrucciones claras a un colega, tienes todo lo necesario. Nosotros te
+                    enseñamos el método para que la IA te entienda a ese mismo nivel de especificidad.</p>
+            </details>
+            <details class="faq-item">
+                <summary>¿Cuánto tiempo debo dedicarle por semana?</summary>
+                <p>El curso está diseñado para profesionales ocupados. Calcula entre 1 y 2 horas a la semana para ver
+                    los módulos a tu ritmo, más la sesión opcional en vivo de 1 hora los jueves.</p>
+            </details>
+            <details class="faq-item">
+                <summary>¿Esto aplica para mi industria (finanzas, legal, marketing, etc.)?</summary>
+                <p>Sí. El curso no enseña trucos para una sola área. Enseña un <strong>método universal</strong> de
+                    pensamiento y estructuración de prompts que aplicarás a tus propios desafíos, sin importar tu campo.
+                </p>
+            </details>
+            <details class="faq-item">
+                <summary>¿Qué pasa si no puedo asistir a una sesión en vivo?</summary>
+                <p>No hay problema. Todas las sesiones se graban y se suben a la plataforma. Además, puedes enviar tus
+                    preguntas por adelantado y las responderemos en la sesión para que puedas ver la respuesta después.
+                </p>
+            </details>
+            <details class="faq-item">
+                <summary>¿Necesito comprar software o suscripciones de IA adicionales?</summary>
+                <p>No. El curso está diseñado para funcionar con las herramientas de IA más accesibles (muchas de ellas
+                    gratuitas). Te daremos acceso a nuestro coach <strong>AlquimI.A.</strong> y no necesitarás nada más
+                    para completar el programa.</p>
+            </details>
+            <details class="faq-item">
+                <summary>¿Qué pasa cuando terminan las 4 semanas? ¿Pierdo el acceso?</summary>
+                <p>Tu acceso a la plataforma, al coach AlquimI.A. y a las sesiones en vivo estará activo durante las 4
+                    semanas de duración del programa. El objetivo es que sea un entrenamiento intensivo y enfocado.</p>
+            </details>
+        </div>
+    </section>
+    <div id="lead-magnet-popup" class="popup-overlay">
+        <div class="popup-content">
+            <button class="popup-close-button">&times;</button>
+            <h4>La Anatomía de un Prompt Estratégico</h4>
+            <p>El prompt que transforma un simple reporte en un análisis estratégico no es magia, es una fórmula. Así se
+                deconstruye:</p>
+            <div
+                style="text-align: left; margin: 20px 0; border-left: 2px solid var(--accent-gold); padding-left: 20px;">
+                <p><strong>1. Asignación de Rol (Persona):</strong><br><span
+                        style="color: var(--text-secondary); font-style: italic;">"Actúa como un Director Financiero
+                        escéptico..."</span><br>Esto le da a la IA una personalidad y un punto de vista.</p>
+                <p style="margin-top: 20px;"><strong>2. Definición de Tarea y Contexto:</strong><br><span
+                        style="color: var(--text-secondary); font-style: italic;">"...analiza este reporte,
+                        identificando los 3 riesgos ocultos..."</span><br>Aquí le damos el "qué" y el "cómo". Este es el
+                    núcleo.</p>
+                <p style="margin-top: 20px;"><strong>3. Especificación de Formato (El Secreto Final):</strong><br><span
+                        style="color: var(--text-secondary); font-style: italic;">"...y preséntalo en una
+                        tabla..."</span><br>La forma en que estructuras la petición de formato determina el 90% de la
+                    calidad. La fórmula completa incluye 5 modificadores que...</p>
+            </div>
+            <div
+                style="background-image: linear-gradient(to top, var(--surface-color) 30%, transparent); text-align: center; padding-top: 30px; margin-top: -30px;">
+                <a href="#inscripcion" class="cta-button">QUIERO OBTENER TODAS
+                    LAS FÓRMULAS</a>
+            </div>
+        </div>
+    </div>
+    <!-- FIN DEL POPUP DE LEAD MAGNET -->
+
+    <!-- SCRIPT PARA MANEJAR EL POPUP (DEBE IR JUSTO AQUÍ) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const openPopupBtn = document.getElementById('open-popup-button');
+            const popupOverlay = document.getElementById('lead-magnet-popup');
+
+            if (popupOverlay) {
+                const closePopupButton = popupOverlay.querySelector('.popup-close-button');
+                const ctaButton = popupOverlay.querySelector('.cta-button'); // botón dentro del popup
+
+                // Abrir popup
+                if (openPopupBtn) {
+                    openPopupBtn.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        popupOverlay.classList.add('active');
+                    });
+                }
+
+                // Cerrar popup
+                if (closePopupButton) {
+                    closePopupButton.addEventListener('click', function () {
+                        popupOverlay.classList.remove('active');
+                    });
+                }
+
+                // Cerrar al hacer clic fuera del contenido
+                popupOverlay.addEventListener('click', function (e) {
+                    if (e.target === popupOverlay) {
+                        popupOverlay.classList.remove('active');
+                    }
+                });
+
+                // Cerrar popup y desplazarse a #inscripcion
+                if (ctaButton) {
+                    ctaButton.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        popupOverlay.classList.remove('active');
+
+                        const inscripcionSection = document.querySelector('#inscripcion');
+                        if (inscripcionSection) {
+                            inscripcionSection.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+
+                        // También actualiza la URL con el hash sin recargar
+                        history.pushState(null, '', '#inscripcion');
+                    });
+                }
+            }
+        });
+    </script>
+
+
+</body>
+
+</html>
