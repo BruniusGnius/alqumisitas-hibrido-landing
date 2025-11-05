@@ -24,6 +24,16 @@
             --font-heading: 'Saira Semi Condensed', sans-serif;
         }
 
+        html {
+            box-sizing: border-box;
+        }
+
+        *,
+        *:before,
+        *:after {
+            box-sizing: inherit;
+        }
+
         body {
             margin: 0;
             padding: 0;
@@ -136,7 +146,7 @@
             font-size: 1.2em;
             font-weight: 700;
             text-decoration: none;
-            padding: 15px 40px;
+            padding: 15px 20px;
             border-radius: 8px;
             text-align: center;
             margin-top: 30px;
@@ -835,6 +845,7 @@
             /* Reducimos padding para pantallas pequeñas */
             max-width: 500px;
             width: calc(100% - 40px);
+            max-height: 90vh;
             /* ¡ESTA ES LA LÍNEA CLAVE! */
             position: relative;
             box-shadow: 0 0 40px rgba(240, 185, 11, 0.3);
@@ -860,7 +871,7 @@
 
         .popup-content .cta-button {
             margin-top: 10px;
-            padding: 12px 30px;
+            padding: 12px 20px;
             font-size: 1.1em;
         }
 
@@ -1127,6 +1138,53 @@
         }
 
         /* --- FIN NUEVO BLOQUE --- */
+        /* --- INICIA EL NUEVO BLOQUE: AJUSTES DE COMPACIDAD PARA POP-UP MÓVIL --- */
+
+        @media (max-width: 480px) {
+            .popup-content {
+                padding: 25px;
+                /* Reduce el padding general */
+            }
+
+            .popup-content h4 {
+                font-size: 1.5em;
+                /* Reduce el tamaño del título */
+                margin-bottom: 15px;
+            }
+
+            .popup-content p {
+                font-size: 0.9em;
+                /* Reduce el tamaño del texto */
+                line-height: 1.5;
+                /* Reduce el interlineado */
+                margin-bottom: 15px;
+            }
+
+            .popup-content div[style*="border-left"] {
+                margin: 15px 0 !important;
+                /* Reduce el margen del contenedor de la lista */
+            }
+
+            .popup-content div[style*="border-left"] p {
+                margin-top: 15px !important;
+                /* Reduce el espacio entre los puntos de la lista */
+            }
+
+            .popup-content .cta-button {
+                padding: 10px 20px;
+                /* Hace el botón más pequeño */
+                font-size: 1em;
+                margin-top: 0;
+            }
+
+            .popup-content div[style*="background-image"] {
+                padding-top: 20px !important;
+                /* Reduce el espacio sobre el botón final */
+                margin-top: -20px !important;
+            }
+        }
+
+        /* --- FIN DEL NUEVO BLOQUE --- */
     </style>
 </head>
 
@@ -1155,7 +1213,8 @@
                     estratégico</strong>, desplegando su experiencia con una <strong>contundencia y velocidad</strong>
                 que dejan a la competencia fuera de juego.
             </p>
-            <div style="text-align: center;"><a href="#inscripcion" class="cta-button">QUIERO DIRIGIR LA IA CON MAESTRÍA
+            <div style="text-align: center;"><a href="#inscripcion" class="cta-button">QUIERO DIRIGIR LA IA
+                    CON&nbsp;MAESTRÍA
                 </a>
                 <p style="font-size: 0.9em; margin-top: 15px; color: var(--text-secondary); text-align: center;">
                     <em>Cupo limitado. Primera generación.</em>
@@ -1369,8 +1428,10 @@
         <div class="container">
             <div>
                 <p class="section-kicker">Presentamos nuestro curso:</p>
-                <h2>Alquimistas de I.A. - <span style="color: var(--accent-gold);">El Prompt Estratégico</span></h2>
-                <h3 style="text-align: center; margin-top: -20px;">DEL 10 DE NOVIEMBRE AL 10 DE DICIEMBRE</h3>
+                <h2>Alquimistas de IA: <span style="color: var(--accent-gold);">El&nbsp;Prompt&nbsp;Estratégico</span>
+                </h2>
+                <h3 style="text-align: center; margin-top: -20px;">DEL 10 DE NOVIEMBRE AL&nbsp;10&nbsp;DE&nbsp;DICIEMBRE
+                </h3>
                 <p style="text-align: center; max-width: 700px; margin: 15px auto 50px auto;">Un entrenamiento intensivo
                     de 4 semanas en formato híbrido que te otorga el método para convertirte en un <strong
                         class="text-gold">Experto Augmentado.</strong></p>
@@ -1610,7 +1671,7 @@
 
             <div style="text-align: left; font-size: 0.9em; line-height: 1.5;">
                 <p><strong>1. ROL EXPERTO:</strong> Asigna una personalidad a la IA ("Actúa como...").</p>
-                <p><strong>2. TAREA ESPECÍFICA:</strong> Define un objetivo claro ("...identificando 3 riesgos...").</p>
+                <p><strong>2. TAREA ESPECÍFICA:</strong> Define un objetivo claro ("...identificando 3 riesgos...</p>
                 <p><strong>3. FORMATO PROFESIONAL:</strong> La forma en que pides el resultado es clave. La fórmula
                     completa usa 5 modificadores que...</p>
             </div>
