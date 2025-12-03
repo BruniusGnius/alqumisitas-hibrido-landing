@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ================================================= -->
+    <!-- 1. SEO & METADATOS -->
+    <!-- ================================================= -->
+    <title>Alquimistas de IA: Domina el Prompt Estratégico | Gnius Club</title>
+    <meta name="description"
+        content="Entrenamiento intensivo de 4 semanas. Aprende a dirigir la IA como un socio estratégico y transforma tu experiencia en resultados de alto impacto. Inscripciones abiertas.">
+    <meta name="keywords"
+        content="Curso IA, Prompt Engineering, Estrategia IA, Gnius Club, Futuro del trabajo, Alquimistas IA, Prompt Estratégico">
+    <meta name="author" content="Gnius Club">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://alqia.gnius.club/">
+
+    <!-- Favicon (Emoji de Destellos ✨) -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+
+    <!-- ================================================= -->
+    <!-- 2. OPEN GRAPH (Facebook, LinkedIn, WhatsApp) -->
+    <!-- ================================================= -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://alqia.gnius.club/">
+    <meta property="og:title" content="Alquimistas de IA: Vuélvete Irremplazable">
+    <meta property="og:description"
+        content="No dejes que la IA te reemplace. Aprende a dirigirla con el Prompt Estratégico y potencia tus años de experiencia.">
+
+    <!-- Imagen OGP -->
+    <meta property="og:image" content="https://alqia.gnius.club/assets/cover-alquimistas-enero-ogp.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Gnius Club">
+    <meta property="og:locale" content="es_ES">
+
+    <!-- ================================================= -->
+    <!-- 3. TWITTER / X CARDS -->
+    <!-- ================================================= -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://alqia.gnius.club/">
+    <meta name="twitter:title" content="Alquimistas de IA: Domina el Prompt Estratégico">
+    <meta name="twitter:description"
+        content="Transforma tu carrera en 4 semanas. Domina la IA y asegura tu relevancia profesional.">
+    <meta name="twitter:image" content="https://alqia.gnius.club/assets/cover-alquimistas-enero-ogp.jpg">
+
+    <!-- ================================================= -->
+    <!-- 4. DATOS ESTRUCTURADOS (SCHEMA JSON-LD PARA SGE) -->
+    <!-- ================================================= -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Course",
+          "name": "Alquimistas de IA: Prompt Estratégico",
+          "description": "Entrenamiento intensivo de 4 semanas. Aprende a dirigir la IA como un socio estratégico.",
+          "provider": {
+            "@type": "Organization",
+            "name": "Gnius Club",
+            "sameAs": "https://gnius.club"
+          },
+          "offers": {
+            "@type": "Offer",
+            "category": "Paid",
+            "priceCurrency": "MXN",
+            "price": "2900",
+            "availability": "https://schema.org/InStock",
+            "url": "https://alqia.gnius.club/",
+            "validFrom": "2025-11-20"
+          },
+          "hasCourseInstance": [
+            {
+              "@type": "CourseInstance",
+              "courseMode": "Online",
+              "courseWorkload": "PT4W",
+              "startDate": "2026-01-12",
+              "location": {
+                "@type": "VirtualLocation",
+                "url": "https://alqia.gnius.club/"
+              }
+            }
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "¿Necesito tener un conocimiento previo de tecnología o de IA?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. Este curso está diseñado para empezar de cero y llevarte de la mano a tu ritmo."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "¿Cuánto tiempo debo dedicarle por semana?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "La duración es de 4 semanas. Puedes avanzar a tu ritmo con lecciones en línea."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "¿Necesito comprar software adicional?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. El curso usa herramientas accesibles y te damos acceso a AlkIA, nuestro coach personalizado."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <!-- ================================================= -->
+    <!-- 5. FUENTES Y ESTILOS -->
+    <!-- ================================================= -->
+
+    <!-- Google Fonts: Saira y Saira Semi Condensed -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@400;500;600;700;800&family=Saira:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Phosphor Icons (Iconografía) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Configuración de Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-black': '#0a0a0a',
+                        'brand-dark': '#121212',
+                        'brand-surface': '#1c1c1c',
+                        'brand-border': '#333333',
+                        'brand-text': '#f0f0f0',
+                        'brand-muted': '#a0a0a0',
+                        'brand-gold': '#f0b90b',
+                        'brand-gold-dark': '#e8a900',
+                    },
+                    fontFamily: {
+                        'sans': ['Saira', 'sans-serif'],
+                        'heading': ['Saira Semi Condensed', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --background-primary: #0a0a0a;
+            --background-secondary: #121212;
+            --surface-color: #1c1c1c;
+            --border-color: #333333;
+            --text-primary: #f0f0f0;
+            --text-secondary: #a0a0a0;
+            --accent-gold: #f0b90b;
+            --font-paragraph: 'Saira', sans-serif;
+            --font-heading: 'Saira Semi Condensed', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-paragraph);
+            background-color: var(--background-primary);
+            color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Section Kicker (small text above headings) */
+        .section-kicker {
+            font-family: var(--font-heading);
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
+        /* Micro Cards */
+        .micro-card {
+            background-color: var(--background-primary);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.625rem;
+            position: relative;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+        }
+
+        .card-icon {
+            position: absolute;
+            top: -12px;
+            left: -12px;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1em;
+            border: 2px solid var(--background-primary);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        .micro-card p {
+            margin: 0;
+            padding-left: 1.25rem;
+            font-size: 1em;
+            line-height: 1.4;
+            font-weight: 600;
+        }
+
+        /* Color Groups for Micro Cards */
+        .group-1 .card-icon {
+            background-color: #f1d881;
+            color: #5C4033;
+        }
+
+        .micro-card.group-1 {
+            border-color: #f1d881;
+        }
+
+        .group-2 .card-icon {
+            background-color: var(--accent-gold);
+            color: #111;
+        }
+
+        .micro-card.group-2 {
+            border-color: var(--accent-gold);
+        }
+
+        .group-3 .card-icon {
+            background-color: #a6842d;
+            color: #111;
+        }
+
+        .micro-card.group-3 {
+            border-color: #a6842d;
+        }
+
+        .group-4 .card-icon {
+            background-color: #5f4808;
+            color: #f0f0f0;
+        }
+
+        .micro-card.group-4 {
+            border-color: #5f4808;
+        }
+
+        .group-5 .card-icon {
+            background-color: #d4af37;
+            color: #111;
+        }
+
+        .micro-card.group-5 {
+            border-color: #d4af37;
+        }
+
+        /* Benefit Cards - Simplified Design */
+        .benefit-card {
+            padding: 0;
+            background: transparent;
+            border: none;
+        }
+
+        .benefit-card .icon {
+            font-size: 2.5em;
+            color: var(--accent-gold);
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+
+        .benefit-card h4 {
+            margin-top: 0;
+            font-size: 1.3em;
+            color: var(--accent-gold);
+            font-family: var(--font-heading);
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .benefit-card p {
+            font-size: 0.95em;
+        }
+
+        /* CTA Button */
+        .cta-button {
+            display: inline-block;
+            background-image: linear-gradient(to top, #e8a900, #f0b90b);
+            color: var(--background-primary);
+            font-family: var(--font-heading);
+            font-size: 1.2em;
+            font-weight: 700;
+            text-decoration: none;
+            padding: 15px 20px;
+            border-radius: 8px;
+            text-align: center;
+            border: none;
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(240, 185, 11, 0.25);
+        }
+
+        .cta-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Pricing Cards */
+        .pricing-card {
+            background-color: var(--surface-color);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .pricing-card.disabled {
+            opacity: 0.6;
+        }
+
+        .pricing-card .course-image {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .pricing-card .course-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .pricing-card .course-image .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            mix-blend-mode: multiply;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pricing-card .course-image .date-text {
+            color: white;
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .status-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.375rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 20;
+        }
+
+        .status-badge.cerrado {
+            background-color: #dc2626;
+            color: white;
+            opacity: 1;
+        }
+
+        .status-badge.activo {
+            background-color: #16a34a;
+            color: white;
+            opacity: 1;
+        }
+
+        .status-badge.abierto {
+            background-color: #16a34a;
+            color: white;
+            opacity: 1;
+        }
+
+        .status-badge.proximamente {
+            background-color: #3b82f6;
+            color: white;
+            opacity: 1;
+        }
+
+        /* FAQ Accordion */
+        .faq-item {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            padding: 1rem 1.5rem;
+        }
+
+        .faq-item summary {
+            font-family: var(--font-heading);
+            font-size: 1.2em;
+            font-weight: 700;
+            color: var(--accent-gold);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            list-style: none;
+        }
+
+        .faq-item summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .faq-item summary::after {
+            content: '+';
+            font-size: 2em;
+            color: var(--accent-gold);
+            transition: transform 0.2s ease-out;
+        }
+
+        .faq-item[open] summary::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-item p {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+            line-height: 1.7;
+        }
+
+        /* Video Placeholder */
+        .video-placeholder {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin: 2.5rem auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+        }
+
+        .video-placeholder img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /*
+        .video-placeholder::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background-color: rgba(240, 185, 11, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-placeholder::before {
+            content: '▶';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-40%, -50%);
+            font-size: 2rem;
+            color: var(--background-primary);
+            z-index: 10;
+        }*/
+        .stripe-button-el {
+            width: 100% !important;
+            /* Ajusta el ancho al 100% */
+            /* Otras personalizaciones como color, borde, etc. */
+        }
+    </style>
+</head>
+
+<body class="overflow-x-hidden font-medium text-lg leading-relaxed text-brand-text bg-brand-black">
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="py-20 border-b border-brand-border">
+        <div class="container mx-auto px-5 lg:px-8 max-w-6xl">
+            <div class="text-center max-w-5xl mx-auto">
+                <!-- Nuevo Título H1 (Antes era el kicker) -->
+                <h1
+                    class="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-white leading-[1.5] md:leading-[1.5] lg:leading-[1.5] mb-6 ">
+                    ¿Te preocupa que la IA <br class="hidden md:block" /> reemplace tu trabajo?
+                </h1>
+
+                <!-- Nuevo Subtítulo (Antes era el H1) -->
+                <h2 class="text-xl md:text-2xl lg:text-3xl text-white  leading-relaxed max-w-4xl mx-auto">
+                    Aprende a dominarla con nosotros y tú
+                    <span class="block sm:inline text-brand-gold font-bold">vuélvete <span
+                            class="underline">irremplazable</span></span>
+                </h2>
+            </div>
+
+            <!-- Video Placeholder -->
+            <div class="video-placeholder">
+                <img src="assets/humano-entre-dos-IAs.jpg" alt="Humano compitiendo contra la IA">
+            </div>
+
+            <p class="text-center text-lg md:text-xl max-w-3xl mx-auto leading-relaxed mb-4">
+                Forma parte del grupo de profesionales que ya usan la IA para fortalecer su carrera. En
+                <strong>Alquimista de la IA</strong> potencializamos tu experiencia con clases personalizadas para ti,
+                de modo que lo que aprendas hoy lo puedas aplicar de inmediato&nbsp;en&nbsp;tu&nbsp;trabajo.
+            </p>
+
+            <div class="text-center mt-10">
+                <a href="#fechas" class="cta-button">QUIERO EMPEZAR MI ENTRENAMIENTO</a>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- DIFERENCIADORES SECTION -->
+    <section id="diferenciadores" class="py-20 bg-brand-dark border-b border-brand-border">
+        <div class="container mx-auto px-5 lg:px-8 max-w-6xl">
+            <div class="text-center mb-18 md:mb-24">
+                <p class="section-kicker">IA enseñando sobre IA</p>
+                <h2
+                    class="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-white leading-relaxed md:leading-relaxed lg:leading-relaxed mb-8">
+                    ¿Por qué este curso es diferente a todos&nbsp;los&nbsp;demás&nbsp;de&nbsp;IA?
+                </h2>
+
+                <!-- Imagen decorativa -->
+                <div class="mt-10 mb-12 max-w-4xl mx-auto">
+                    <img src="/assets/ia-al-servicio-del-alquimista-v3.jpg" alt="Profesional usando IA estratégicamente"
+                        class=" shadow-2xl w-full h-auto ">
+                </div>
+            </div>
+
+            <!-- 5 Micro Cards - GRID SYSTEM (Alineación Perfecta) -->
+            <div class="grid grid-cols-1 md:grid-cols-6 gap-6 mt-10">
+
+                <!-- Card 1: Beige (2 columnas) -->
+                <div
+                    class="md:col-span-2 relative flex items-center p-5 min-h-[100px] rounded-xl border-2 border-[#f1d881] bg-brand-black group">
+                    <div
+                        class="absolute -top-3 -left-3 w-8 h-8 rounded-full flex items-center justify-center border-2 border-brand-black shadow-lg bg-[#f1d881] text-[#5C4033] text-lg">
+                        <i class="ph-bold ph-robot"></i>
+                    </div>
+                    <p class="pl-4 m-0 text-base leading-relaxed">
+                        <strong>Coach personalizado: Alk<span class="text-brand-gold">IA</span></strong><br>
+                        que entiende tu estilo de aprendizaje, te motiva, te reta a desarrollar mejor tus habilidades y
+                        conoce tu perfil para adaptar los ejercicios a tu contexto laboral real.
+                    </p>
+                </div>
+
+                <!-- Card 2: Dorado (2 columnas) -->
+                <div
+                    class="md:col-span-2 relative flex items-center p-5 min-h-[100px] rounded-xl border-2 border-brand-gold bg-brand-black group">
+                    <div
+                        class="absolute -top-3 -left-3 w-8 h-8 rounded-full flex items-center justify-center border-2 border-brand-black shadow-lg bg-brand-gold text-brand-dark text-lg">
+                        <i class="ph-bold ph-trend-up"></i>
+                    </div>
+                    <p class="pl-4 m-0 text-base leading-relaxed">
+                        <strong>Actualización profesional</strong><br>
+                        El curso Alquimistas, es una actualización profesional necesaria para seguir siendo relevante en
+                        un entorno que ya cambió.
+                    </p>
+                </div>
+
+                <!-- Card 3: Bronce (2 columnas) -->
+                <div
+                    class="md:col-span-2 relative flex items-center p-5 min-h-[100px] rounded-xl border-2 border-[#a6842d] bg-brand-black group">
+                    <div
+                        class="absolute -top-3 -left-3 w-8 h-8 rounded-full flex items-center justify-center border-2 border-brand-black shadow-lg bg-[#a6842d] text-brand-dark text-lg">
+                        <i class="ph-bold ph-drop"></i>
+                    </div>
+                    <p class="pl-4 m-0 text-base leading-relaxed">
+                        <strong>Liquid Learning</strong><br>
+                        El método de aprendizaje <strong>Liquid learning</strong>: aprendes a tu ritmo desde tu
+                        dispositivo favorito y
+                        además tendrás sesiones en vivo para resolver dudas
+                    </p>
+                </div>
+
+                <!-- Card 4: Marrón Oscuro (3 columnas) -->
+                <div
+                    class="md:col-span-3 relative flex items-center p-5 min-h-[100px] rounded-xl border-2 border-[#5f4808] bg-brand-black group">
+                    <div
+                        class="absolute -top-3 -left-3 w-8 h-8 rounded-full flex items-center justify-center border-2 border-brand-black shadow-lg bg-[#5f4808] text-brand-text text-lg">
+                        <i class="ph-bold ph-sparkle"></i>
+                    </div>
+                    <p class="pl-4 m-0 text-base leading-relaxed">
+                        <strong>Aprendizaje claro y sin tecnicismos</strong><br>
+                        Nuestra metodología promueve un aprendizaje claro, práctico y sin tecnicismos.
+                    </p>
+                </div>
+
+                <!-- Card 5: Marrón Oscuro (Igual a la 4) (3 columnas) -->
+                <div
+                    class="md:col-span-3 relative flex items-center p-5 min-h-[100px] rounded-xl border-2 border-[#5f4808] bg-brand-black group">
+                    <div
+                        class="absolute -top-3 -left-3 w-8 h-8 rounded-full flex items-center justify-center border-2 border-brand-black shadow-lg bg-[#5f4808] text-brand-text text-lg">
+                        <i class="ph-bold ph-shield-check"></i>
+                    </div>
+                    <p class="pl-4 m-0 text-base leading-relaxed">
+                        <strong>Herramienta real para tu estabilidad</strong><br>
+                        Te damos una herramienta real para proteger tu estabilidad profesional y económica ayudándote a
+                        volverte indispensable.
+                    </p>
+                </div>
+            </div>
+            <h3
+                class="text-2xl font-bold text-brand-gold font-heading font-bold leading-relaxed my-8 text-center max-w-xl mx-auto">
+                No vas
+                a aprender sólo herramientas; vas a volverte
+                irremplazable en tu puesto usando la IA a tu favor.
+            </h3>
+        </div>
+    </section>
+
+    <!-- BENEFICIOS SECTION -->
+    <section id="beneficios" class="py-24 border-b border-brand-border bg-brand-black">
+        <div class="container mx-auto px-5 lg:px-8 max-w-6xl">
+            <div class="text-center mb-20">
+                <p class="section-kicker mb-4">BENEFICIOS</p>
+                <!-- Título actualizado para coincidir con la sección anterior -->
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-white leading-relaxed mb-4">
+                    Lo que obtienes al&nbsp;dominar&nbsp;la&nbsp;IA
+                </h2>
+            </div>
+
+            <!-- 4 Benefit Cards - GRID SYSTEM -->
+            <!-- md:grid-cols-2 asegura 2 columnas en tablet -->
+            <!-- lg:grid-cols-4 asegura 4 columnas en escritorio -->
+            <!-- gap-10 y lg:gap-12 aumentan el espaciado significativamente -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 mt-16">
+
+                <!-- Benefit 1 -->
+                <div class="flex flex-col items-start text-left">
+                    <div class="text-5xl text-brand-gold mb-6">
+                        <i class="ph-bold ph-piggy-bank"></i>
+                    </div>
+                    <h4 class="text-2xl font-heading font-bold text-white mb-4 leading-relaxed">
+                        Estabilidad Económica
+                    </h4>
+                    <p class="text-brand-muted leading-relaxed text-base">
+                        Mantén y supera tu nivel de vida al actualizar tu forma de trabajo con IA para que tu puesto sea
+                        cada vez más difícil de reemplazar.
+                    </p>
+                </div>
+
+                <!-- Benefit 2 -->
+                <div class="flex flex-col items-start text-left">
+                    <div class="text-5xl text-brand-gold mb-6">
+                        <i class="ph-bold ph-game-controller"></i>
+                    </div>
+                    <h4 class="text-2xl font-heading font-bold text-white mb-4 leading-relaxed">
+                        Recuperar el Control
+                    </h4>
+                    <p class="text-brand-muted leading-relaxed text-base">
+                        Elimina la ansiedad al dominar el entorno de IA y tomar decisiones estratégicas, sabiendo que
+                        vas a la velocidad a la que evoluciona el mundo.
+
+                    </p>
+                </div>
+
+                <!-- Benefit 3 -->
+                <div class="flex flex-col items-start text-left">
+                    <div class="text-5xl text-brand-gold mb-6">
+                        <i class="ph-bold ph-crown"></i>
+                    </div>
+                    <h4 class="text-2xl font-heading font-bold text-white mb-4 leading-relaxed">
+                        Estatus Profesional
+                    </h4>
+                    <p class="text-brand-muted leading-relaxed text-base">
+                        Serás parte del grupo de líderes que usan IA activamente, tu experiencia sumada a tu nuevo
+                        dominio de la IA, te posicionará como <strong>un profesional casi imposible de
+                            reemplazar</strong>, y muy valioso
+                        en tu organización.
+
+                    </p>
+                </div>
+
+                <!-- Benefit 4 -->
+                <div class="flex flex-col items-start text-left">
+                    <div class="text-5xl text-brand-gold mb-6">
+                        <i class="ph-bold ph-lightning"></i>
+                    </div>
+                    <h4 class="text-2xl font-heading font-bold text-white mb-4 leading-relaxed">
+                        Mayor Productividad
+                    </h4>
+                    <p class="text-brand-muted leading-relaxed text-base">
+                        Reducirás horas de trabajo repetitivo usando IA para redactar, resumir, analizar y organizar
+                        información.
+
+                    </p>
+                </div>
+            </div>
+
+            <!-- AlkIA Callout con Icono Circular -->
+            <div
+                class="mt-24 p-8 md:p-10 border border-brand-gold/50 bg-gradient-to-r from-brand-surface/80 to-brand-surface/20 rounded-2xl flex flex-col md:flex-row items-center gap-8">
+
+                <!-- Icono Circular (Círculo Perfecto con Glow) -->
+                <div class="flex-shrink-0 relative">
+                    <!-- Efecto de resplandor trasero -->
+                    <div class="absolute inset-0 bg-brand-gold blur-xl opacity-20 rounded-full"></div>
+
+                    <!-- El Círculo Contenedor -->
+                    <div
+                        class="relative w-20 h-20 rounded-full bg-brand-black border-2 border-brand-gold flex items-center justify-center shadow-[0_0_15px_rgba(240,185,11,0.2)]">
+                        <i class="ph-fill ph-sparkle text-4xl text-brand-gold"></i>
+                    </div>
+                </div>
+
+                <!-- Texto -->
+                <div class="text-center md:text-left">
+                    <p class="text-xl md:text-2xl text-brand-text leading-relaxed">
+                        <strong class="text-white">Alk<span class="text-brand-gold">IA</span></strong> te guiará paso a
+                        paso con un aprendizaje
+                        personalizado que entiende tu estilo, tu ritmo y tus necesidades laborales, para que no vuelvas
+                        a
+                        sentir que la tecnología va más rápido que tú.
+                    </p>
+                </div>
+            </div>
+
+            <div class="text-center mt-20">
+                <a href="#fechas" class="cta-button uppercase">Quiero empezar mi entrenamiento</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCTO SECTION -->
+    <section id="producto" class="py-24 bg-brand-dark border-b border-brand-border">
+        <div class="container mx-auto px-5 lg:px-8 max-w-6xl">
+            <!-- Asymmetric Layout: Text Left (60%), Image Right (40%) -->
+            <div class="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
+
+                <!-- Left Column: Content -->
+                <div class="flex-grow lg:basis-[58%]">
+                    <p class="section-kicker mb-4 text-left">PROMPT ESTRATÉGICO</p>
+
+                    <!-- CAMBIO: Tipografía más ligera (font-medium en vez de bold) y leading-relaxed -->
+                    <h2 class="text-xl md:text-2xl font-heading font-medium text-white mb-8 leading-relaxed text-left">
+                        Este entrenamiento está diseñado para que no solo entiendas la IA, sino que la uses de tal forma
+                        que tu valor profesional sea cada vez más difícil de reemplazar.
+                    </h2>
+
+                    <ul class="space-y-5 mt-8 text-lg text-white">
+                        <li class="flex items-start gap-4">
+                            <i class="ph-bold ph-check-circle text-brand-gold text-2xl flex-shrink-0 mt-1"></i>
+                            <span class="leading-relaxed"><strong class="text-white">Alk<span
+                                        class="text-brand-gold">IA</span></strong> como tu coach personalizado de
+                                IA</span>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <i class="ph-bold ph-check-circle text-brand-gold text-2xl flex-shrink-0 mt-1"></i>
+                            <span class="leading-relaxed">Acceso 100% en línea a tu ritmo</span>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <i class="ph-bold ph-check-circle text-brand-gold text-2xl flex-shrink-0 mt-1"></i>
+                            <span class="leading-relaxed">2 sesiones en vivo a la semana para resolver dudas</span>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <i class="ph-bold ph-check-circle text-brand-gold text-2xl flex-shrink-0 mt-1"></i>
+                            <span class="leading-relaxed"><strong class="text-white">Liquid learning:</strong> tú
+                                decides el ritmo y la longitud de cada lección</span>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <i class="ph-bold ph-check-circle text-brand-gold text-2xl flex-shrink-0 mt-1"></i>
+                            <span class="leading-relaxed">Ejercicios y casos reales de trabajo</span>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <i class="ph-bold ph-check-circle text-brand-gold text-2xl flex-shrink-0 mt-1"></i>
+                            <span class="leading-relaxed">Soporte continuo durante las 4 semanas</span>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <i class="ph-bold ph-check-circle text-brand-gold text-2xl flex-shrink-0 mt-1"></i>
+                            <span class="leading-relaxed">Progreso adaptado a tu estilo y a tus tareas</span>
+                        </li>
+                    </ul>
+
+                    <!-- Textos de Duración y SPAM eliminados (Se moverán a la siguiente sección) -->
+                </div>
+
+                <!-- Right Column: Image -->
+                <div class="hidden lg:block flex-grow lg:basis-[38%] w-full">
+                    <img src="assets/alquimista-trabajando-rodeado-de-gentev4.jpg"
+                        alt="Alquimistas de IA - rodeado de gente interesada en como trabaja con la IA"
+                        class=" shadow-2xl w-full  h-auto object-cover aspect-[3/4]">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FECHAS / GRUPOS SECTION -->
+    <section id="fechas" class="py-24 border-b border-brand-border bg-brand-black">
+        <div class="container mx-auto px-5 lg:px-8 max-w-6xl">
+            <div class="text-center mb-20">
+                <p class="section-kicker mb-4">INSCRIPCIÓN</p>
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-white leading-relaxed mb-4">
+                    Elige tu fecha de inicio
+                </h2>
+                <p class="text-lg text-brand-muted leading-relaxed max-w-2xl mx-auto">
+                    Asegura tu lugar en el nivel 1 del entrenamiento.
+                </p>
+            </div>
+
+            <!-- Grid de Tarjetas (3 Columnas en Desktop) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
+
+                <!-- TARJETA 1: CERRADO (Noviembre) -->
+                <!-- CAMBIO: Eliminada la clase opacity-60 inicial para que no se vea apagada desde el inicio -->
+                <div class="pricing-card relative flex flex-col bg-brand-black border border-brand-border rounded-xl overflow-hidden "
+                    data-start-date="2025-11-01" data-group-id="1">
+
+                    <div
+                        class="status-badge absolute top-4 right-4 bg-red-600 text-white text-xs font-bold px-3 py-1.5 rounded uppercase z-20 shadow-md">
+                        Cerrado
+                    </div>
+
+                    <div class="course-image relative h-56 w-full overflow-hidden">
+                        <img src="assets/alquimistas-nov-dic.jpg" alt="Grupo Noviembre"
+                            class="w-full h-full object-cover">
+
+                        <!-- CAMBIO: bg-black/70 bajado a bg-black/50 (Más luz) -->
+                        <div class="overlay absolute inset-0 bg-black/50 z-10"></div>
+
+                        <div
+                            class="date-text absolute inset-0 flex flex-col items-center justify-center z-20 px-4 text-center">
+                            <!-- Agregado drop-shadow para que se lea bien aunque el fondo sea más claro -->
+                            <span class="text-white font-heading font-bold text-3xl tracking-wide drop-shadow-lg">NOV -
+                                DIC</span>
+                            <span class="text-brand-muted font-heading font-bold text-xl drop-shadow-md">2025</span>
+                        </div>
+                    </div>
+
+                    <div class="p-6 flex flex-col flex-grow text-center">
+                        <h3 class="text-xl font-bold text-white mb-1">Prompt Estratégico</h3>
+                        <span
+                            class="text-xs font-bold text-brand-muted uppercase tracking-widest mb-6 border border-brand-border rounded-full px-3 py-1 inline-block mx-auto mt-2">Nivel
+                            1</span>
+
+                        <p class="text-lg text-brand-muted mb-6">$2,900 MXN</p>
+
+                        <div class="space-y-2 mb-6 text-sm text-brand-muted border-t border-brand-border pt-4">
+                            <p>Inicio: 21 de Noviembre, 2025</p>
+                            <p>Duración: 4 semanas</p>
+                        </div>
+
+                        <button class="hidden cta-button w-full">Inscribirme</button>
+                    </div>
+                </div>
+
+                <!-- TARJETA 2: ABIERTO (Enero 2026) - DESTACADA -->
+                <div class="pricing-card relative flex flex-col bg-brand-black border-2 border-brand-gold rounded-xl overflow-hidden shadow-2xl shadow-brand-gold/10 transform md:-translate-y-4 transition-transform"
+                    data-start-date="2026-01-12" data-group-id="2">
+
+                    <div
+                        class="status-badge absolute top-4 right-4 bg-green-600 text-white text-xs font-bold px-3 py-1.5 rounded uppercase tracking-wider z-20 shadow-md">
+                        Abierto
+                    </div>
+
+                    <div class="course-image relative h-56 w-full overflow-hidden">
+                        <img src="assets/cover-alquimistas-enerov3.jpg" alt="Grupo Enero"
+                            class="w-full h-full object-cover">
+
+                        <!-- CAMBIO: Eliminado mix-blend-multiply y puesto un negro muy suave (30%) para que la foto brille -->
+                        <div class="overlay absolute inset-0 bg-black/30 z-10"></div>
+
+                        <div
+                            class="date-text absolute inset-0 flex flex-col items-center justify-center z-20 px-4 text-center">
+                            <span
+                                class="text-white font-heading font-bold text-4xl drop-shadow-xl tracking-wide">ENERO</span>
+                            <span class="text-brand-gold font-heading font-bold text-2xl drop-shadow-lg">2026</span>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 pb-6 flex flex-col flex-grow text-center">
+                        <h3 class="text-2xl font-bold text-white mb-1">Prompt Estratégico</h3>
+                        <span
+                            class="text-xs font-bold text-brand-black bg-brand-gold uppercase tracking-widest mb-6 rounded-full px-3 py-1 inline-block mt-4 mx-auto">Nivel
+                            1</span>
+
+                        <div class="space-y-2 mb-6 text-sm text-white border-t border-brand-border pt-4">
+                            <p class="font-bold text-base">Inicio: 12 de Enero, 2026</p>
+                            <p>Duración: 4 semanas</p>
+                            <p class="text-lg text-white/90 mt-2 font-medium">$2,900 MXN</p>
+                        </div>
+
+
+
+
+                        <stripe-buy-button buy-button-id="buy_btn_1Sa90UCHZTeuNwx4ZeeuV2w4"
+                            publishable-key="pk_live_51Lu0hOCHZTeuNwx4mU91NvAFIqq55C87Jq7SonnsIIJNEpIw74tnjkf1lXfC8sHc70dHtCUXlli9AQWj2dtWg1M800gOcutbkn">
+                        </stripe-buy-button>
+
+
+                        <div class="mt-4 flex flex-col items-center gap-2">
+                            <p class="text-xs text-brand-muted flex items-center gap-1.5">
+                                <i class="ph-bold ph-lock-key text-brand-gold"></i> Pago seguro con Stripe
+                            </p>
+                            <p class="text-[10px] text-brand-muted/70 italic leading-tight max-w-[200px]">
+                                *Revisa tu buzón (y SPAM) al inscribirte.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TARJETA 3: PRÓXIMAMENTE -->
+                <div class="pricing-card relative flex flex-col bg-brand-black border border-brand-border rounded-xl overflow-hidden"
+                    data-group-id="3">
+
+                    <div
+                        class="status-badge absolute top-4 right-4 bg-blue-600 text-white text-xs font-bold px-3 py-1.5 rounded uppercase tracking-wider z-20 shadow-md">
+                        Próximamente
+                    </div>
+
+                    <div class="course-image relative h-56 w-full overflow-hidden grayscale">
+                        <img src="assets/reloj.jpg" alt="Grupo Próximamente" class="w-full h-full object-cover">
+
+                        <!-- CAMBIO: bg-black/60 bajado a bg-black/40 -->
+                        <div class="overlay absolute inset-0 bg-black/40 z-10"></div>
+
+                        <div
+                            class="date-text absolute inset-0 flex flex-col items-center justify-center z-20 px-4 text-center">
+                            <span
+                                class="text-white font-heading font-bold text-3xl tracking-wide drop-shadow-lg">PRÓXIMAMENTE</span>
+                        </div>
+                    </div>
+
+                    <div class="p-6 flex flex-col flex-grow text-center">
+                        <h3 class="text-xl font-bold text-white mb-1">Prompt Estratégico</h3>
+                        <span
+                            class="text-xs font-bold text-brand-muted uppercase tracking-widest mb-6 border border-brand-border rounded-full px-3 py-1 inline-block mt-4 mx-auto">Nivel
+                            1</span>
+
+                        <p class="text-lg text-brand-muted mb-6">$2,900 MXN</p>
+
+                        <div class="space-y-2 mb-6 text-sm text-brand-muted border-t border-brand-border pt-4">
+                            <p>Fecha por confirmar</p>
+                            <p>Duración: 4 semanas</p>
+                        </div>
+
+                        <button class="hidden cta-button w-full">COMPRAR</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section id="faq" class="py-20 bg-brand-dark border-b border-brand-border">
+        <div class="container mx-auto px-5 lg:px-8 max-w-4xl">
+            <div class="text-center mb-12">
+                <p class="section-kicker">¿TIENES DUDAS?</p>
+                <h2 class="text-3xl md:text-4xl font-heading font-bold text-white">
+                    Preguntas Frecuentes
+                </h2>
+            </div>
+
+            <div class="space-y-4">
+                <!-- FAQ 1 -->
+                <details class="faq-item">
+                    <summary>¿Necesito tener un conocimiento previo de tecnología o de IA?</summary>
+                    <p>No, en absoluto. Este curso está diseñado para empezar de cero y con nuestra metodología llevarte
+                        de la mano a tu ritmo para que puedas aprender sin presiones y con ejemplos reales de trabajo.
+                    </p>
+                </details>
+
+                <!-- FAQ 2 -->
+                <details class="faq-item">
+                    <summary>¿Cuánto tiempo debo dedicarle por semana?</summary>
+                    <p>Puedes avanzar a tu ritmo, dedicándole unas horas a la semana, tendrás toda la información en la
+                        plataforma en línea. La duración del curso es de 4 semanas.</p>
+                </details>
+
+                <!-- FAQ 3 -->
+                <details class="faq-item">
+                    <summary>¿Dónde puedo aplicar lo aprendido?</summary>
+                    <p>El curso es aplicable a cualquier área: dirección, ventas, operaciones, servicio al cliente,
+                        educación y más. Aprendes un método claro para pensar, estructurar y usar la IA en tus tareas
+                        diarias, sin importar el sector.</p>
+                </details>
+
+                <!-- FAQ 4 -->
+                <details class="faq-item">
+                    <summary>¿Qué pasa si no puedo asistir a la sesión en vivo?</summary>
+                    <p>No pasa nada, las sesiones quedan grabadas en la plataforma y si tienes dudas, puedes enviar tus
+                        preguntas por adelantado y las respondemos en la sesión para que las veas más adelante.</p>
+                </details>
+
+                <!-- FAQ 5 -->
+                <details class="faq-item">
+                    <summary>¿Necesito un software o una aplicación específica de IA para el curso?</summary>
+                    <p>No, el curso está diseñado para funcionar con herramientas de IA accesibles (muchas de ellas
+                        gratuitas), nosotros te daremos acceso a la herramienta de IA con la que vas a practicar y
+                        aprender, y te daremos durante el curso consejos para sacar el mejor provecho de todas las
+                        herramientas disponibles en el mercado.</p>
+                </details>
+
+                <!-- FAQ 6 -->
+                <details class="faq-item">
+                    <summary>¿Qué pasa cuando termina el curso, pierdo el acceso a la plataforma?</summary>
+                    <p>Tendrás acceso a la plataforma durante todo el programa (4 semanas) para garantizar el enfoque y
+                        la aplicación inmediata. Después contarás con las herramientas y bases para seguir aplicando lo
+                        aprendido en cualquier entorno.</p>
+                </details>
+
+                <!-- FAQ 7 -->
+                <details class="faq-item">
+                    <summary>¿Qué pasa si las herramientas de IA cambian?</summary>
+                    <p>Si las herramientas cambian, <strong>AlkIA</strong> te ayuda a adaptarte, para que sigas vigente
+                        aunque cambien las plataformas.</p>
+                </details>
+
+                <!-- FAQ 8 -->
+                <details class="faq-item">
+                    <summary>¿En qué se diferencia este curso de otros?</summary>
+                    <p>En este curso, no te damos solo videos grabados, interactúas todo el tiempo con tu coach
+                        <strong>AlkIA</strong> que personaliza tu experiencia para que puedas aplicar lo aprendido en tu
+                        trabajo real.
+                    </p>
+                </details>
+            </div>
+
+            <!-- Final CTA -->
+            <div class="mt-16 text-center">
+                <p class="text-xl md:text-2xl text-brand-text mb-6 font-medium">
+                    Cada semana que sigues sin aprender IA, alguien más toma la delantera
+                </p>
+                <a href="#fechas" class="cta-button">QUIERO EMPEZAR AHORA MI ENTRENAMIENTO</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-12 border-t border-brand-border bg-brand-black">
+        <div class="container mx-auto px-6 lg:px-8 text-center">
+            <a href="/" aria-label="Página de inicio de Gnius Club">
+                <img src="https://gnius.club/assets/logo-animado-gnius-club.gif" alt="Logo de Gnius Club"
+                    class="h-32 w-auto mx-auto">
+            </a>
+            <p class="mt-6 text-2xl font-heading font-bold text-brand-text">CURSO ALQUIMISTAS</p>
+            <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-brand-muted">
+                <a href="https://wa.me/522218481116" target="_blank" rel="noopener noreferrer"
+                    class="flex items-center gap-2 hover:text-brand-text transition-colors underline">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.886-.001 2.267.655 4.395 1.906 6.215l-1.036 3.787 3.849-1.002z" />
+                    </svg>
+                    <span>(+52) 221 848 1116</span>
+                </a>
+                <a href="mailto:info@gnius.club"
+                    class="flex items-center gap-2 hover:text-brand-text transition-colors underline">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 14v-11.817l10 8.104 10-8.104v11.817h-20z" />
+                    </svg>
+                    <span>info@gnius.club</span>
+                </a>
+            </div>
+            <div class="mt-6 flex justify-center space-x-6 text-brand-muted">
+                <a href="https://gnius.club/aviso-de-privacidad.html"
+                    class="hover:text-brand-text transition-colors underline">Aviso de Privacidad</a>
+            </div>
+            <p class="mt-6 text-sm text-brand-muted/70">&copy; 2026 Gnius Club - AlkIA. Todos los derechos reservados.
+            </p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Course Status Logic -->
+    <script async src="https://js.stripe.com/v3/buy-button.js">
+    </script>
+    <script>
+        // Fecha actual simulada (puedes cambiarla o usar new Date() para la real)
+        const currentDate = new Date('2025-11-28');
+
+        function calculateCourseStatus(startDateStr) {
+            if (!startDateStr) return 'proximamente';
+            const startDate = new Date(startDateStr);
+            const daysSinceStart = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
+
+            if (daysSinceStart > 10) return 'cerrado';
+            else if (daysSinceStart >= 0 && daysSinceStart <= 10) return 'activo';
+            else return 'abierto';
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const cards = document.querySelectorAll('.pricing-card[data-start-date]');
+
+            cards.forEach(card => {
+                const startDate = card.getAttribute('data-start-date');
+                const status = calculateCourseStatus(startDate);
+                const badge = card.querySelector('.status-badge');
+                const button = card.querySelector('.cta-button');
+
+                // Lógica de colores del badge
+                badge.className = 'status-badge absolute top-4 right-4 text-white text-xs font-bold px-3 py-1.5 rounded uppercase tracking-wider z-20 shadow-md';
+
+                if (status === 'cerrado') badge.classList.add('bg-red-600');
+                else if (status === 'activo' || status === 'abierto') badge.classList.add('bg-green-600');
+                else badge.classList.add('bg-blue-600');
+
+                const statusText = {
+                    'cerrado': 'Cerrado',
+                    'activo': 'Activo',
+                    'abierto': 'Abierto',
+                    'proximamente': 'Próximamente'
+                };
+                badge.textContent = statusText[status];
+
+                if (status === 'cerrado') {
+                    if (button) {
+                        button.disabled = true;
+                        button.textContent = 'Inscripciones Cerradas';
+                        button.classList.add('hidden');
+                    }
+                    // CAMBIO IMPORTANTE: Quitamos 'opacity-60' para que no se vea tan oscura
+                    // Solo dejamos grayscale para indicar inactividad
+                    card.classList.add('grayscale');
+                    card.classList.remove('opacity-80'); // Aseguramos que se remueva si estaba
+                } else if (status === 'abierto' || status === 'activo') {
+                    if (button) {
+                        button.disabled = false;
+                        button.textContent = 'COMPRAR AHORA';
+                        button.classList.remove('hidden');
+                    }
+                    card.classList.remove('opacity-80', 'grayscale');
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
