@@ -5,6 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PSF909CXS1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-PSF909CXS1');
+    </script>
+
+
+
     <!-- ================================================= -->
     <!-- 1. SEO & METADATOS -->
     <!-- ================================================= -->
@@ -15,7 +27,7 @@
         content="Curso IA, Prompt Engineering, Estrategia IA, Gnius Club, Futuro del trabajo, Alquimistas IA, Prompt Estratégico">
     <meta name="author" content="Gnius Club">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://alqia.gnius.club/">
+    <link rel="canonical" href="https://alquimistas.gnius.club/">
 
     <!-- Favicon (Emoji de Destellos ✨) -->
     <link rel="icon"
@@ -25,13 +37,13 @@
     <!-- 2. OPEN GRAPH (Facebook, LinkedIn, WhatsApp) -->
     <!-- ================================================= -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://alqia.gnius.club/">
+    <meta property="og:url" content="https://alquimistas.gnius.club/">
     <meta property="og:title" content="Alquimistas de IA: Vuélvete Irremplazable">
     <meta property="og:description"
         content="No dejes que la IA te reemplace. Aprende a dirigirla con el Prompt Estratégico y potencia tus años de experiencia.">
 
     <!-- Imagen OGP -->
-    <meta property="og:image" content="https://alqia.gnius.club/assets/cover-alquimistas-enero-ogp.jpg">
+    <meta property="og:image" content="https://alquimistas.gnius.club/assets/cover-alquimistas-enero-ogp.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:site_name" content="Gnius Club">
@@ -41,11 +53,11 @@
     <!-- 3. TWITTER / X CARDS -->
     <!-- ================================================= -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://alqia.gnius.club/">
+    <meta name="twitter:url" content="https://alquimistas.gnius.club/">
     <meta name="twitter:title" content="Alquimistas de IA: Domina el Prompt Estratégico">
     <meta name="twitter:description"
         content="Transforma tu carrera en 4 semanas. Domina la IA y asegura tu relevancia profesional.">
-    <meta name="twitter:image" content="https://alqia.gnius.club/assets/cover-alquimistas-enero-ogp.jpg">
+    <meta name="twitter:image" content="https://alquimistas.gnius.club/assets/cover-alquimistas-enero-ogp.jpg">
 
     <!-- ================================================= -->
     <!-- 4. DATOS ESTRUCTURADOS (SCHEMA JSON-LD PARA SGE) -->
@@ -69,7 +81,7 @@
             "priceCurrency": "MXN",
             "price": "2900",
             "availability": "https://schema.org/InStock",
-            "url": "https://alqia.gnius.club/",
+            "url": "https://alquimistas.gnius.club/",
             "validFrom": "2025-11-20"
           },
           "hasCourseInstance": [
@@ -80,7 +92,7 @@
               "startDate": "2026-01-12",
               "location": {
                 "@type": "VirtualLocation",
-                "url": "https://alqia.gnius.club/"
+                "url": "https://alquimistas.gnius.club/"
               }
             }
           ]
@@ -331,6 +343,118 @@
             opacity: 0.5;
             cursor: not-allowed;
             transform: none;
+        }
+
+        .testimonials-grid {
+            display: flex;
+            /* Usamos Flexbox */
+            flex-wrap: wrap;
+            /* Permitimos que se envuelvan */
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .testimonial-card {
+            background-color: transparent;
+            border: none;
+            /* Eliminamos el borde perimetral */
+            padding: 60px 30px 80px 30px;
+            /* Aumentamos padding vertical para dar espacio a los ornamentos y al crédito fijo */
+            position: relative;
+            /* Contexto para elementos absolutos */
+            flex: 1 1 100%;
+            /* Por defecto (móvil), ocupa 1 columna */
+            box-sizing: border-box;
+            /* Asegura que el padding no afecte el ancho */
+        }
+
+        /* Las "comillas" ornamentales */
+        .testimonial-card::before {
+            content: '“';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-family: Georgia, serif;
+            font-size: 4em;
+            color: var(--accent-gold);
+            /* Color dorado para el ornamento */
+            line-height: 1;
+            opacity: 0.8;
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            margin: 0;
+            position: relative;
+            z-index: 2;
+            padding-left: 30px;
+            /* Crea espacio para la comilla */
+        }
+
+        /* El crédito, fijo en la esquina inferior derecha */
+        .testimonial-card footer {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            text-align: right;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            color: var(--text-secondary);
+            /* Color neutro como pediste */
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 767px) {
+            .testimonial-card {
+                min-height: 260px;
+                /* Asegura que la tarjeta tenga suficiente altura en móvil */
+            }
+        }
+
+        /* ESTADO TABLETA (768px a 991px): 1 columna con ancho restringido */
+        @media (min-width: 768px) and (max-width: 991px) {
+            .testimonials-grid {
+                justify-content: center;
+                flex-flow: column;
+                align-items: center;
+                /* Centra la columna de testimonios */
+            }
+
+            .testimonial-card {
+                max-width: 400px;
+
+                /* Ancho máximo ornamental */
+            }
+        }
+
+        /* ESTADO ESCRITORIO (992px y más): Vuelve a 3 columnas */
+        @media (min-width: 992px) {
+            .testimonial-card {
+                flex-basis: calc(33.33% - 20px);
+            }
+        }
+
+
+
+        /* Los ornamentos de líneas horizontales */
+        .line-ornament {
+            position: absolute;
+            left: 30px;
+            right: 30px;
+            height: 1px;
+            background-image: linear-gradient(to right, transparent, rgba(240, 185, 11, 0.4) 50%, transparent);
+        }
+
+        .line-ornament.top {
+            top: 0;
+        }
+
+        .line-ornament.bottom {
+            bottom: 0;
+        }
+
+        .line-ornament.thin {
+            transform: scaleY(0.5);
         }
 
         /* Pricing Cards */
@@ -617,9 +741,9 @@
                     </div>
                     <p class="pl-4 m-0 text-base leading-relaxed">
                         <strong>Liquid Learning</strong><br>
-                        El método de aprendizaje <strong>Liquid learning</strong>: aprendes a tu ritmo desde tu
-                        dispositivo favorito y
-                        además tendrás sesiones en vivo para resolver dudas
+                        Nuestra metodología combina aprendizaje autónomo, sesiones en vivo y acompañamiento inteligente.
+                        Con <strong>Liquid Learning y tu asistente de IA</strong>, el conocimiento se adapta a ti, no al
+                        revés.
                     </p>
                 </div>
 
@@ -834,9 +958,109 @@
             </div>
         </div>
     </section>
+    <!-- TESTIMONIOS SECTION -->
+    <section id="testimonios" class="py-24 bg-brand-dark border-b border-brand-border">
+        <div class="container mx-auto px-5 lg:px-8 max-w-6xl">
+            <!-- Encabezado -->
+            <div class="text-center mb-16">
+                <p class="section-kicker mb-4">RESULTADOS REALES</p>
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-white leading-relaxed mb-4">
+                    Validado por profesionales como tú
+                </h2>
+                <p class="text-lg text-brand-muted leading-relaxed italic">
+                    (Resultados de nuestro programa piloto)
+                </p>
+            </div>
+
+            <!-- Grid de Testimonios -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12 mt-10">
+
+                <!-- Testimonio 1 -->
+                <div class="relative px-8 pt-16 pb-24 flex flex-col">
+                    <!-- Ornamento Superior (Línea con gradiente) -->
+                    <div
+                        class="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-brand-gold/40 to-transparent">
+                    </div>
+
+                    <!-- Comilla Decorativa (Georgia Font simulada con serif) -->
+                    <div class="absolute top-6 left-6 font-serif text-6xl text-brand-gold opacity-80 leading-none">“
+                    </div>
+
+                    <!-- Texto -->
+                    <p class="relative z-10 text-white italic leading-relaxed pl-6">
+                        Hoy me gané al menos un día de vacaciones al mes por el tiempo que me va a ahorrar la
+                        automatización de procesos 😊"
+                    </p>
+
+                    <!-- Footer / Autor -->
+                    <div class="absolute bottom-8 right-8 text-right">
+                        <span class="block font-heading font-bold text-brand-muted text-sm tracking-wide">— Karla
+                            Perez</span>
+                        <!-- <span class="block text-xs text-brand-muted/70 mt-1">Gerente de Marketing</span> -->
+                    </div>
+
+                    <!-- Ornamento Inferior -->
+                    <div
+                        class="absolute bottom-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-brand-gold/40 to-transparent">
+                    </div>
+                </div>
+
+                <!-- Testimonio 2 -->
+                <div class="relative px-8 pt-16 pb-24 flex flex-col">
+                    <div
+                        class="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-brand-gold/40 to-transparent">
+                    </div>
+                    <div class="absolute top-6 left-6 font-serif text-6xl text-brand-gold opacity-80 leading-none">“
+                    </div>
+
+                    <p class="relative z-10 text-white italic leading-relaxed pl-6">
+                        Fui siguiendo los pasos que me iban indicando y me sorprendí con el resultado porque no tuve que
+                        estar agregando más y más indicaciones después de varios intentos, sino que desde el principio
+                        las instrucciones fueron precisas."
+                    </p>
+
+                    <div class="absolute bottom-8 right-8 text-right">
+                        <span class="block font-heading font-bold text-brand-muted text-sm tracking-wide">— Arturo
+                            Valdes</span>
+                        <!-- <span class="block text-xs text-brand-muted/70 mt-1">Analista Senior</span> -->
+                    </div>
+
+                    <div
+                        class="absolute bottom-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-brand-gold/40 to-transparent">
+                    </div>
+                </div>
+
+                <!-- Testimonio 3 -->
+                <div class="relative px-8 pt-16 pb-24 flex flex-col">
+                    <div
+                        class="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-brand-gold/40 to-transparent">
+                    </div>
+                    <div class="absolute top-6 left-6 font-serif text-6xl text-brand-gold opacity-80 leading-none">“
+                    </div>
+
+                    <p class="relative z-10 text-white italic leading-relaxed pl-6">
+                        ¡Me encantó cómo quedó! Realmente ayudó a mejorar mucho la planeación de mi evento. Lo
+                        desarrollé junto con [la IA], me ayudó a identificar mejor las restricciones, lo perfeccionamos
+                        y usando ChatGPT me dio una EDT (Estructura de Desglose de Trabajo) maravillosa.
+                    </p>
+
+                    <div class="absolute bottom-8 right-8 text-right">
+                        <span class="block font-heading font-bold text-brand-muted text-sm tracking-wide">— Gaby
+                            Rojas</span>
+                        <!-- <span class="block text-xs text-brand-muted/70 mt-1">Consultora de Negocios</span> -->
+                    </div>
+
+                    <div
+                        class="absolute bottom-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-brand-gold/40 to-transparent">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
 
     <!-- FECHAS / GRUPOS SECTION -->
-    <section id="fechas" class="py-24 border-b border-brand-border bg-brand-black">
+    <section id="fechas" class="py-24 border-b border-brand-border bg-brand-black" allow="payment">
         <div class="container mx-auto px-5 lg:px-8 max-w-6xl">
             <div class="text-center mb-20">
                 <p class="section-kicker mb-4">INSCRIPCIÓN</p>
@@ -933,12 +1157,14 @@
 
 
 
-                        <stripe-buy-button buy-button-id="buy_btn_1Sa90UCHZTeuNwx4ZeeuV2w4"
-                            publishable-key="pk_live_51Lu0hOCHZTeuNwx4mU91NvAFIqq55C87Jq7SonnsIIJNEpIw74tnjkf1lXfC8sHc70dHtCUXlli9AQWj2dtWg1M800gOcutbkn">
-                        </stripe-buy-button>
+                        <!-- NUEVO BOTÓN: Enlace directo compatible con UTMs -->
+                        <a href="https://buy.stripe.com/bJeaEWePBa7xeyegvO5ZC07"
+                            class="btn-compra-stripe bg-brand-gold text-brand-black py-2 px-4 rounded font-bold">
+                            Inscríbete Ahora
+                        </a>
 
 
-                        <div class="mt-4 flex flex-col items-center gap-2">
+                        <div class=" mt-4 flex flex-col items-center gap-2">
                             <p class="text-xs text-brand-muted flex items-center gap-1.5">
                                 <i class="ph-bold ph-lock-key text-brand-gold"></i> Pago seguro con Stripe
                             </p>
@@ -990,6 +1216,50 @@
             </div>
         </div>
     </section>
+    <!-- EMPRESAS / B2B SECTION -->
+    <section id="empresas" class="py-16 bg-brand-dark border-b border-brand-border">
+        <div class="container mx-auto px-5 lg:px-8 max-w-6xl">
+            <!-- Banner tipo tarjeta horizontal -->
+            <div
+                class="relative bg-gradient-to-br from-brand-surface to-brand-black border border-brand-gold/30 rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl overflow-hidden">
+
+                <!-- Decoración de fondo (Brillo sutil) -->
+                <div
+                    class="absolute top-0 right-0 w-64 h-64 bg-brand-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3">
+                </div>
+
+                <!-- Texto -->
+                <div class="relative z-10 text-center md:text-left max-w-2xl">
+                    <div class="inline-flex items-center gap-2 text-brand-gold mb-3">
+                        <i class="ph-bold ph-buildings text-2xl"></i>
+                        <span class="text-xs font-bold uppercase tracking-widest">Para Equipos</span>
+                    </div>
+                    <h3 class="text-2xl md:text-3xl font-heading font-bold text-white mb-3 leading-relaxed">
+                        ¿Quieres implementarlo en toda&nbsp;tu&nbsp;organización?
+                    </h3>
+                    <p class="text-lg text-brand-muted leading-relaxed">
+                        Escríbenos a <a href="mailto:lilo@gnius.club"><strong
+                                class="text-brand-gold underline">lilo@gnius.club</strong></a>
+                        para conocer nuestras opciones y tarifas preferenciales para equipos y
+                        empresas.
+                    </p>
+
+                </div>
+
+                <!-- Botón de Contacto (Diferente al de compra) -->
+                <div class="relative z-10 flex-shrink-0 mb-0">
+                    <a href="mailto:lilo@gnius.club?subject=Información%20Corporativa%20-%20Alquimistas%20de%20IA"
+                        class="inline-flex items-center gap-3 px-8 py-4 rounded-lg font-heading font-bold text-lg border-2 border-brand-gold text-brand-gold hover:bg-brand-gold hover:text-brand-black transition-all duration-300 shadow-[0_0_15px_rgba(240,185,11,0.1)] hover:shadow-[0_0_20px_rgba(240,185,11,0.4)]">
+                        <i class="ph-bold ph-envelope-simple text-xl"></i>
+                        CONTÁCTANOS
+                    </a>
+
+                </div>
+
+
+            </div>
+        </div>
+    </section>
 
     <!-- FAQ SECTION -->
     <section id="faq" class="py-20 bg-brand-dark border-b border-brand-border">
@@ -1020,9 +1290,10 @@
                 <!-- FAQ 3 -->
                 <details class="faq-item">
                     <summary>¿Dónde puedo aplicar lo aprendido?</summary>
-                    <p>El curso es aplicable a cualquier área: dirección, ventas, operaciones, servicio al cliente,
-                        educación y más. Aprendes un método claro para pensar, estructurar y usar la IA en tus tareas
-                        diarias, sin importar el sector.</p>
+                    <p>En cualquier industria (educación, salud, comercio, finanzas, química, manufactura, etc.) y en
+                        cualquier área (dirección, ventas, marketing, operaciones, administración, servicio al cliente,
+                        recursos humanos y más). Te llevas un método práctico para pensar, estructurar y usar la IA en
+                        tu día a día, sin importar tu sector ni tu puesto.</p>
                 </details>
 
                 <!-- FAQ 4 -->
@@ -1041,20 +1312,9 @@
                         herramientas disponibles en el mercado.</p>
                 </details>
 
-                <!-- FAQ 6 -->
-                <details class="faq-item">
-                    <summary>¿Qué pasa cuando termina el curso, pierdo el acceso a la plataforma?</summary>
-                    <p>Tendrás acceso a la plataforma durante todo el programa (4 semanas) para garantizar el enfoque y
-                        la aplicación inmediata. Después contarás con las herramientas y bases para seguir aplicando lo
-                        aprendido en cualquier entorno.</p>
-                </details>
 
-                <!-- FAQ 7 -->
-                <details class="faq-item">
-                    <summary>¿Qué pasa si las herramientas de IA cambian?</summary>
-                    <p>Si las herramientas cambian, <strong>AlkIA</strong> te ayuda a adaptarte, para que sigas vigente
-                        aunque cambien las plataformas.</p>
-                </details>
+
+
 
                 <!-- FAQ 8 -->
                 <details class="faq-item">
@@ -1079,7 +1339,7 @@
     <!-- FOOTER -->
     <footer class="py-12 border-t border-brand-border bg-brand-black">
         <div class="container mx-auto px-6 lg:px-8 text-center">
-            <a href="/" aria-label="Página de inicio de Gnius Club">
+            <a href="https://gnius.club" aria-label="Página de inicio de Gnius Club">
                 <img src="https://gnius.club/assets/logo-animado-gnius-club.gif" alt="Logo de Gnius Club"
                     class="h-32 w-auto mx-auto">
             </a>
@@ -1111,9 +1371,7 @@
         </div>
     </footer>
 
-    <!-- JavaScript for Course Status Logic -->
-    <script async src="https://js.stripe.com/v3/buy-button.js">
-    </script>
+
     <script>
         // Fecha actual simulada (puedes cambiarla o usar new Date() para la real)
         const currentDate = new Date('2025-11-28');
@@ -1171,6 +1429,28 @@
                     card.classList.remove('opacity-80', 'grayscale');
                 }
             });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // 1. Detectar el vendedor en la URL (ej: ?utm_source=bruce)
+            const urlParams = new URLSearchParams(window.location.search);
+            const vendedor = urlParams.get('utm_source');
+
+            if (vendedor) {
+                const links = document.querySelectorAll('a[href^="https://buy.stripe.com"]');
+                links.forEach(link => {
+                    const targetUrl = new URL(link.href);
+
+                    // 2. MAGIA: Lo inyectamos donde la documentación dice que funciona
+                    targetUrl.searchParams.set('client_reference_id', vendedor);
+
+                    // (Opcional) Dejamos el UTM también por si acaso
+                    targetUrl.searchParams.set('utm_source', vendedor);
+
+                    link.href = targetUrl.toString();
+                });
+            }
         });
     </script>
 
