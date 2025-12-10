@@ -646,7 +646,28 @@
 </head>
 
 <body class="overflow-x-hidden font-medium text-lg leading-relaxed text-brand-text bg-brand-black">
+    <!-- BARRA SUPERIOR / PRESENTADO POR -->
+    <div id="top-branding" class="hidden bg-black py-4 border-b border-brand-border">
+        <div class="container mx-auto px-5 lg:px-8 max-w-6xl">
+            <!-- Flex container: Columna en móvil, Fila en escritorio -->
+            <div class="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-4">
 
+                <!-- Texto -->
+                <p
+                    class="text-white font-heading font-medium text-sm md:text-base text-center md:text-right leading-tight">
+                    Presentado por Gnius Club, <br class="md:hidden"> en colaboración estratégica con
+                </p>
+
+                <!-- Logo Workosfera -->
+                <a href="https://workosfera.com" target="_blank" rel="noopener noreferrer"
+                    class="hover:opacity-80 transition-opacity">
+                    <!-- Nota: Asegúrate de tener este archivo 'workosfera-logo-01.svg' en tu carpeta assets/assets2/ -->
+                    <!-- Si no tienes el SVG, puedes usar el .webp anterior: Workosfera_com_x250@2x.webp -->
+                    <img src="assets/workosfera-logo-01.svg" alt="Workosfera" class="h-12 md:h-7 w-auto object-contain">
+                </a>
+            </div>
+        </div>
+    </div>
     <!-- HERO SECTION -->
     <section id="hero" class="py-20 border-b border-brand-border">
         <div class="container mx-auto px-5 lg:px-8 max-w-6xl">
@@ -726,9 +747,9 @@
                         <i class="ph-bold ph-trend-up"></i>
                     </div>
                     <p class="pl-4 m-0 text-base leading-relaxed">
-                        <strong>Actualización profesional</strong><br>
-                        El curso Alquimistas, es una actualización profesional necesaria para seguir siendo relevante en
-                        un entorno que ya cambió.
+                        <strong>Dominar la IA dejó de ser opcional</strong><br>
+                        Es el nuevo requisito para trabajar en esta era. Actualiza tu perfil hoy y cumple con la
+                        exigencia fundamental para mantener tu vigencia en el mercado laboral.
                     </p>
                 </div>
 
@@ -755,8 +776,13 @@
                         <i class="ph-bold ph-sparkle"></i>
                     </div>
                     <p class="pl-4 m-0 text-base leading-relaxed">
-                        <strong>Aprendizaje claro y sin tecnicismos</strong><br>
-                        Nuestra metodología promueve un aprendizaje claro, práctico y sin tecnicismos.
+                        <strong>No solo estudias: construyes soluciones</strong><br>
+                        Cada lección se aplica directo a tu empleo para
+                        automatizar tareas rutinarias. <strong>Invierte minutos aprendiendo</strong> hoy y <strong>
+                            recupera
+                            horas de libertad
+                        </strong>
+                        para tu vida desde la primera semana.
                     </p>
                 </div>
 
@@ -768,9 +794,10 @@
                         <i class="ph-bold ph-shield-check"></i>
                     </div>
                     <p class="pl-4 m-0 text-base leading-relaxed">
-                        <strong>Herramienta real para tu estabilidad</strong><br>
-                        Te damos una herramienta real para proteger tu estabilidad profesional y económica ayudándote a
-                        volverte indispensable.
+                        <strong>Lidera tu propio equipo virtual IA.</strong><br>
+                        Domina el <em>prompting</em> para delegar tareas complejas con precisión absoluta. Obtén los
+                        resultados
+                        de una agencia en minutos, con la IA funcionando como tu staff ejecutivo.
                     </p>
                 </div>
             </div>
@@ -783,81 +810,125 @@
         </div>
     </section>
 
-    <!-- BENEFICIOS SECTION -->
+    <!-- BENEFICIOS SECTION (ALCANCES DEL PROGRAMA) -->
     <section id="beneficios" class="py-24 border-b border-brand-border bg-brand-black">
         <div class="container mx-auto px-5 lg:px-8 max-w-6xl">
             <div class="text-center mb-20">
-                <p class="section-kicker mb-4">BENEFICIOS</p>
-                <!-- Título actualizado para coincidir con la sección anterior -->
+                <p class="section-kicker mb-4">ALCANCES DEL PROGRAMA</p>
                 <h2 class="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-white leading-relaxed mb-4">
-                    Lo que obtienes al&nbsp;dominar&nbsp;la&nbsp;IA
+                    Lo que aprenderás y aplicarás en tu trabajo
                 </h2>
+                <p class="text-lg text-brand-muted mt-4 max-w-2xl mx-auto">
+                    Los 4 Sprints del Curso de Alquimistas:
+                </p>
             </div>
 
-            <!-- 4 Benefit Cards - GRID SYSTEM -->
-            <!-- md:grid-cols-2 asegura 2 columnas en tablet -->
-            <!-- lg:grid-cols-4 asegura 4 columnas en escritorio -->
-            <!-- gap-10 y lg:gap-12 aumentan el espaciado significativamente -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 mt-16">
+            <!-- 4 Sprints Cards - GRID SYSTEM -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10 lg:gap-12 mt-16 stretch">
 
-                <!-- Benefit 1 -->
+                <!-- SPRINT 1 -->
                 <div class="flex flex-col items-start text-left">
                     <div class="text-5xl text-brand-gold mb-6">
-                        <i class="ph-bold ph-piggy-bank"></i>
+                        <i class="ph-bold ph-crosshair"></i>
                     </div>
+
+                    <!-- Kicker del Sprint -->
+                    <span class="text-sm font-bold text-brand-gold tracking-widest uppercase mb-2 block">
+                        SPRINT 1
+                    </span>
+
+                    <!-- Título (Tamaño original respetado) -->
                     <h4 class="text-2xl font-heading font-bold text-white mb-4 leading-relaxed">
-                        Estabilidad Económica
+                        Del “chatear con IA” a dirigirla con precisión
                     </h4>
-                    <p class="text-brand-muted leading-relaxed text-base">
-                        Mantén y supera tu nivel de vida al actualizar tu forma de trabajo con IA para que tu puesto sea
-                        cada vez más difícil de reemplazar.
+
+                    <p class="text-brand-muted leading-relaxed text-base mb-4">
+                        Los participantes aprenden cómo piensa realmente un modelo y cómo darle instrucciones que
+                        funcionan siempre. Construyen su Primer Prompt Maestro y desarrollan la habilidad de transformar
+                        cualquier tarea en una instrucción clara, estructurada y profesional.
+                    </p>
+                    <p class="text-white leading-relaxed text-base font-medium">
+                        <span class="text-brand-gold">👉 Resultado visible:</span> dejan de pelear con la IA y empiezan
+                        a obtener resultados útiles desde el primer intento.
                     </p>
                 </div>
 
-                <!-- Benefit 2 -->
+                <!-- SPRINT 2 -->
                 <div class="flex flex-col items-start text-left">
                     <div class="text-5xl text-brand-gold mb-6">
-                        <i class="ph-bold ph-game-controller"></i>
+                        <i class="ph-bold ph-sliders"></i>
                     </div>
-                    <h4 class="text-2xl font-heading font-bold text-white mb-4 leading-relaxed">
-                        Recuperar el Control
-                    </h4>
-                    <p class="text-brand-muted leading-relaxed text-base">
-                        Elimina la ansiedad al dominar el entorno de IA y tomar decisiones estratégicas, sabiendo que
-                        vas a la velocidad a la que evoluciona el mundo.
 
+                    <!-- Kicker del Sprint -->
+                    <span class="text-sm font-bold text-brand-gold tracking-widest uppercase mb-2 block">
+                        SPRINT 2
+                    </span>
+
+                    <h4 class="text-2xl font-heading font-bold text-white mb-4 leading-relaxed">
+                        Control total: iterar, depurar y refinar como un ingeniero
+                    </h4>
+
+                    <p class="text-brand-muted leading-relaxed text-base mb-4">
+                        Aquí dominan el músculo más importante de un profesional del futuro: controlar a la IA. Aprenden
+                        frameworks avanzados (ARV, DIIR, DELTA) para iterar, corregir errores, mejorar calidad y
+                        convertir borradores en entregables espectaculares.
+                    </p>
+                    <p class="text-white leading-relaxed text-base font-medium">
+                        <span class="text-brand-gold">👉 Resultado visible:</span> producen mensajes, reportes y
+                        análisis de calidad profesional en minutos, no horas.
                     </p>
                 </div>
 
-                <!-- Benefit 3 -->
+                <!-- SPRINT 3 -->
                 <div class="flex flex-col items-start text-left">
                     <div class="text-5xl text-brand-gold mb-6">
-                        <i class="ph-bold ph-crown"></i>
+                        <i class="ph-bold ph-tree-structure"></i>
                     </div>
-                    <h4 class="text-2xl font-heading font-bold text-white mb-4 leading-relaxed">
-                        Estatus Profesional
-                    </h4>
-                    <p class="text-brand-muted leading-relaxed text-base">
-                        Serás parte del grupo de líderes que usan IA activamente, tu experiencia sumada a tu nuevo
-                        dominio de la IA, te posicionará como <strong>un profesional casi imposible de
-                            reemplazar</strong>, y muy valioso
-                        en tu organización.
 
+                    <!-- Kicker del Sprint -->
+                    <span class="text-sm font-bold text-brand-gold tracking-widest uppercase mb-2 block">
+                        SPRINT 3
+                    </span>
+
+                    <h4 class="text-2xl font-heading font-bold text-white mb-4 leading-relaxed">
+                        Diseñar sistemas con IA: del prompt a la arquitectura cognitiva
+                    </h4>
+
+                    <p class="text-brand-muted leading-relaxed text-base mb-4">
+                        En este sprint dejan de usar prompts sueltos y comienzan a diseñar sistemas de trabajo
+                        inteligentes: módulos, roles, validaciones y plantillas que pueden ejecutar una y otra vez.
+                        Construyen SOPs cognitivos y sistemas que adaptan mensajes, analizan información y estandarizan
+                        procesos.
+                    </p>
+                    <p class="text-white leading-relaxed text-base font-medium">
+                        <span class="text-brand-gold">👉 Resultado visible:</span> cada participante crea su propia
+                        herramienta profesional con IA, que le ahorra tiempo todos los días.
                     </p>
                 </div>
 
-                <!-- Benefit 4 -->
+                <!-- SPRINT 4 -->
                 <div class="flex flex-col items-start text-left">
                     <div class="text-5xl text-brand-gold mb-6">
-                        <i class="ph-bold ph-lightning"></i>
+                        <i class="ph-bold ph-rocket-launch"></i>
                     </div>
-                    <h4 class="text-2xl font-heading font-bold text-white mb-4 leading-relaxed">
-                        Mayor Productividad
-                    </h4>
-                    <p class="text-brand-muted leading-relaxed text-base">
-                        Reducirás horas de trabajo repetitivo usando IA para redactar, resumir, analizar y organizar
-                        información.
 
+                    <!-- Kicker del Sprint -->
+                    <span class="text-sm font-bold text-brand-gold tracking-widest uppercase mb-2 block">
+                        SPRINT 4
+                    </span>
+
+                    <h4 class="text-2xl font-heading font-bold text-white mb-4 leading-relaxed">
+                        Integración total: llevar la IA al trabajo real
+                    </h4>
+
+                    <p class="text-brand-muted leading-relaxed text-base mb-4">
+                        Los participantes aplican todo lo aprendido a un proyecto real de su entorno laboral.
+                        Implementan IA en un proceso, flujo, comunicación o tarea clave para su institución. Aprenden a
+                        documentar, medir impacto y presentar resultados como profesionales del futuro.
+                    </p>
+                    <p class="text-white leading-relaxed text-base font-medium">
+                        <span class="text-brand-gold">👉 Resultado visible:</span> implementación real de IA en el
+                        trabajo, con impacto medible y resultados que justifican la inversión.
                     </p>
                 </div>
             </div>
@@ -866,7 +937,7 @@
             <div
                 class="mt-24 p-8 md:p-10 border border-brand-gold/50 bg-gradient-to-r from-brand-surface/80 to-brand-surface/20 rounded-2xl flex flex-col md:flex-row items-center gap-8">
 
-                <!-- Icono Circular (Círculo Perfecto con Glow) -->
+                <!-- Icono Circular -->
                 <div class="flex-shrink-0 relative">
                     <!-- Efecto de resplandor trasero -->
                     <div class="absolute inset-0 bg-brand-gold blur-xl opacity-20 rounded-full"></div>
@@ -906,54 +977,94 @@
                 <div class="flex-grow lg:basis-[58%]">
                     <p class="section-kicker mb-4 text-left">PROMPT ESTRATÉGICO</p>
 
-                    <!-- CAMBIO: Tipografía más ligera (font-medium en vez de bold) y leading-relaxed -->
-                    <h2 class="text-xl md:text-2xl font-heading font-medium text-white mb-8 leading-relaxed text-left">
-                        Este entrenamiento está diseñado para que no solo entiendas la IA, sino que la uses de tal forma
-                        que tu valor profesional sea cada vez más difícil de reemplazar.
+                    <h2
+                        class="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-white leading-relaxed mb-6 text-left">
+                        Beneficios
                     </h2>
 
-                    <ul class="space-y-5 mt-8 text-lg text-white">
-                        <li class="flex items-start gap-4">
-                            <i class="ph-bold ph-check-circle text-brand-gold text-2xl flex-shrink-0 mt-1"></i>
-                            <span class="leading-relaxed"><strong class="text-white">Alk<span
-                                        class="text-brand-gold">IA</span></strong> como tu coach personalizado de
-                                IA</span>
+                    <p class="text-lg text-white leading-relaxed mb-8">
+                        Usa la IA para volver tu perfil profesional irremplazable.
+                    </p>
+
+                    <ul class="space-y-4 mt-8 text-base md:text-lg text-brand-muted">
+                        <!-- Item 1 -->
+                        <li class="flex items-start gap-3">
+                            <i class="ph-bold ph-check-circle text-brand-gold text-2xl flex-shrink-0"></i>
+                            <span class="leading-relaxed">
+                                <strong class="text-white">Blindaje Económico:</strong> Vuélvete indispensable y asegura
+                                tus ingresos.
+                            </span>
                         </li>
-                        <li class="flex items-start gap-4">
-                            <i class="ph-bold ph-check-circle text-brand-gold text-2xl flex-shrink-0 mt-1"></i>
-                            <span class="leading-relaxed">Acceso 100% en línea a tu ritmo</span>
+                        <!-- Item 2 -->
+                        <li class="flex items-start gap-3">
+                            <i class="ph-bold ph-check-circle text-brand-gold text-2xl flex-shrink-0"></i>
+                            <span class="leading-relaxed">
+                                <strong class="text-white">Estatus Profesional:</strong> Sé el líder tecnológico de tu
+                                equipo.
+                            </span>
                         </li>
-                        <li class="flex items-start gap-4">
-                            <i class="ph-bold ph-check-circle text-brand-gold text-2xl flex-shrink-0 mt-1"></i>
-                            <span class="leading-relaxed">2 sesiones en vivo a la semana para resolver dudas</span>
+                        <!-- Item 3 -->
+                        <li class="flex items-start gap-3">
+                            <i class="ph-bold ph-check-circle text-brand-gold text-2xl flex-shrink-0"></i>
+                            <span class="leading-relaxed">
+                                <strong class="text-white">Productividad Extrema:</strong> Convierte horas operativas
+                                en&nbsp;minutos de&nbsp;gestión.
+                            </span>
                         </li>
-                        <li class="flex items-start gap-4">
-                            <i class="ph-bold ph-check-circle text-brand-gold text-2xl flex-shrink-0 mt-1"></i>
-                            <span class="leading-relaxed"><strong class="text-white">Liquid learning:</strong> tú
-                                decides el ritmo y la longitud de cada lección</span>
+                        <!-- Item 4 -->
+                        <li class="flex items-start gap-3">
+                            <i class="ph-bold ph-check-circle text-brand-gold text-2xl flex-shrink-0"></i>
+                            <span class="leading-relaxed">
+                                <strong class="text-white">Control Total:</strong> Elimina la ansiedad y domina el
+                                futuro.
+                            </span>
                         </li>
-                        <li class="flex items-start gap-4">
-                            <i class="ph-bold ph-check-circle text-brand-gold text-2xl flex-shrink-0 mt-1"></i>
-                            <span class="leading-relaxed">Ejercicios y casos reales de trabajo</span>
+                        <!-- Item 5 -->
+                        <li class="flex items-start gap-3">
+                            <i class="ph-bold ph-check-circle text-brand-gold text-2xl flex-shrink-0"></i>
+                            <span class="leading-relaxed">
+                                <strong class="text-white">Casos Reales:</strong> Aplica todo directo en tu trabajo
+                                actual.
+                            </span>
                         </li>
-                        <li class="flex items-start gap-4">
-                            <i class="ph-bold ph-check-circle text-brand-gold text-2xl flex-shrink-0 mt-1"></i>
-                            <span class="leading-relaxed">Soporte continuo durante las 4 semanas</span>
+                        <!-- Item 6 -->
+                        <li class="flex items-start gap-3">
+                            <i class="ph-bold ph-check-circle text-brand-gold text-2xl flex-shrink-0"></i>
+                            <span class="leading-relaxed">
+                                <strong class="text-white">Soporte Continuo:</strong> Acompañamiento total las 4
+                                semanas.
+                            </span>
                         </li>
-                        <li class="flex items-start gap-4">
-                            <i class="ph-bold ph-check-circle text-brand-gold text-2xl flex-shrink-0 mt-1"></i>
-                            <span class="leading-relaxed">Progreso adaptado a tu estilo y a tus tareas</span>
+                        <!-- Item 7 -->
+                        <li class="flex items-start gap-3">
+                            <i class="ph-bold ph-check-circle text-brand-gold text-2xl flex-shrink-0"></i>
+                            <span class="leading-relaxed">
+                                <strong class="text-white">2 Sesiones en vivo:</strong> Resolvemos dudas cara a cara
+                                cada semana.
+                            </span>
+                        </li>
+                        <!-- Item 8 -->
+                        <li class="flex items-start gap-3">
+                            <i class="ph-bold ph-check-circle text-brand-gold text-2xl flex-shrink-0"></i>
+                            <span class="leading-relaxed">
+                                <strong class="text-white">Progreso Personalizado:</strong> Adaptado a tu estilo y
+                                agenda.
+                            </span>
+                        </li>
+                        <!-- Item 9 -->
+                        <li class="flex items-start gap-3">
+                            <i class="ph-bold ph-check-circle text-brand-gold text-2xl flex-shrink-0"></i>
+                            <span class="leading-relaxed">
+                                <strong class="text-white">Acceso 100% Online:</strong> A tu ritmo, sin horarios fijos.
+                            </span>
                         </li>
                     </ul>
-
-                    <!-- Textos de Duración y SPAM eliminados (Se moverán a la siguiente sección) -->
                 </div>
 
                 <!-- Right Column: Image -->
-                <div class="hidden lg:block flex-grow lg:basis-[38%] w-full">
-                    <img src="assets/alquimista-trabajando-rodeado-de-gentev4.jpg"
-                        alt="Alquimistas de IA - rodeado de gente interesada en como trabaja con la IA"
-                        class=" shadow-2xl w-full  h-auto object-cover aspect-[3/4]">
+                <div class="hidden lg:block flex-grow lg:basis-[38%] w-full center">
+                    <img src="assets/alquimista-trabajando-rodeado-de-gentev4.jpg" alt="Alquimistas de IA - Beneficios"
+                        class="shadow-2xl w-full  h-auto object-cover aspect-[3/4]">
                 </div>
             </div>
         </div>
@@ -1148,9 +1259,17 @@
                             class="text-xs font-bold text-brand-black bg-brand-gold uppercase tracking-widest mb-6 rounded-full px-3 py-1 inline-block mt-4 mx-auto">Nivel
                             1</span>
 
-                        <div class="space-y-2 mb-6 text-sm text-white border-t border-brand-border pt-4">
-                            <p class="font-bold text-base">Inicio: 12 de Enero, 2026</p>
-                            <p>Duración: 4 semanas</p>
+                        <div class=" mb-6 text-sm text-white border-t border-brand-border pt-4">
+                            <p class="font-bold text-base text-brand-gold">Inicio: 12 de Enero, 2026</p>
+                            <p class=" mb-6">Duración: 4 semanas</p>
+                            <p class=" text-base ">Sesiones de 30 min:</p>
+                            <p class=" text-base "><strong class="text-brand-gold">
+                                    Lunes y Jueves
+                                    7:00 pm
+                                </strong>
+                            </p>
+                            <p class="mb-6"><small>(Hora CDMX)</small></p>
+
                             <p class="text-lg text-white/90 mt-2 font-medium">$2,900 MXN</p>
                         </div>
 
@@ -1335,39 +1454,126 @@
             </div>
         </div>
     </section>
+    <!-- WORKOSFERA SECTION -->
+    <section id="alianza" class="hidden py-16 bg-white border-t border-brand-border">
+        <div class="container mx-auto px-5 lg:px-8 max-w-6xl">
 
-    <!-- FOOTER -->
-    <footer class="py-12 border-t border-brand-border bg-brand-black">
-        <div class="container mx-auto px-6 lg:px-8 text-center">
-            <a href="https://gnius.club" aria-label="Página de inicio de Gnius Club">
-                <img src="https://gnius.club/assets/logo-animado-gnius-club.gif" alt="Logo de Gnius Club"
-                    class="h-32 w-auto mx-auto">
-            </a>
-            <p class="mt-6 text-2xl font-heading font-bold text-brand-text">CURSO ALQUIMISTAS</p>
-            <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-brand-muted">
-                <a href="https://wa.me/522218481116" target="_blank" rel="noopener noreferrer"
-                    class="flex items-center gap-2 hover:text-brand-text transition-colors underline">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                        <path
-                            d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.886-.001 2.267.655 4.395 1.906 6.215l-1.036 3.787 3.849-1.002z" />
-                    </svg>
-                    <span>(+52) 221 848 1116</span>
-                </a>
-                <a href="mailto:info@gnius.club"
-                    class="flex items-center gap-2 hover:text-brand-text transition-colors underline">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                        <path
-                            d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 14v-11.817l10 8.104 10-8.104v11.817h-20z" />
-                    </svg>
-                    <span>info@gnius.club</span>
-                </a>
+            <!-- 1. Encabezado y Logo -->
+            <div class="text-center mb-10">
+                <h3 class="text-lg md:text-xl font-heading font-medium text-black mb-6">
+                    Presentado por Gnius Club, en colaboración estratégica con
+                </h3>
+
+                <!-- Logo -->
+                <div class="inline-block">
+                    <a href="https://workosfera.com" target="_blank" rel="noopener noreferrer">
+                        <img src="assets/Workosfera_com_x250@2x.webp" alt="Logo Workosfera"
+                            class="h-12 md:h-14 w-auto object-contain mx-auto hover:opacity-80 transition-opacity">
+                    </a>
+                </div>
             </div>
-            <div class="mt-6 flex justify-center space-x-6 text-brand-muted">
-                <a href="https://gnius.club/aviso-de-privacidad.html"
-                    class="hover:text-brand-text transition-colors underline">Aviso de Privacidad</a>
+
+            <!-- 2. Galería de Imágenes (Grid Asimétrico) -->
+            <!-- Usamos 'items-stretch' para que ambas imágenes tengan la misma altura en desktop -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-12">
+
+                <!-- IMAGEN A: LA PISCINA (Izquierda en Desktop, Abajo en Móvil) -->
+                <!-- md:col-span-5 (40% ancho) -->
+                <!-- order-2 (Móvil: va segundo) -->
+                <!-- md:order-1 (Desktop: va primero) -->
+                <div class="md:col-span-3 order-2 md:order-1 relative   shadow-xl h-64 md:h-auto ">
+                    <img src="assets/workosfera_La_Paz_03_1800x.webp" alt="Instalaciones Workosfera La Paz"
+                        class="absolute inset-0 h-full object-cover">
+                </div>
+
+                <!-- IMAGEN B: BANNER AMARILLO (Derecha en Desktop, Arriba en Móvil) -->
+                <!-- md:col-span-7 (60% ancho) -->
+                <!-- order-1 (Móvil: va primero) -->
+                <!-- md:order-2 (Desktop: va segundo) -->
+                <div class="md:col-span-9 order-1 md:order-2 ">
+                    <img src="assets/workosfera_la_nueva_forma_de_trabajar_1800x.webp"
+                        alt="Una nueva forma de trabajar - Workosfera" class="w-full h-auto     ">
+                </div>
+
             </div>
-            <p class="mt-6 text-sm text-brand-muted/70">&copy; 2026 Gnius Club - AlkIA. Todos los derechos reservados.
-            </p>
+        </div>
+    </section>
+
+
+    <!-- FOOTER COMPLETO -->
+    <footer class="py-16 border-t border-brand-border bg-black text-white">
+        <div class="container mx-auto px-6 lg:px-8 max-w-6xl">
+
+            <!-- 1. SECCIÓN INSTITUCIONAL (Gnius + Partners) -->
+            <div class="flex flex-col md:flex-row items-center md:items-end justify-between gap-10 mb-12">
+
+                <!-- Logo Gnius (Izquierda Desktop / Arriba Móvil) -->
+                <div class="order-1 md:order-1">
+                    <img src="https://gnius.club/assets/logo-animado-gnius-club.gif" alt="Gnius Club"
+                        class="h-36 md:h-28 w-auto object-contain">
+                </div>
+
+                <!-- Bloque Partners (Derecha Desktop / Abajo Móvil) -->
+                <div class="order-2 md:order-2 flex flex-col items-center md:items-end gap-6 w-full md:w-auto">
+                    <!-- Texto Miembro Activo -->
+                    <p class="text-brand-muted text-sm font-medium tracking-wide text-center md:text-right">
+                        Miembro activo de WSA y de AIM-UNIDO
+                    </p>
+
+                    <!-- Logos Partners -->
+                    <div class="flex flex-wrap justify-center md:justify-end items-center gap-8 md:gap-10">
+                        <!-- WSA -->
+                        <img src="assets/logo-white.svg" alt="World Summit Award"
+                            class="h-8 md:h-10 w-auto opacity-90 hover:opacity-100 transition-opacity">
+
+                        <!-- UNIDO -->
+                        <img src="assets/UNIDO_Logo.svg" alt="UNIDO"
+                            class="h-10 md:h-12 w-auto opacity-90 hover:opacity-100 transition-opacity">
+
+                        <!-- AIM Global -->
+                        <!-- Nota: Asegúrate de que el nombre del archivo coincida exactamente con tu carpeta -->
+                        <img src="assets/xAIM-Global_logo_horizontal_emblem_bylineweb-2048x602.png.pagespeed.ic.5SvjGLyMhD.webp"
+                            alt="AIM Global" class="h-8 md:h-10 w-auto opacity-90 hover:opacity-100 transition-opacity">
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEPARADOR -->
+            <div class="border-t border-brand-border/40 w-full mb-12"></div>
+
+            <!-- 2. SECCIÓN CONTACTO (Original Adaptada) -->
+            <div class="text-center">
+                <p class="mt-6 text-2xl font-heading font-bold text-brand-text">CURSO ALQUIMISTAS</p>
+                <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-brand-muted">
+                    <a href="https://wa.me/522218481116" target="_blank" rel="noopener noreferrer"
+                        class="flex items-center gap-2 hover:text-brand-text transition-colors underline">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.886-.001 2.267.655 4.395 1.906 6.215l-1.036 3.787 3.849-1.002z" />
+                        </svg>
+                        <span>(+52) 221 848 1116</span>
+                    </a>
+                    <a href="mailto:info@gnius.club"
+                        class="flex items-center gap-2 hover:text-brand-text transition-colors underline">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 14v-11.817l10 8.104 10-8.104v11.817h-20z" />
+                        </svg>
+                        <span>info@gnius.club</span>
+                    </a>
+                </div>
+                <div class="mt-6 flex justify-center space-x-6 text-brand-muted">
+                    <a href="https://gnius.club/aviso-de-privacidad.html"
+                        class="hover:text-brand-text transition-colors underline">Aviso de Privacidad</a>
+                </div>
+                <p class="mt-6 text-sm text-brand-muted/70">&copy; 2026 Gnius Club - AlkIA. Todos los derechos
+                    reservados.
+                </p>
+
+            </div>
+
+
+        </div>
         </div>
     </footer>
 
@@ -1450,6 +1656,35 @@
 
                     link.href = targetUrl.toString();
                 });
+            }
+        });
+    </script>
+    <!-- SCRIPT: VISIBILIDAD BRANDING WORKOSFERA (Top & Bottom) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 1. Obtenemos los parámetros de la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const keyword = 'workosfera';
+
+            // 2. Verificamos si algún parámetro UTM contiene la palabra clave
+            const isWorkosfera =
+                (urlParams.get('utm_source')?.toLowerCase().includes(keyword)) ||
+                (urlParams.get('utm_medium')?.toLowerCase().includes(keyword)) ||
+                (urlParams.get('utm_campaign')?.toLowerCase().includes(keyword)) ||
+                (urlParams.get('ref')?.toLowerCase().includes(keyword));
+
+            // 3. Si se cumple, mostramos AMBOS elementos
+            if (isWorkosfera) {
+
+                // Mostrar Barra Superior
+                const topBar = document.getElementById('top-branding');
+                if (topBar) topBar.classList.remove('hidden');
+
+                // Mostrar Sección Inferior (Alianza)
+                const bottomSection = document.getElementById('alianza');
+                if (bottomSection) bottomSection.classList.remove('hidden');
+
+                console.log('Modo Workosfera activado');
             }
         });
     </script>
