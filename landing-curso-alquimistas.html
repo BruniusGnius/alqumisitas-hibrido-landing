@@ -89,7 +89,7 @@
               "@type": "CourseInstance",
               "courseMode": "Online",
               "courseWorkload": "PT4W",
-              "startDate": "2026-01-12",
+              "startDate": "2026-01-15",
               "location": {
                 "@type": "VirtualLocation",
                 "url": "https://alquimistas.gnius.club/"
@@ -170,6 +170,10 @@
             }
         }
     </script>
+
+    <!-- PRELOAD VIDEO -->
+    <link rel="preload" as="video" href="https://alquimistas.gnius.club/assets/alquimistas-web.mp4" type="video/mp4"
+        fetchpriority="high" crossorigin>
 
     <style>
         :root {
@@ -599,7 +603,7 @@
             width: 100%;
             max-width: 900px;
             margin: 2.5rem auto;
-            border-radius: 12px;
+
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
             cursor: pointer;
@@ -688,7 +692,13 @@
 
             <!-- Video Placeholder -->
             <div class="video-placeholder">
-                <img src="assets/humano-entre-dos-IAs.jpg" alt="Humano compitiendo contra la IA">
+
+                <video src="https://alquimistas.gnius.club/assets/alquimistas-web.mp4"
+                    poster="https://alquimistas.gnius.club/assets/humano-entre-dos-IAs.jpg" preload="metadata" controls
+                    playsinline aria-label="Video introductorio de Alquimistas">
+                </video>
+
+
             </div>
 
             <p class="text-center text-lg md:text-xl max-w-3xl mx-auto leading-relaxed mb-4">
@@ -834,7 +844,7 @@
 
                     <!-- Kicker del Sprint -->
                     <span class="text-sm font-bold text-brand-gold tracking-widest uppercase mb-2 block">
-                        SPRINT 1
+                        SPRINT 1 (semana 1)
                     </span>
 
                     <!-- Título (Tamaño original respetado) -->
@@ -861,7 +871,7 @@
 
                     <!-- Kicker del Sprint -->
                     <span class="text-sm font-bold text-brand-gold tracking-widest uppercase mb-2 block">
-                        SPRINT 2
+                        SPRINT 2 (semana 2)
                     </span>
 
                     <h4 class="text-2xl font-heading font-bold text-white mb-4 leading-relaxed">
@@ -887,7 +897,7 @@
 
                     <!-- Kicker del Sprint -->
                     <span class="text-sm font-bold text-brand-gold tracking-widest uppercase mb-2 block">
-                        SPRINT 3
+                        SPRINT 3 (semana 3)
                     </span>
 
                     <h4 class="text-2xl font-heading font-bold text-white mb-4 leading-relaxed">
@@ -914,7 +924,7 @@
 
                     <!-- Kicker del Sprint -->
                     <span class="text-sm font-bold text-brand-gold tracking-widest uppercase mb-2 block">
-                        SPRINT 4
+                        SPRINT 4 (semana 4)
                     </span>
 
                     <h4 class="text-2xl font-heading font-bold text-white mb-4 leading-relaxed">
@@ -1260,7 +1270,7 @@
                             1</span>
 
                         <div class=" mb-6 text-sm text-white border-t border-brand-border pt-4">
-                            <p class="font-bold text-base text-brand-gold">Inicio: 12 de Enero, 2026</p>
+                            <p class="font-bold text-base text-brand-gold">Inicio: 15 de Enero, 2026</p>
                             <p class=" mb-6">Duración: 4 semanas</p>
                             <p class=" text-base ">Sesiones de 30 min:</p>
                             <p class=" text-base "><strong class="text-brand-gold">
@@ -1509,8 +1519,8 @@
 
                 <!-- Logo Gnius (Izquierda Desktop / Arriba Móvil) -->
                 <div class="order-1 md:order-1">
-                    <img src="https://gnius.club/assets/logo-animado-gnius-club.gif" alt="Gnius Club"
-                        class="h-36 md:h-28 w-auto object-contain">
+                    <img src="assets/gnius-academy-logo.png" alt="Gnius Academy logo"
+                        class="h-36 md:h-28 w-auto object-contain max-w-[200px] md:max-w-[150px]">
                 </div>
 
                 <!-- Bloque Partners (Derecha Desktop / Abajo Móvil) -->
@@ -1587,8 +1597,8 @@
             const startDate = new Date(startDateStr);
             const daysSinceStart = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
 
-            if (daysSinceStart > 10) return 'cerrado';
-            else if (daysSinceStart >= 0 && daysSinceStart <= 10) return 'activo';
+            if (daysSinceStart > 14) return 'cerrado';
+            else if (daysSinceStart >= 0 && daysSinceStart <= 14) return 'activo';
             else return 'abierto';
         }
 
