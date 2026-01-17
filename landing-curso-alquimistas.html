@@ -144,6 +144,9 @@
     <!-- Tailwind CSS (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
 
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     <!-- Phosphor Icons (Iconografía) -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
@@ -1180,170 +1183,247 @@
         </div>
     </section>
 
-    <!-- FECHAS / GRUPOS SECTION -->
-    <section id="fechas" class="py-24 border-b border-brand-border bg-brand-black" allow="payment">
+    <!-- FECHAS / GRUPOS SECTION (DINÁMICA CON ALPINE.JS) -->
+    <section id="fechas" class="py-24 border-b border-brand-border bg-brand-black" x-data="catalogoCursos()"
+        x-init="initData()">
+
         <div class="container mx-auto px-5 lg:px-8 max-w-6xl">
-            <div class="text-center mb-20">
+            <div class="text-center mb-12">
                 <p class="section-kicker mb-4">INSCRIPCIÓN</p>
                 <h2 class="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-white leading-relaxed mb-4">
-                    Elige tu fecha de inicio
+                    Elige tu nivel y fecha
                 </h2>
-                <p class="text-lg text-brand-muted leading-relaxed max-w-2xl mx-auto">
-                    Asegura tu lugar en el nivel 1 del entrenamiento.
-                </p>
+
+                <!-- FILTROS (TABS) - AHORA SON INTELIGENTES -->
+                <div class="flex justify-center gap-3 mt-8 flex-wrap" x-cloak>
+
+                    <!-- TODOS (Siempre visible) -->
+                    <button @click="filtroNivel = 'todos'"
+                        :class="filtroNivel === 'todos' ? 'bg-white text-black' : 'border border-gray-600 text-gray-400 hover:border-white hover:text-white'"
+                        class="px-5 py-2 rounded-full font-bold transition-all uppercase text-xs md:text-sm tracking-widest">
+                        Todos
+                    </button>
+
+                    <!-- NIVEL 1: ORO (Solo aparece si hay cursos nivel 1) -->
+                    <button x-show="cursos.some(c => c.nivel === 1)" @click="filtroNivel = 1" :class="filtroNivel === 1 
+                        ? 'bg-brand-gold text-brand-black shadow-[0_0_15px_rgba(240,185,11,0.4)]' 
+                        : 'border border-brand-gold text-brand-gold hover:bg-brand-gold/10'"
+                        class="px-5 py-2 rounded-full font-bold transition-all uppercase text-xs md:text-sm tracking-widest transition-opacity duration-300">
+                        Nivel 1
+                    </button>
+
+                    <!-- NIVEL 2: ACERO/AZUL (Solo aparece si hay cursos nivel 2) -->
+                    <button x-show="cursos.some(c => c.nivel === 2)" @click="filtroNivel = 2" :class="filtroNivel === 2 
+                        ? 'bg-blue-600 text-white shadow-[0_0_15px_rgba(37,99,235,0.4)]' 
+                        : 'border border-blue-500 text-blue-400 hover:bg-blue-600/10'"
+                        class="px-5 py-2 rounded-full font-bold transition-all uppercase text-xs md:text-sm tracking-widest transition-opacity duration-300">
+                        Nivel 2
+                    </button>
+
+                    <!-- NIVEL 3: COBRE (Solo aparece si hay cursos nivel 3) -->
+                    <button x-show="cursos.some(c => c.nivel === 3)" @click="filtroNivel = 3" :class="filtroNivel === 3 
+                        ? 'bg-orange-600 text-white shadow-[0_0_15px_rgba(234,88,12,0.4)]' 
+                        : 'border border-orange-500 text-orange-400 hover:bg-orange-600/10'"
+                        class="px-5 py-2 rounded-full font-bold transition-all uppercase text-xs md:text-sm tracking-widest transition-opacity duration-300">
+                        Nivel 3
+                    </button>
+
+                    <!-- NIVEL 4: PLATINO (Solo aparece si hay cursos nivel 4) -->
+                    <button x-show="cursos.some(c => c.nivel === 4)" @click="filtroNivel = 4" :class="filtroNivel === 4 
+                        ? 'bg-slate-200 text-black shadow-[0_0_15px_rgba(255,255,255,0.3)]' 
+                        : 'border border-slate-300 text-slate-200 hover:bg-slate-200/10'"
+                        class="px-5 py-2 rounded-full font-bold transition-all uppercase text-xs md:text-sm tracking-widest transition-opacity duration-300">
+                        Nivel 4
+                    </button>
+                </div>
             </div>
 
-            <!-- Grid de Tarjetas (3 Columnas en Desktop) -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
+            <!-- LOADING STATE -->
+            <div x-show="cargando" class="text-center text-brand-gold py-10">
+                <i class="ph-bold ph-spinner animate-spin text-4xl"></i>
+                <p class="mt-2 text-sm">Cargando cursos...</p>
+            </div>
 
-                <!-- TARJETA 1: CERRADO (Noviembre) -->
-                <!-- CAMBIO: Eliminada la clase opacity-60 inicial para que no se vea apagada desde el inicio -->
-                <div class="pricing-card relative flex flex-col bg-brand-black border border-brand-border rounded-xl overflow-hidden "
-                    data-start-date="2025-11-01" data-group-id="1">
+            <!-- GRID DE TARJETAS -->
+            <div x-show="!cargando"
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10 transition-all duration-500">
 
-                    <div
-                        class="status-badge absolute top-4 right-4 bg-red-600 text-white text-xs font-bold px-3 py-1.5 rounded uppercase z-20 shadow-md">
-                        Cerrado
-                    </div>
+                <template x-for="curso in cursosFiltrados" :key="curso.id">
+                    <!-- TARJETA: El borde y la sombra cambian según el nivel si está abierto -->
+                    <div class="pricing-card relative flex flex-col bg-brand-black border rounded-xl overflow-hidden transition-transform hover:-translate-y-2 duration-300"
+                        :class="curso.estado === 'abierto' 
+                            ? 'border-2 ' + getEstilosNivel(curso.nivel).borde + ' ' + getEstilosNivel(curso.nivel).shadow 
+                            : 'border-brand-border opacity-90 hover:opacity-100 grayscale'">
 
-                    <div class="course-image relative h-56 w-full overflow-hidden">
-                        <img src="assets/alquimistas-nov-dic.jpg" alt="Grupo Noviembre"
-                            class="w-full h-full object-cover">
-
-                        <!-- CAMBIO: bg-black/70 bajado a bg-black/50 (Más luz) -->
-                        <div class="overlay absolute inset-0 bg-black/50 z-10"></div>
-
-                        <div
-                            class="date-text absolute inset-0 flex flex-col items-center justify-center z-20 px-4 text-center">
-                            <!-- Agregado drop-shadow para que se lea bien aunque el fondo sea más claro -->
-                            <span class="text-white font-heading font-bold text-3xl tracking-wide drop-shadow-lg">NOV -
-                                DIC</span>
-                            <span class="text-brand-muted font-heading font-bold text-xl drop-shadow-md">2025</span>
-                        </div>
-                    </div>
-
-                    <div class="p-6 flex flex-col flex-grow text-center">
-                        <h3 class="text-xl font-bold text-white mb-1">Prompt Estratégico</h3>
-                        <span
-                            class="text-xs font-bold text-brand-muted uppercase tracking-widest mb-6 border border-brand-border rounded-full px-3 py-1 inline-block mx-auto mt-2">Nivel
-                            1</span>
-
-                        <p class="text-lg text-brand-muted mb-6">$2,900 MXN</p>
-
-                        <div class="space-y-2 mb-6 text-sm text-brand-muted border-t border-brand-border pt-4">
-                            <p>Inicio: 21 de Noviembre, 2025</p>
-                            <p>Duración: 4 semanas</p>
+                        <!-- BADGE ESTADO (Arriba Derecha) -->
+                        <div class="status-badge absolute top-4 right-4 text-white text-xs font-bold px-3 py-1.5 rounded uppercase tracking-wider z-20 shadow-md"
+                            :class="{
+                                'bg-green-600': curso.estado === 'abierto',
+                                'bg-blue-600': curso.estado === 'proximamente' || curso.estado === 'waitlist',
+                                'bg-red-600': curso.estado === 'cerrado'
+                             }" x-text="formatEstado(curso.estado)">
                         </div>
 
-                        <button class="hidden cta-button w-full">Inscribirme</button>
-                    </div>
-                </div>
+                        <!-- IMAGEN -->
+                        <div class="course-image relative h-56 w-full overflow-hidden">
+                            <img :src="curso.imagen" :alt="curso.titulo" class="w-full h-full object-cover">
+                            <div class="overlay absolute inset-0 bg-black/50 z-10"></div>
 
-                <!-- TARJETA 2: ABIERTO (Enero 2026) - DESTACADA -->
-                <div class="pricing-card relative flex flex-col bg-brand-black border-2 border-brand-gold rounded-xl overflow-hidden shadow-2xl shadow-brand-gold/10 transform md:-translate-y-4 transition-transform"
-                    data-start-date="2026-01-12" data-group-id="2">
+                            <!-- FECHA GIGANTE -->
+                            <div
+                                class="date-text absolute inset-0 flex flex-col items-center justify-center z-20 px-4 text-center">
+                                <span
+                                    class="text-white font-heading font-bold text-4xl md:text-5xl tracking-wide drop-shadow-xl uppercase"
+                                    x-text="getMonthName(curso.fechaInicio)"></span>
+                                <!-- El año toma el color del nivel -->
+                                <span class="font-heading font-bold text-2xl drop-shadow-lg"
+                                    :class="getEstilosNivel(curso.nivel).texto"
+                                    x-text="getYear(curso.fechaInicio)"></span>
+                            </div>
+                        </div>
 
-                    <div
-                        class="status-badge absolute top-4 right-4 bg-green-600 text-white text-xs font-bold px-3 py-1.5 rounded uppercase tracking-wider z-20 shadow-md">
-                        Abierto
-                    </div>
+                        <!-- CONTENIDO -->
+                        <div class="pt-6 pb-6 px-6 flex flex-col flex-grow text-center">
+                            <h3 class="text-2xl font-heading font-bold text-white mb-1" x-text="curso.titulo"></h3>
 
-                    <div class="course-image relative h-56 w-full overflow-hidden">
-                        <img src="assets/cover-alquimistas-enerov3.jpg" alt="Grupo Enero"
-                            class="w-full h-full object-cover">
-
-                        <!-- CAMBIO: Eliminado mix-blend-multiply y puesto un negro muy suave (30%) para que la foto brille -->
-                        <div class="overlay absolute inset-0 bg-black/30 z-10"></div>
-
-                        <div
-                            class="date-text absolute inset-0 flex flex-col items-center justify-center z-20 px-4 text-center">
+                            <!-- CAPSULA DE NIVEL (Color Dinámico) -->
                             <span
-                                class="text-white font-heading font-bold text-4xl drop-shadow-xl tracking-wide">ENERO</span>
-                            <span class="text-brand-gold font-heading font-bold text-2xl drop-shadow-lg">2026</span>
+                                class="text-xs font-bold uppercase tracking-widest mb-4 rounded-full px-3 py-1 inline-block mt-2 mx-auto"
+                                :class="getEstilosNivel(curso.nivel).badge" x-text="'Nivel ' + curso.nivel"></span>
+
+                            <!-- INFO CLAVE -->
+                            <div class="space-y-1 mb-6 text-sm border-t border-brand-border pt-4">
+                                <!-- Fecha Destacada (Color Dinámico) -->
+                                <p class="text-white text-lg mb-2">
+                                    Inicio: <span class="font-bold" :class="getEstilosNivel(curso.nivel).texto"
+                                        x-text="formatDateFull(curso.fechaInicio)"></span>
+                                </p>
+
+                                <p class="text-brand-muted" x-text="curso.horario"></p>
+                                <p class="text-xl text-white mt-3 font-bold"
+                                    x-text="'$' + curso.precio + ' ' + curso.moneda"></p>
+                            </div>
+
+                            <!-- BOTONES -->
+                            <div class="mt-auto space-y-3">
+                                <button @click="abrirModal(curso)"
+                                    class="text-brand-muted underline hover:text-white transition-colors mt-2">
+                                    Ver temario completo
+                                </button>
+                                <template x-if="curso.estado === 'abierto'">
+                                    <!-- El botón de compra hereda el color del nivel -->
+                                    <a :href="generarLinkStripe(curso.stripeUrl)"
+                                        class="w-full block uppercase text-sm py-3 font-bold rounded hover:scale-[1.02] transition-transform text-black shadow-lg"
+                                        :class="getEstilosNivel(curso.nivel).badge">
+                                        Inscribirme Ahora
+                                    </a>
+                                </template>
+
+                                <template x-if="curso.estado === 'proximamente' || curso.estado === 'waitlist'">
+                                    <button disabled
+                                        class="w-full bg-brand-surface text-brand-muted py-3 rounded-lg font-bold cursor-not-allowed border border-brand-border uppercase text-sm">
+                                        Lista de Espera
+                                    </button>
+                                </template>
+
+                                <template x-if="curso.estado === 'cerrado'">
+                                    <button disabled
+                                        class="w-full bg-red-900/10 text-red-500 py-3 rounded-lg font-bold cursor-not-allowed border border-red-900/30 uppercase text-sm">
+                                        Cerrado
+                                    </button>
+                                </template>
+
+
+                            </div>
                         </div>
                     </div>
+                </template>
+            </div>
 
-                    <div class="pt-6 pb-6 flex flex-col flex-grow text-center">
-                        <h3 class="text-2xl font-bold text-white mb-1">Prompt Estratégico</h3>
-                        <span
-                            class="text-xs font-bold text-brand-black bg-brand-gold uppercase tracking-widest mb-6 rounded-full px-3 py-1 inline-block mt-4 mx-auto">Nivel
-                            1</span>
-
-                        <div class=" mb-6 text-sm text-white border-t border-brand-border pt-4">
-                            <p class="font-bold text-base text-brand-gold">Inicio: 15 de Enero, 2026</p>
-                            <p class=" mb-6">Duración: 4 semanas</p>
-                            <p class=" text-base ">Sesiones de 30 min:</p>
-                            <p class=" text-base "><strong class="text-brand-gold">
-                                    Lunes y Jueves
-                                    7:00 pm
-                                </strong>
-                            </p>
-                            <p class="mb-6"><small>(Hora CDMX)</small></p>
-
-                            <p class="text-lg text-white/90 mt-2 font-medium">$2,900 MXN</p>
-                        </div>
-
-
-
-
-                        <!-- NUEVO BOTÓN: Enlace directo compatible con UTMs -->
-                        <a href="https://buy.stripe.com/bJeaEWePBa7xeyegvO5ZC07"
-                            class="btn-compra-stripe bg-brand-gold text-brand-black py-2 px-4 rounded font-bold">
-                            Inscríbete Ahora
-                        </a>
-
-
-                        <div class=" mt-4 flex flex-col items-center gap-2">
-                            <p class="text-xs text-brand-muted flex items-center gap-1.5">
-                                <i class="ph-bold ph-lock-key text-brand-gold"></i> Pago seguro con Stripe
-                            </p>
-                            <p class="text-[10px] text-brand-muted/70 italic leading-tight max-w-[200px]">
-                                *Revisa tu buzón (y SPAM) al inscribirte.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- TARJETA 3: PRÓXIMAMENTE -->
-                <div class="pricing-card relative flex flex-col bg-brand-black border border-brand-border rounded-xl overflow-hidden"
-                    data-group-id="3">
-
-                    <div
-                        class="status-badge absolute top-4 right-4 bg-blue-600 text-white text-xs font-bold px-3 py-1.5 rounded uppercase tracking-wider z-20 shadow-md">
-                        Próximamente
-                    </div>
-
-                    <div class="course-image relative h-56 w-full overflow-hidden grayscale">
-                        <img src="assets/reloj.jpg" alt="Grupo Próximamente" class="w-full h-full object-cover">
-
-                        <!-- CAMBIO: bg-black/60 bajado a bg-black/40 -->
-                        <div class="overlay absolute inset-0 bg-black/40 z-10"></div>
-
-                        <div
-                            class="date-text absolute inset-0 flex flex-col items-center justify-center z-20 px-4 text-center">
-                            <span
-                                class="text-white font-heading font-bold text-3xl tracking-wide drop-shadow-lg">PRÓXIMAMENTE</span>
-                        </div>
-                    </div>
-
-                    <div class="p-6 flex flex-col flex-grow text-center">
-                        <h3 class="text-xl font-bold text-white mb-1">Prompt Estratégico</h3>
-                        <span
-                            class="text-xs font-bold text-brand-muted uppercase tracking-widest mb-6 border border-brand-border rounded-full px-3 py-1 inline-block mt-4 mx-auto">Nivel
-                            1</span>
-
-                        <p class="text-lg text-brand-muted mb-6">$2,900 MXN</p>
-
-                        <div class="space-y-2 mb-6 text-sm text-brand-muted border-t border-brand-border pt-4">
-                            <p>Fecha por confirmar</p>
-                            <p>Duración: 4 semanas</p>
-                        </div>
-
-                        <button class="hidden cta-button w-full">COMPRAR</button>
-                    </div>
-                </div>
+            <!-- MENSAJE SI NO HAY RESULTADOS -->
+            <div x-show="cursosFiltrados.length === 0 && !cargando" class="text-center py-10">
+                <p class="text-brand-muted">No hay cursos disponibles para este nivel en este momento.</p>
             </div>
         </div>
+
+        <!-- ========================= -->
+        <!-- MODAL DE DETALLES (POP-UP) -->
+        <!-- ========================= -->
+        <div x-show="modalOpen" style="display: none;"
+            class="fixed inset-0 z-[9999] flex items-center justify-center px-4"
+            x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+
+            <!-- Backdrop -->
+            <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" @click="modalOpen = false"></div>
+
+            <!-- Modal Card -->
+            <div class="relative bg-brand-surface border border-brand-gold/30 rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto p-6 md:p-8 shadow-2xl"
+                x-transition:enter="transition ease-out duration-300 transform"
+                x-transition:enter-start="opacity-0 scale-95 translate-y-4"
+                x-transition:enter-end="opacity-100 scale-100 translate-y-0">
+
+                <!-- Cerrar -->
+                <button @click="modalOpen = false"
+                    class="absolute top-4 right-4 text-brand-muted hover:text-brand-gold">
+                    <i class="ph-bold ph-x text-2xl"></i>
+                </button>
+
+                <!-- Contenido Dinámico -->
+                <template x-if="cursoSeleccionado">
+                    <div>
+                        <!-- Badge Nivel (Color Dinámico) -->
+                        <span class="text-xs font-bold uppercase tracking-widest rounded px-2 py-0.5"
+                            :class="getEstilosNivel(cursoSeleccionado.nivel).badge"
+                            x-text="'Nivel ' + cursoSeleccionado.nivel"></span>
+
+                        <h3 class="text-2xl font-heading font-bold text-white mt-3 mb-2"
+                            x-text="cursoSeleccionado.titulo"></h3>
+                        <p class="text-brand-muted mb-6" x-text="cursoSeleccionado.descripcion"></p>
+
+                        <div class="bg-brand-black p-4 rounded-lg border border-brand-border mb-6">
+                            <h4 class="text-white font-bold mb-3 text-sm uppercase">Temario General:</h4>
+                            <ul class="space-y-2">
+                                <template x-for="tema in cursoSeleccionado.temario">
+                                    <li class="flex items-start gap-2 text-sm text-brand-muted">
+                                        <!-- El check cambia de color según nivel -->
+                                        <i class="ph-fill ph-check-circle mt-0.5"
+                                            :class="getEstilosNivel(cursoSeleccionado.nivel).texto"></i>
+                                        <span x-text="tema"></span>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+
+                        <div class="flex flex-col gap-3">
+                            <template x-if="cursoSeleccionado.estado === 'abierto'">
+                                <!-- BOTÓN GRANDE Y DEL MISMO COLOR QUE LA TARJETA -->
+                                <a :href="generarLinkStripe(cursoSeleccionado.stripeUrl)"
+                                    class="w-full block uppercase text-sm py-3 font-bold rounded hover:scale-[1.02] transition-transform text-black shadow-lg text-center"
+                                    :class="getEstilosNivel(cursoSeleccionado.nivel).badge">
+                                    INSCRIBIRME AHORA
+                                </a>
+                            </template>
+
+                            <!-- Botón si está cerrado o en lista de espera -->
+                            <template x-if="cursoSeleccionado.estado !== 'abierto'">
+                                <button disabled
+                                    class="w-full bg-brand-surface text-brand-muted py-3 rounded-lg font-bold cursor-not-allowed border border-brand-border uppercase text-sm">
+                                    Inscripciones no disponibles
+                                </button>
+                            </template>
+
+                            <button @click="modalOpen = false"
+                                class="text-brand-muted text-sm underline hover:text-white text-center mt-2">
+                                Cerrar ventana
+                            </button>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+
     </section>
     <!-- EMPRESAS / B2B SECTION -->
     <section id="empresas" class="py-16 bg-brand-dark border-b border-brand-border">
@@ -1587,88 +1667,199 @@
         </div>
     </footer>
 
-
+    <!-- ================================================= -->
+    <!-- SCRIPT 1: LÓGICA DEL CATÁLOGO, FECHAS Y UTMS (ALPINE.JS) -->
+    <!-- ================================================= -->
     <script>
-        // Fecha actual simulada (puedes cambiarla o usar new Date() para la real)
-        const currentDate = new Date('2025-11-28');
+        /*
+  ============================================================================
+   MANUAL DE CONFIGURACIÓN Y LÓGICA DEL CATÁLOGO (ALQUIMISTAS)
+  ============================================================================
+  
+  1. ARCHIVO DE DATOS: 'cursos.json'
+     - Toda la información se edita en ese archivo.
+  
+  2. CAMPO 'ESTADO' (PRIORIDAD DE VISIBILIDAD):
+     El sistema decide si muestra el curso Abierto, Cerrado o Próximamente basándose en esto:
+     
+     OPCIÓN A: CONTROL MANUAL (Prioridad Alta)
+     Si escribes explícitamente uno de estos valores en el JSON, el sistema OBEDECE sin importar la fecha:
+     - "abierto"      -> Botón de compra activo (Verde/Dorado/Cian).
+     - "cerrado"      -> Tarjeta gris, botón deshabilitado (Rojo).
+     - "waitlist"     -> Botón "Lista de Espera" (Azul).
+     - "proximamente" -> Botón "Próximamente" (Azul).
 
-        function calculateCourseStatus(startDateStr) {
-            if (!startDateStr) return 'proximamente';
-            const startDate = new Date(startDateStr);
-            const daysSinceStart = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
+     OPCIÓN B: MODO AUTOMÁTICO (Prioridad Lógica)
+     Si escribes "auto" en el JSON, el sistema calcula el estado según la fecha de hoy:
+     - Si la fecha ya pasó ................... -> "cerrado"
+     - Si faltan 45 días o menos ............. -> "abierto" (Ventas activas)
+     - Si faltan más de 45 días .............. -> "proximamente"
 
-            if (daysSinceStart > 14) return 'cerrado';
-            else if (daysSinceStart >= 0 && daysSinceStart <= 14) return 'activo';
-            else return 'abierto';
-        }
+  3. COLORES POR NIVEL (Visual):
+     - Nivel 1: Usa la paleta DORADA (Brand Gold).
+     - Nivel 2: Usa la paleta CIAN / AZUL NEÓN (Cyan-400) para diferenciarlo.
 
-        document.addEventListener('DOMContentLoaded', function () {
-            const cards = document.querySelectorAll('.pricing-card[data-start-date]');
+  4. RASTREO DE VENTAS (UTMS):
+     - El script detecta automáticamente ?utm_source=VENDEDOR en la URL del navegador.
+     - Inyecta ese valor en el link de Stripe como 'client_reference_id'.
+     - Esto permite que Zapier sepa quién vendió el curso.
+  ============================================================================
+  */
+        function catalogoCursos() {
+            return {
+                cargando: true,
+                cursos: [],
+                filtroNivel: 'todos',
+                modalOpen: false,
+                cursoSeleccionado: null,
+                utmSource: '',
 
-            cards.forEach(card => {
-                const startDate = card.getAttribute('data-start-date');
-                const status = calculateCourseStatus(startDate);
-                const badge = card.querySelector('.status-badge');
-                const button = card.querySelector('.cta-button');
+                async initData() {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    this.utmSource = urlParams.get('utm_source') || '';
 
-                // Lógica de colores del badge
-                badge.className = 'status-badge absolute top-4 right-4 text-white text-xs font-bold px-3 py-1.5 rounded uppercase tracking-wider z-20 shadow-md';
+                    try {
+                        const response = await fetch('cursos.json');
+                        let data = await response.json();
 
-                if (status === 'cerrado') badge.classList.add('bg-red-600');
-                else if (status === 'activo' || status === 'abierto') badge.classList.add('bg-green-600');
-                else badge.classList.add('bg-blue-600');
+                        // ===============================================
+                        // NUEVO: PROCESAMIENTO DE ESTADO (JSON vs FECHA)
+                        // ===============================================
+                        data = data.map(curso => {
+                            // Aquí calculamos el estado definitivo
+                            curso.estado = this.calcularEstadoLogico(curso);
+                            return curso;
+                        });
 
-                const statusText = {
-                    'cerrado': 'Cerrado',
-                    'activo': 'Activo',
-                    'abierto': 'Abierto',
-                    'proximamente': 'Próximamente'
-                };
-                badge.textContent = statusText[status];
-
-                if (status === 'cerrado') {
-                    if (button) {
-                        button.disabled = true;
-                        button.textContent = 'Inscripciones Cerradas';
-                        button.classList.add('hidden');
+                        // Ordenar por fecha
+                        this.cursos = data.sort((a, b) => new Date(a.fechaInicio) - new Date(b.fechaInicio));
+                    } catch (error) {
+                        console.error('Error cargando cursos:', error);
+                    } finally {
+                        this.cargando = false;
                     }
-                    // CAMBIO IMPORTANTE: Quitamos 'opacity-60' para que no se vea tan oscura
-                    // Solo dejamos grayscale para indicar inactividad
-                    card.classList.add('grayscale');
-                    card.classList.remove('opacity-80'); // Aseguramos que se remueva si estaba
-                } else if (status === 'abierto' || status === 'activo') {
-                    if (button) {
-                        button.disabled = false;
-                        button.textContent = 'COMPRAR AHORA';
-                        button.classList.remove('hidden');
+                },
+
+                // NUEVA FUNCIÓN: EL CEREBRO DE LA DISPONIBILIDAD (Con 14 días de gracia)
+                calcularEstadoLogico(curso) {
+                    // 1. PRIORIDAD JSON: Si NO dice "auto", obedecemos al JSON explícitamente
+                    if (curso.estado !== 'auto') {
+                        return curso.estado;
                     }
-                    card.classList.remove('opacity-80', 'grayscale');
+
+                    // 2. LÓGICA JS (Si dice "auto"): Calculamos según fechas
+                    const hoy = new Date();
+                    // Agregamos hora para evitar problemas de zona horaria
+                    const inicioCurso = new Date(curso.fechaInicio + 'T00:00:00');
+
+                    // Calculamos diferencia en días
+                    const diferenciaTiempo = inicioCurso - hoy;
+                    const diferenciaDias = Math.ceil(diferenciaTiempo / (1000 * 60 * 60 * 24));
+
+                    /* REGLA DE TIEMPO:
+                       - Menor a -14 (Pasaron 15 días o más) -> CERRADO
+                       - Entre -14 y 45 (Desde hace 2 semanas hasta dentro de mes y medio) -> ABIERTO
+                       - Mayor a 45 (Falta mucho) -> PRÓXIMAMENTE
+                    */
+                    if (diferenciaDias < -14) {
+                        return 'cerrado';
+                    } else if (diferenciaDias <= 45) {
+                        return 'abierto';
+                    } else {
+                        return 'proximamente';
+                    }
+                },
+
+                // Función de estilos por nivel (La que hicimos antes)
+                // ESTILOS VISUALES POR NIVEL (PALETA EJECUTIVA / PREMIUM)
+                getEstilosNivel(nivel) {
+                    const n = parseInt(nivel);
+
+                    switch (n) {
+                        case 2: // NIVEL 2: ACERO / AZUL REAL (Automatización seria)
+                            return {
+                                texto: 'text-blue-400', // Azul claro pero no neón
+                                badge: 'bg-blue-600 text-white', // Azul sólido corporativo
+                                borde: 'border-blue-500',
+                                shadow: 'shadow-[0_0_20px_rgba(59,130,246,0.3)]' // Sombra azul sutil
+                            };
+
+                        case 3: // NIVEL 3: COBRE (Arquitectura / Estructura)
+                            return {
+                                texto: 'text-orange-400', // Tono cobre/terracota
+                                badge: 'bg-orange-600 text-white',
+                                borde: 'border-orange-500',
+                                shadow: 'shadow-[0_0_20px_rgba(249,115,22,0.3)]'
+                            };
+
+                        case 4: // NIVEL 4: PLATINO (Maestría / Exclusivo)
+                            return {
+                                texto: 'text-slate-200', // Blanco casi gris (Plata)
+                                badge: 'bg-slate-200 text-black',
+                                borde: 'border-slate-300',
+                                shadow: 'shadow-[0_0_20px_rgba(255,255,255,0.25)]' // Resplandor blanco elegante
+                            };
+
+                        default: // NIVEL 1: ORO (Alquimista)
+                            return {
+                                texto: 'text-brand-gold',
+                                badge: 'bg-brand-gold text-brand-black',
+                                borde: 'border-brand-gold',
+                                shadow: 'shadow-[0_0_20px_rgba(240,185,11,0.2)]'
+                            };
+                    }
+                },
+
+                // Resto de helpers (No cambian)
+                get cursosFiltrados() {
+                    if (this.filtroNivel === 'todos') return this.cursos;
+                    return this.cursos.filter(c => c.nivel === this.filtroNivel);
+                },
+
+                abrirModal(curso) {
+                    this.cursoSeleccionado = curso;
+                    this.modalOpen = true;
+                },
+
+                generarLinkStripe(urlBase) {
+                    if (!urlBase) return '#';
+                    if (!this.utmSource) return urlBase;
+                    try {
+                        const url = new URL(urlBase);
+                        url.searchParams.set('client_reference_id', this.utmSource);
+                        url.searchParams.set('utm_source', this.utmSource);
+                        return url.toString();
+                    } catch (e) { return urlBase; }
+                },
+
+                formatEstado(estado) {
+                    const map = {
+                        'abierto': 'Inscripciones Abiertas',
+                        'cerrado': 'Cerrado',
+                        'proximamente': 'Próximamente',
+                        'waitlist': 'Lista de Espera'
+                    };
+                    return map[estado] || estado;
+                },
+
+                getMonthName(fechaStr) {
+                    const date = new Date(fechaStr + 'T12:00:00');
+                    return date.toLocaleString('es-ES', { month: 'long' });
+                },
+
+                getYear(fechaStr) {
+                    const date = new Date(fechaStr + 'T12:00:00');
+                    return date.getFullYear();
+                },
+
+                formatDateFull(fechaStr) {
+                    const date = new Date(fechaStr + 'T12:00:00');
+                    return date.toLocaleString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
                 }
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // 1. Detectar el vendedor en la URL (ej: ?utm_source=bruce)
-            const urlParams = new URLSearchParams(window.location.search);
-            const vendedor = urlParams.get('utm_source');
-
-            if (vendedor) {
-                const links = document.querySelectorAll('a[href^="https://buy.stripe.com"]');
-                links.forEach(link => {
-                    const targetUrl = new URL(link.href);
-
-                    // 2. MAGIA: Lo inyectamos donde la documentación dice que funciona
-                    targetUrl.searchParams.set('client_reference_id', vendedor);
-
-                    // (Opcional) Dejamos el UTM también por si acaso
-                    targetUrl.searchParams.set('utm_source', vendedor);
-
-                    link.href = targetUrl.toString();
-                });
             }
-        });
+        }
     </script>
+
     <!-- SCRIPT: VISIBILIDAD BRANDING WORKOSFERA (Top & Bottom) -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {

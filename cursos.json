@@ -1,0 +1,106 @@
+[
+  {
+    "id": "n1-nov25-cerrado",
+    "nivel": 1,
+    "titulo": "Prompt Estratégico",
+    "fechaInicio": "2025-11-21",
+    "horario": "Lunes y Jueves 7:00 pm",
+    "precio": "2,900",
+    "moneda": "MXN",
+    "imagen": "assets/alquimistas-nov-dic.jpg",
+    "stripeUrl": "",
+    "estado": "cerrado",
+    "descripcion": "Curso intensivo de fundamentos.",
+    "temario": ["Sprint 1: Fundamentos", "Sprint 2: Frameworks"]
+  },
+  {
+    "id": "n1-ene26-abierto",
+    "nivel": 1,
+    "titulo": "Prompt Estratégico",
+    "fechaInicio": "2026-01-20",
+    "horario": "Lunes y Jueves 7:00 pm (CDMX)",
+    "precio": "2,900",
+    "moneda": "MXN",
+    "imagen": "assets/cover-alquimistas-enerov3.jpg",
+    "stripeUrl": "https://buy.stripe.com/bJeaEWePBa7xeyegvO5ZC07",
+    "estado": "abierto",
+    "descripcion": "Domina los fundamentos de la IA y el Prompt Engineering.",
+    "temario": [
+      "Sprint 1: Del Chat a la Dirección",
+      "Sprint 2: Control y Depuración",
+      "Sprint 3: Arquitectura Cognitiva",
+      "Sprint 4: Integración Laboral"
+    ]
+  },
+  {
+    "id": "n2-feb26-auto",
+    "nivel": 2,
+    "titulo": "Automatización & Agentes",
+    "fechaInicio": "2026-02-15",
+    "horario": "Martes y Viernes 7:00 pm (CDMX)",
+    "precio": "3,500",
+    "moneda": "MXN",
+    "imagen": "assets/alquimista-trabajando-rodeado-de-gentev4.jpg",
+    "stripeUrl": "https://buy.stripe.com/tu_link_nivel_2",
+    "estado": "auto",
+    "descripcion": "Aprende a conectar Zapier con GPT y crea tus propios agentes.",
+    "temario": [
+      "Módulo 1: Webhooks y APIs",
+      "Módulo 2: Zapier Avanzado",
+      "Módulo 3: Agentes Autónomos",
+      "Módulo 4: Despliegue Real"
+    ]
+  },
+  {
+    "id": "n1-mar26-waitlist",
+    "nivel": 1,
+    "titulo": "Prompt Estratégico",
+    "fechaInicio": "2026-03-15",
+    "horario": "Lunes y Jueves 7:00 pm",
+    "precio": "2,900",
+    "moneda": "MXN",
+    "imagen": "assets/reloj.jpg",
+    "stripeUrl": "",
+    "estado": "waitlist",
+    "descripcion": "Próxima generación de Alquimistas.",
+    "temario": ["Sprint 1", "Sprint 2", "Sprint 3", "Sprint 4"]
+  },
+  {
+    "id": "n3-abr26-proximamente",
+    "nivel": 3,
+    "titulo": "Arquitectura Cognitiva",
+    "fechaInicio": "2026-04-10",
+    "horario": "Sábados Intensivos 9:00 am",
+    "precio": "4,200",
+    "moneda": "MXN",
+    "imagen": "assets/ia-al-servicio-del-alquimista-v3.jpg",
+    "stripeUrl": "",
+    "estado": "proximamente",
+    "descripcion": "Diseño de sistemas complejos de IA y Fine-Tuning.",
+    "temario": [
+      "Módulo 1: Fine-Tuning de Modelos",
+      "Módulo 2: RAG (Retrieval Augmented Generation)",
+      "Módulo 3: Sistemas Multi-Agente",
+      "Módulo 4: Ética y Seguridad"
+    ]
+  },
+  {
+    "id": "n4-may26-exclusivo",
+    "nivel": 4,
+    "titulo": "Mastermind: Integración",
+    "fechaInicio": "2026-05-20",
+    "horario": "Retiro Virtual / Sesiones Ejecutivas",
+    "precio": "5,500",
+    "moneda": "MXN",
+    "imagen": "assets/cover-alquimistas-enero-ogp.jpg",
+    "stripeUrl": "",
+    "estado": "cerrado",
+    "descripcion": "Solo para graduados de nivel 3. Implementación corporativa.",
+    "temario": [
+      "Semana 1: Estrategia de Transformación Digital",
+      "Semana 2: Liderazgo de Equipos AI",
+      "Semana 3: ROI y Métricas",
+      "Semana 4: Proyecto Final"
+    ]
+  }
+]
