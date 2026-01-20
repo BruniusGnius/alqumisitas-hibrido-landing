@@ -1,3 +1,14 @@
+### Principales cambios que incluí:
+
+1.  **JSON V2 (Rico):** Actualicé el bloque de código de ejemplo para mostrar la estructura con `storytelling`, `kickoff` y `sprints` detallados.
+2.  **Soporte HTML:** Agregué una nota importante explicando que se pueden usar etiquetas como `<strong>` y `<br>` dentro del texto.
+3.  **Kickoff:** Se documentó el nuevo campo para la fecha de onboarding.
+
+Copia y pega todo el bloque siguiente:
+
+---
+
+````markdown
 # 📘 Documentación Técnica: Landing Page Alquimistas
 
 **Proyecto:** Catálogo de Cursos Alquimistas de IA (Gnius Club)  
@@ -14,7 +25,7 @@ La lógica es manejada por **Alpine.js** directamente en el navegador del client
 
 ### Estructura de Archivos Clave
 
-- `index.html`: Contiene la estructura visual y los scripts de lógica.
+- `index.html`: Contiene la estructura visual, el Modal V5 y los scripts de lógica.
 - `cursos.json`: **La base de datos.** Aquí se agregan, editan o borran cursos.
 - `assets/`: Imágenes y recursos estáticos.
 
@@ -22,22 +33,45 @@ La lógica es manejada por **Alpine.js** directamente en el navegador del client
 
 ## 2. Gestión del Catálogo (`cursos.json`)
 
-Para actualizar la sección de "Fechas e Inscripción", **no edites el HTML**. Modifica únicamente el archivo `cursos.json`.
+Para actualizar la sección de "Fechas e Inscripción" y la información del **Pop-up de Detalles**, modifica el archivo `cursos.json`.
 
-### Estructura de un Curso
+⚠️ **IMPORTANTE:** El sistema ahora soporta **HTML dentro del JSON**. Puedes usar etiquetas como `<strong>` (negritas) o `<br>` (salto de línea) en las descripciones para dar formato.
+
+### Estructura Maestra de un Curso (V2)
 
 ```json
 {
-  "id": "nivel1-ene26",
+  "id": "n1-feb23",
   "nivel": 1,
   "titulo": "Prompt Estratégico",
-  "fechaInicio": "2026-01-15",
+  "subtitulo": "Del “chatear” a dirigir con precisión.",
+  "fechaInicio": "2026-02-23",
+  "kickoff": "Jueves 19 Feb",
+  "horario": "Lu y Ju 7:00 PM <br> (CDMX)",
   "stripeUrl": "https://buy.stripe.com/...",
   "estado": "auto",
   "imagen": "assets/cover.jpg",
-  ...
+
+  "descripcion": "Descripción corta para el modal...",
+
+  "storytelling": {
+    "reto": "¿Te preocupa que la IA reemplace tu trabajo? <strong>No dejes que suceda.</strong>",
+    "solucion": "Desarrolla la habilidad crítica de <strong>pensar como ingeniero</strong>."
+  },
+
+  "sprints": [
+    {
+      "titulo": "Sprint 1: Fundamentos",
+      "descripcion": "Descripción académica del módulo...",
+      "resultado": "Logras tu primer prompt maestro."
+    }
+    // ... Agregar los 4 sprints
+  ],
+
+  "requisitos": "Computadora con acceso a internet. <strong>No requiere experiencia.</strong>"
 }
 ```
+````
 
 ### Lógica de Disponibilidad (Campo `"estado"`)
 
@@ -55,7 +89,7 @@ El sistema tiene una inteligencia híbrida para mostrar si un curso está dispon
 
 ## 3. Sistema Visual de Niveles y Filtros
 
-El sitio detecta automáticamente el nivel del curso en el JSON y aplica la **Paleta Ejecutiva**:
+El sitio detecta automáticamente el nivel del curso en el JSON y aplica la **Paleta Ejecutiva**. Esto afecta el color de la tarjeta, el modal y los botones.
 
 - **Nivel 1:** 🟡 **Dorado (Gold)** - _Fundamentos / Alquimista._
 - **Nivel 2:** 🔵 **Acero / Azul (Steel Blue)** - _Automatización / Técnico._
@@ -66,8 +100,8 @@ El sitio detecta automáticamente el nivel del curso en el JSON y aplica la **Pa
 
 Los botones de filtro en la parte superior son dinámicos.
 
-- El botón "Nivel 4" **solo aparecerá** si existe al menos un curso con `"nivel": 4` en el archivo JSON.
-- Si no hay cursos de ese nivel, el botón se oculta automáticamente para no confundir al usuario.
+- El botón "Nivel 4" **solo aparecerá** si existe al menos un curso con `"nivel": 4` cargado en el archivo JSON.
+- Si no hay cursos de ese nivel, el botón se oculta automáticamente.
 
 ---
 
