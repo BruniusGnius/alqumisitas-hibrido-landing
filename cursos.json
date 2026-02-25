@@ -6,12 +6,12 @@
     "subtitulo": "Del “chatear con IA” a dirigirla con precisión.",
     "fechaInicio": "2026-01-15",
     "kickoff": "Jueves 15 de Enero",
-    "horario": "Lunes y Jueves 7:00 PM<br>(CDMX)",
+    "horario": "Lunes y Jueves 6:00 PM<br>(CDMX)",
     "precio": "2,900",
     "moneda": "MXN",
     "imagen": "assets/cover-alquimistas-enerov3.jpg",
     "stripeUrl": "https://buy.stripe.com/bJeaEWePBa7xeyegvO5ZC07",
-    "estado": "auto",
+    "estado": "cerrado",
     "descripcion": "Entrenamiento intensivo de 4 semanas. Aprende a dirigir la IA como un socio estratégico.",
     "storytelling": {
       "reto": "¿Te preocupa que la IA reemplace tu trabajo? <strong>No dejes que suceda.</strong> Forma parte del grupo de profesionales que ya usan la tecnología para fortalecer su carrera.",
@@ -49,12 +49,12 @@
     "subtitulo": "Del “chatear con IA” a dirigirla con precisión: Vuélvete Irremplazable.",
     "fechaInicio": "2026-02-23",
     "kickoff": "Jueves 19 Febrero",
-    "horario": "Lunes y Jueves 7:00 PM<br>(CDMX)",
+    "horario": "Lunes y Jueves 6:00 PM<br>(CDMX)",
     "precio": "2,900",
     "moneda": "MXN",
     "imagen": "assets/alquimistas-Febrero-Cover-landing.jpg",
     "stripeUrl": "https://buy.stripe.com/aFa7sK4aX0wXdua93m5ZC08",
-    "estado": "auto",
+    "estado": "cerrado",
     "descripcion": "Generación Febrero. Onboarding Jueves 19, Clases inician Lunes 23.",
     "storytelling": {
       "reto": "¿Te preocupa que la IA reemplace tu trabajo? <strong>No dejes que suceda.</strong> Forma parte del grupo de profesionales que ya usan la tecnología para fortalecer su carrera.",
@@ -86,45 +86,88 @@
     ]
   },
   {
-    "id": "n2-feb23",
-    "nivel": 2,
-    "titulo": "Automatización & Agentes",
-    "subtitulo": "Crea tus propios GPTs y conecta apps sin saber código.",
-    "fechaInicio": "2026-02-23",
-    "kickoff": "Lunes 23 de Febrero",
-    "horario": "Lunes y Miércoles 8:00 PM<br>(CDMX)",
+    "id": "N1-G05-2026-04-20",
+    "nivel": 1,
+    "titulo": "Prompt Estratégico",
+    "subtitulo": "Del “chatear con IA” a dirigirla con precisión.",
+    "fechaInicio": "2026-04-20",
+    "kickoff": "Jueves 16 de Abril de 2026",
+    "horario": "Lunes y Jueves 6:00 PM<br>(CDMX)",
     "precio": "2,900",
     "moneda": "MXN",
-    "imagen": "assets/alquimista-trabajando-rodeado-de-gentev4.jpg",
-    "stripeUrl": "",
-    "estado": "proximamente",
-    "descripcion": "Lleva la IA al siguiente nivel conectando Zapier y creando Agentes Autónomos.",
+    "imagen": "assets/alquimistas-Febrero-Cover-landing.jpg",
+    "stripeUrl": "https://buy.stripe.com/5kQ8wOazlenN89Q5Ra5ZC09",
+    "estado": "auto",
+    "descripcion": "Entrenamiento intensivo de 4 semanas. Aprende a dirigir la IA como un socio estratégico.",
     "storytelling": {
-      "reto": "Ya sabes usar ChatGPT, pero sigues copiando y pegando información manualmente entre Excel, correos y tu CRM. <strong>Eso no es eficiencia real.</strong>",
-      "solucion": "En el Nivel 2 aprendes a conectar <strong>'el cerebro' (IA) con 'las manos' (Zapier/APIs)</strong>. Construirás flujos que trabajan solos mientras duermes y agentes personalizados que conocen tu negocio."
+      "reto": "¿Te preocupa que la IA reemplace tu trabajo? <strong>No dejes que suceda.</strong> Forma parte del grupo de profesionales que ya usan la tecnología para fortalecer su carrera.",
+      "solucion": "No solo aprenderás herramientas; desarrollarás la habilidad crítica de <strong>pensar como un ingeniero de prompts</strong>. Con clases personalizadas por AlkIA, convertirás horas operativas en minutos de gestión estratégica."
     },
-    "target": "Graduados de Nivel 1, Consultores y Responsables de Operaciones.",
-    "requisitos": "Haber cursado Nivel 1. Cuenta de <strong>Zapier (Starter)</strong> y <strong>OpenAI API</strong>.",
+    "target": "Profesionales de cualquier industria (Dirección, Marketing, Salud, Finanzas).",
+    "requisitos": "Computadora con acceso a internet. <strong>No se requiere experiencia previa.</strong>",
     "sprints": [
       {
-        "titulo": "Sprint 1: Webhooks y el Lenguaje de las Apps",
-        "descripcion": "Entiende cómo se hablan las aplicaciones entre sí. Aprende a usar <strong>Webhooks</strong> para enviar datos sin depender de integraciones nativas.",
-        "resultado": "Logras que un correo entrante dispare automáticamente una <strong>acción en tu base de datos</strong>."
+        "titulo": "Sprint 1: Del Chat a la Dirección",
+        "descripcion": "Los participantes aprenden cómo piensa realmente un modelo. Construyen su <strong>Primer Prompt Maestro</strong> y desarrollan la habilidad de transformar cualquier tarea en una instrucción clara, estructurada y profesional.",
+        "resultado": "Dejan de pelear con la IA y empiezan a obtener <strong>resultados útiles desde el primer intento</strong>."
       },
       {
-        "titulo": "Sprint 2: Lógica Avanzada en Zapier",
-        "descripcion": "Domina <strong>Paths, Filtros y Formateo</strong>. Deja de hacer zaps lineales y crea flujos de decisión complejos para segmentar información.",
-        "resultado": "Construyes un sistema que clasifica leads y les responde <strong>diferente según su interés</strong>."
+        "titulo": "Sprint 2: Control Total",
+        "descripcion": "Aquí dominan el músculo más importante: controlar a la IA. Aprenden frameworks avanzados <strong>(ARV, DIIR, DELTA)</strong> para iterar, corregir errores y refinar como un ingeniero.",
+        "resultado": "Producen mensajes, reportes y análisis de <strong>calidad profesional en minutos</strong>, no horas."
       },
       {
-        "titulo": "Sprint 3: Agentes Autónomos (Custom GPTs)",
-        "descripcion": "Crea asistentes que tienen <strong>acceso a tus propios documentos</strong> y pueden ejecutar acciones específicas en tu nombre.",
-        "resultado": "Un GPT propio que responde dudas de tus clientes <strong>basándose en tus PDF</strong>."
+        "titulo": "Sprint 3: Arquitectura Cognitiva",
+        "descripcion": "Dejan de usar prompts sueltos y comienzan a diseñar <strong>sistemas de trabajo inteligentes</strong>: módulos, roles y plantillas que pueden ejecutar una y otra vez (SOPs cognitivos).",
+        "resultado": "Cada participante crea su propia <strong>herramienta profesional con IA</strong>, que le ahorra tiempo diario."
       },
       {
-        "titulo": "Sprint 4: Despliegue de Soluciones",
-        "descripcion": "Integra todo en un <strong>dashboard funcional</strong>. Aprende a monitorear costos de API, mantenimiento y escalabilidad.",
-        "resultado": "Tu primer empleado digital funcionando <strong>100% autónomo</strong>."
+        "titulo": "Sprint 4: Integración Real",
+        "descripcion": "Implementan IA en un <strong>proceso, flujo o tarea clave</strong> real de su institución. Aprenden a documentar, medir impacto y presentar resultados.",
+        "resultado": "Implementación real con <strong>impacto medible</strong> que justifica la inversión."
+      }
+    ]
+  },
+  {
+    "id": "N2-GO1-2026-04-20",
+    "nivel": 2,
+    "titulo": "Arquitecto y Gobernante de la IA",
+    "subtitulo": "De usar la IA… a diseñar y gobernar su infraestructura.",
+    "fechaInicio": "2026-04-20",
+    "kickoff": "No hay kick off",
+    "horario": "Lunes y Jueves 5:00 PM<br>(CDMX)",
+    "precio": "2,900",
+    "moneda": "MXN",
+    "imagen": "assets/alquimistas-n2-cover.jpg",
+    "stripeUrl": "https://buy.stripe.com/",
+    "estado": "auto",
+    "descripcion": "Entrenamiento intensivo de 4 semanas. Diseña, gobierna y evalúa tu propio sistema profesional con IA.",
+    "storytelling": {
+      "reto": "Ya sabes usar IA. Pero si no gobiernas la información, los criterios y la calidad, sigues dependiendo de respuestas improvisadas.",
+      "solucion": "En este programa construyes tu propia infraestructura de trabajo con IA: un sistema gobernado, evaluable y reutilizable que puedes implementar y demostrar en tu entorno profesional."
+    },
+    "target": "Egresados del Nivel 1 que buscan estructurar y profesionalizar el uso de IA en su trabajo.",
+    "requisitos": "Haber completado el Nivel 1. Computadora con acceso a internet.",
+    "sprints": [
+      {
+        "titulo": "Sprint 1: Gobernar la Verdad",
+        "descripcion": "Diseñan un sistema propio para organizar el conocimiento que alimenta a la IA. Establecen jerarquías claras, reglas de autoridad y criterios de vigencia que reducen errores y ambigüedad.",
+        "resultado": "Obtienen respuestas más precisas y mayor control sobre la información que usa la IA."
+      },
+      {
+        "titulo": "Sprint 2: Sistema Operativo de Decisiones",
+        "descripcion": "Construyen una arquitectura que obliga a la IA a trabajar con criterios definidos, formatos profesionales y límites explícitos. Aprenden a estandarizar entregables y evaluar calidad con métricas objetivas.",
+        "resultado": "Generan outputs consistentes y profesionales que pueden mejorar con método."
+      },
+      {
+        "titulo": "Sprint 3: Ingeniería de Contexto",
+        "descripcion": "Diseñan infraestructura cognitiva reutilizable. Estructuran contexto, reglas de control y mecanismos que fortalecen el sistema ante ambigüedad o contradicciones.",
+        "resultado": "Construyen un sistema estable que mantiene calidad incluso en escenarios complejos."
+      },
+      {
+        "titulo": "Sprint 4: Sistema Productizable",
+        "descripcion": "Integran todo en una infraestructura completa lista para implementarse en su entorno profesional. Documentan, prueban e iteran con evidencia de mejora.",
+        "resultado": "Terminan con una herramienta profesional propia, gobernada y lista para aplicarse en el trabajo real."
       }
     ]
   }
