@@ -1294,22 +1294,25 @@
                         <!-- CONTENIDO -->
                         <div class="pt-6 pb-6 px-6 flex flex-col flex-grow text-center">
 
-                            <!-- 1. PRIMERO LA PÍLDORA (NIVEL) -->
+                            <!-- 1. PÍLDORA DE NIVEL -->
                             <span
                                 class="text-xs font-bold uppercase tracking-widest mb-3 rounded-full px-3 py-1 inline-block mx-auto"
                                 :class="getEstilosNivel(curso.nivel).badge" x-text="'Nivel ' + curso.nivel"></span>
 
-                            <!-- TÍTULO CON ALTURA MÍNIMA (3 LÍNEAS) -->
-                            <h3 class="text-2xl font-heading font-bold text-white mb-1 leading-tight min-h-[5.5rem] flex items-center justify-center"
+                            <!-- 2. TÍTULO -->
+                            <h3 class="text-2xl font-heading font-bold text-white mb-2 leading-tight min-h-[4rem] flex items-center justify-center"
                                 x-text="curso.titulo"></h3>
+
+                            <!-- 3. CONSEJO (COLOR DINÁMICO) -->
+                            <p class="text-sm italic mb-4 px-2 min-h-[2.5rem] flex items-center justify-center leading-tight opacity-90"
+                                :class="getEstilosNivel(curso.nivel).texto" x-text="curso.nivel_consejo"></p>
 
                             <!-- INFO CLAVE (FECHAS Y PRECIO) -->
                             <div class="space-y-3 mb-6 text-sm border-t border-brand-border pt-4 text-left">
 
-                                <!-- CASO A: TIENE KICKOFF (Muestra las dos fechas) -->
+                                <!-- CASO A: TIENE KICKOFF -->
                                 <template x-if="curso.kickoff">
                                     <div>
-                                        <!-- Fecha 1: Kickoff (Texto blanco, más pequeño) -->
                                         <div class="mb-2">
                                             <p class="text-xs text-brand-muted uppercase tracking-widest font-bold">
                                                 <i class="ph-bold ph-hand-waving text-white"></i> Kickoff:
@@ -1317,8 +1320,6 @@
                                             <p class="text-white font-medium text-base pl-4 border-l-2 border-brand-border"
                                                 x-text="curso.kickoff"></p>
                                         </div>
-
-                                        <!-- Fecha 2: Inicio Formal (Color del Nivel, Grande) -->
                                         <div>
                                             <p class="text-xs text-brand-muted uppercase tracking-widest font-bold">
                                                 <i class="ph-bold ph-rocket-launch text-white"></i> Inicio:
@@ -1331,7 +1332,7 @@
                                     </div>
                                 </template>
 
-                                <!-- CASO B: NO TIENE KICKOFF (Solo fecha de inicio normal) -->
+                                <!-- CASO B: NO TIENE KICKOFF -->
                                 <template x-if="!curso.kickoff">
                                     <div>
                                         <p class="font-bold text-lg mb-1" :class="getEstilosNivel(curso.nivel).texto">
@@ -1357,7 +1358,6 @@
                                     Ver temario completo
                                 </button>
                                 <template x-if="curso.estado === 'abierto'">
-                                    <!-- El botón de compra hereda el color del nivel -->
                                     <a :href="generarLinkStripe(curso.stripeUrl)"
                                         class="w-full block uppercase text-sm py-3 font-bold rounded hover:scale-[1.02] transition-transform text-black shadow-lg"
                                         :class="getEstilosNivel(curso.nivel).badge">
@@ -1378,8 +1378,6 @@
                                         Cerrado
                                     </button>
                                 </template>
-
-
                             </div>
                         </div>
                     </div>
@@ -1420,12 +1418,13 @@
                 <template x-if="cursoSeleccionado">
                     <div>
                         <!-- IMAGEN DE PORTADA -->
-                        <div class="relative h-48 md:h-64 w-full overflow-hidden">
+                        <div class="relative aspect-[4/3] w-full overflow-hidden">
                             <img :src="cursoSeleccionado.imagen" class="w-full h-full object-cover">
                             <div class="absolute inset-0 bg-gradient-to-t from-brand-surface to-transparent"></div>
                         </div>
 
                         <div class="p-6 md:p-10 -mt-8 relative">
+
 
                             <!-- HEADER -->
                             <div class="mb-6">
@@ -1436,10 +1435,15 @@
                                 <h3 class="text-3xl font-heading font-bold text-white mt-4 leading-tight"
                                     x-text="cursoSeleccionado.titulo"></h3>
 
-                                <!-- CORRECCIÓN: Subtítulo con color dinámico (Antes era text-brand-gold fijo) -->
+                                <!-- SUBTÍTULO -->
                                 <p class="text-lg mt-2 font-medium"
                                     :class="getEstilosNivel(cursoSeleccionado.nivel).texto"
                                     x-html="cursoSeleccionado.subtitulo"></p>
+
+                                <!-- CONSEJO (COLOR DINÁMICO) -->
+                                <p class="text-sm italic mt-5 mb-2 opacity-90"
+                                    :class="getEstilosNivel(cursoSeleccionado.nivel).texto"
+                                    x-text="cursoSeleccionado.nivel_consejo"></p>
                             </div>
 
                             <!-- KICKOFF -->
@@ -1845,17 +1849,32 @@
                         const response = await fetch('cursos.json');
                         let data = await response.json();
 
-                        // ===============================================
-                        // NUEVO: PROCESAMIENTO DE ESTADO (JSON vs FECHA)
-                        // ===============================================
+                        // 1. Calcular estados (Abierto, Cerrado, Proximamente)
                         data = data.map(curso => {
-                            // Aquí calculamos el estado definitivo
                             curso.estado = this.calcularEstadoLogico(curso);
                             return curso;
                         });
 
-                        // Ordenar por fecha
-                        this.cursos = data.sort((a, b) => new Date(a.fechaInicio) - new Date(b.fechaInicio));
+                        // 2. FILTRAR: Eliminar cursos cerrados (ya no se mostrarán)
+                        data = data.filter(curso => curso.estado !== 'cerrado');
+
+                        // 3. ORDENAR: Prioridad Estado (Abiertos primero) > Luego Fecha
+                        this.cursos = data.sort((a, b) => {
+                            // Definimos prioridades: 1=Abierto (Top), 2=Waitlist, 3=Proximamente
+                            const prioridades = { 'abierto': 1, 'waitlist': 2, 'proximamente': 3 };
+
+                            const prioA = prioridades[a.estado] || 4; // 4 si es otro estado
+                            const prioB = prioridades[b.estado] || 4;
+
+                            // Si tienen diferente prioridad, gana el más importante (menor número)
+                            if (prioA !== prioB) {
+                                return prioA - prioB;
+                            }
+
+                            // Si tienen la misma prioridad, desempata por fecha (el más próximo primero)
+                            return new Date(a.fechaInicio) - new Date(b.fechaInicio);
+                        });
+
                     } catch (error) {
                         console.error('Error cargando cursos:', error);
                     } finally {
@@ -1880,13 +1899,13 @@
                     const diferenciaDias = Math.ceil(diferenciaTiempo / (1000 * 60 * 60 * 24));
 
                     /* REGLA DE TIEMPO:
-                       - Menor a -14 (Pasaron 15 días o más) -> CERRADO
+                       - Menor a -11 (Pasaron 11 días o más) -> CERRADO
                        - Entre -14 y 45 (Desde hace 2 semanas hasta dentro de mes y medio) -> ABIERTO
                        - Mayor a 45 (Falta mucho) -> PRÓXIMAMENTE
                     */
-                    if (diferenciaDias < -14) {
+                    if (diferenciaDias < -11) {
                         return 'cerrado';
-                    } else if (diferenciaDias <= 45) {
+                    } else if (diferenciaDias <= 60) {
                         return 'abierto';
                     } else {
                         return 'proximamente';
