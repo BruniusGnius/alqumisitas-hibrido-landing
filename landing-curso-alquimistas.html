@@ -1978,7 +1978,8 @@
                     this.utmSource = urlParams.get('utm_source') || '';
 
                     try {
-                        const response = await fetch('cursos.json');
+                        // Agregamos ?v=hora_actual para evitar que el celular use una versión vieja guardada
+                        const response = await fetch('cursos.json?v=' + new Date().getTime());
                         let data = await response.json();
 
                         // 1. Calcular estados (Abierto, Cerrado, Proximamente)
@@ -2238,40 +2239,40 @@
                     return this.calDate.toLocaleString('es-ES', { month: 'long', year: 'numeric' });
                 },
 
-                // Generar los días para la cuadrícula (incluyendo espacios vacíos)
+                // Generar los días (VERSIÓN COMPATIBLE CON SAFARI/IPHONE)
+                // Generar los días (VERSIÓN COMPATIBLE CON SAFARI/IPHONE)
                 getCalDays() {
                     const year = this.calDate.getFullYear();
                     const month = this.calDate.getMonth();
 
-                    const firstDayOfMonth = new Date(year, month, 1).getDay(); // 0 = Domingo
-                    // Ajuste para que lunes sea 0 (si tu semana empieza en lunes)
-                    // Si prefieres Domingo primero, usa firstDayOfMonth tal cual. 
-                    // Aquí asumo semana Lunes-Domingo para estilo ejecutivo:
-                    const startDay = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
+                    // Ajuste: Safari prefiere YYYY/MM/DD para cálculos internos si usamos strings
+                    // Pero aquí usamos objetos Date directos, que es más seguro.
 
+                    const firstDayOfMonth = new Date(year, month, 1).getDay();
+                    const startDay = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
                     const daysInMonth = new Date(year, month + 1, 0).getDate();
 
                     let days = [];
 
-                    // Espacios vacíos antes del 1
                     for (let i = 0; i < startDay; i++) {
                         days.push({ num: '', isSession: false });
                     }
 
-                    // Días del mes
                     for (let i = 1; i <= daysInMonth; i++) {
-                        // Verificar si este día es una sesión del curso
-                        // Construimos fecha string YYYY-MM-DD para comparar
+                        // Construimos la fecha comparativa en formato estándar ISO (YYYY-MM-DD)
+                        // Esto funciona porque comparamos texto con texto del JSON
                         const currentStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
 
-                        // Buscamos en el JSON del curso
-                        const isSession = this.cursoSeleccionado.calendario?.some(s => s.fecha === currentStr);
+                        // Validación extra: Aseguramos que 'calendario' exista antes de buscar
+                        const hasCalendar = this.cursoSeleccionado.calendario && Array.isArray(this.cursoSeleccionado.calendario);
+
+                        const isSession = hasCalendar && this.cursoSeleccionado.calendario.some(s => s.fecha === currentStr);
 
                         days.push({ num: i, isSession: isSession });
                     }
 
                     return days;
-                },
+                }
             }
         }
     </script>
