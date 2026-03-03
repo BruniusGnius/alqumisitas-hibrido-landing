@@ -96,6 +96,51 @@
     "fechaInicio": "2026-04-20",
     "kickoff": "Jueves 16 de Abril de 2026",
     "horario": "Lunes y Jueves 6:00 PM<br>(CDMX)",
+    "calendario": [
+      { "dia": "0", "fecha": "2026-04-16", "tema": "👋 Kickoff / Onboarding" },
+      {
+        "dia": "1",
+        "fecha": "2026-04-20",
+        "tema": "Sprint 1: Dirección (Sesión A)"
+      },
+      {
+        "dia": "2",
+        "fecha": "2026-04-23",
+        "tema": "Sprint 1: Dirección (Sesión B)"
+      },
+      {
+        "dia": "3",
+        "fecha": "2026-04-27",
+        "tema": "Sprint 2: Control Total (Sesión A)"
+      },
+      {
+        "dia": "4",
+        "fecha": "2026-04-30",
+        "tema": "Sprint 2: Control Total (Sesión B)"
+      },
+      {
+        "dia": "5",
+        "fecha": "2026-05-04",
+        "tema": "Sprint 3: Arquitectura (Sesión A)"
+      },
+      {
+        "dia": "6",
+        "fecha": "2026-05-07",
+        "tema": "Sprint 3: Arquitectura (Sesión B)"
+      },
+      {
+        "dia": "7",
+        "fecha": "2026-05-11",
+        "tema": "Sprint 4: Integración (Sesión A)"
+      },
+      {
+        "dia": "8",
+        "fecha": "2026-05-14",
+        "tema": "Sprint 4: Integración (Sesión B)"
+      }
+    ],
+    "fecha_email": "2026-04-16",
+    "hora_email": "1800",
     "precio": "2,900",
     "moneda": "MXN",
     "imagen": "assets/alquimistas-Febrero-Cover-landing.jpg",
@@ -140,10 +185,54 @@
     "fechaInicio": "2026-04-20",
     "kickoff": "No hay Kickoff",
     "horario": "Lunes y Jueves 5:00 PM<br>(CDMX)",
+    "calendario": [
+      {
+        "dia": "1",
+        "fecha": "2026-04-20",
+        "tema": "Sprint 1: Gobernar la Verdad (A)"
+      },
+      {
+        "dia": "2",
+        "fecha": "2026-04-23",
+        "tema": "Sprint 1: Gobernar la Verdad (B)"
+      },
+      {
+        "dia": "3",
+        "fecha": "2026-04-27",
+        "tema": "Sprint 2: Sistema Operativo (A)"
+      },
+      {
+        "dia": "4",
+        "fecha": "2026-04-30",
+        "tema": "Sprint 2: Sistema Operativo (B)"
+      },
+      {
+        "dia": "5",
+        "fecha": "2026-05-04",
+        "tema": "Sprint 3: Ingeniería Contexto (A)"
+      },
+      {
+        "dia": "6",
+        "fecha": "2026-05-07",
+        "tema": "Sprint 3: Ingeniería Contexto (B)"
+      },
+      {
+        "dia": "7",
+        "fecha": "2026-05-11",
+        "tema": "Sprint 4: Productizable (A)"
+      },
+      {
+        "dia": "8",
+        "fecha": "2026-05-14",
+        "tema": "Sprint 4: Productizable (B)"
+      }
+    ],
+    "fecha_email": "2026-04-20",
+    "hora_email": "1700",
     "precio": "2,900",
     "moneda": "MXN",
     "imagen": "assets/alquimistas-n2-cover.jpg",
-    "stripeUrl": "https://buy.stripe.com/",
+    "stripeUrl": "https://buy.stripe.com/5kQ7sK8rdcfF9dU4N65ZC0a",
     "estado": "auto",
     "descripcion": "Entrenamiento intensivo de 4 semanas. Diseña, gobierna y evalúa tu propio sistema profesional con IA.",
     "storytelling": {

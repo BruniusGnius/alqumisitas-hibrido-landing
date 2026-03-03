@@ -1341,11 +1341,22 @@
                                     </div>
                                 </template>
 
+
                                 <!-- Horario y Precio -->
                                 <div class="pt-2 mt-2 border-t border-brand-border/30">
                                     <p class="text-brand-muted text-sm text-center font-bold mb-1">
                                         <i class="ph-fill ph-clock"></i> <span x-html="curso.horario"></span>
                                     </p>
+
+                                    <!-- NUEVO LINK: Abre Pestaña Calendario -->
+                                    <div class="text-center mt-1 mb-3">
+                                        <button @click="abrirModal(curso, 'calendario')"
+                                            class="text-xs font-bold uppercase tracking-widest underline hover:text-white transition-colors"
+                                            :class="getEstilosNivel(curso.nivel).texto">
+                                            <i class="ph-bold ph-calendar-blank"></i> Ver fechas exactas
+                                        </button>
+                                    </div>
+
                                     <p class="mt-4 text-4xl text-white font-bold text-center"
                                         x-text="'$' + curso.precio + ' ' + curso.moneda"></p>
                                 </div>
@@ -1353,12 +1364,13 @@
 
                             <!-- BOTONES -->
                             <div class="mt-auto space-y-3">
-                                <button @click="abrirModal(curso)"
+                                <!-- BOTÓN MODIFICADO: Pasa 'temario' como parámetro -->
+                                <button @click="abrirModal(curso, 'temario')"
                                     class="text-brand-muted underline hover:text-white transition-colors mt-2">
                                     Ver temario completo
                                 </button>
                                 <template x-if="curso.estado === 'abierto'">
-                                    <a :href="generarLinkStripe(curso.stripeUrl)"
+                                    <a :href="generarLinkStripe(curso)"
                                         class="w-full block uppercase text-sm py-3 font-bold rounded hover:scale-[1.02] transition-transform text-black shadow-lg"
                                         :class="getEstilosNivel(curso.nivel).badge">
                                         Inscribirme Ahora
@@ -1472,46 +1484,164 @@
                                 </div>
                             </div>
 
-                            <!-- STORYTELLING -->
-                            <div class="mb-10 space-y-4 text-brand-muted leading-relaxed">
-                                <p x-show="cursoSeleccionado.storytelling">
-                                    <strong class="text-white block mb-1">El Reto:</strong>
-                                    <span x-html="cursoSeleccionado.storytelling?.reto"></span>
-                                </p>
-                                <p x-show="cursoSeleccionado.storytelling">
-                                    <strong class="text-white block mb-1">La Solución:</strong>
-                                    <span x-html="cursoSeleccionado.storytelling?.solucion"></span>
-                                </p>
-                                <p x-show="!cursoSeleccionado.storytelling" x-html="cursoSeleccionado.descripcion"></p>
+                            <!-- ========================================== -->
+                            <!-- SISTEMA DE PESTAÑAS (TABS) -->
+                            <!-- ========================================== -->
+                            <div class="mb-6 flex border-b border-brand-border">
+                                <button @click="modalTab = 'temario'"
+                                    class="flex-1 pb-3 text-center font-heading font-bold text-lg transition-colors border-b-2"
+                                    :class="modalTab === 'temario' ? (getEstilosNivel(cursoSeleccionado.nivel).texto + ' ' + getEstilosNivel(cursoSeleccionado.nivel).borde) : 'text-brand-muted border-transparent hover:text-white'">
+                                    <i class="ph-bold ph-book-open-text mr-1"></i> Temario
+                                </button>
+                                <button @click="modalTab = 'calendario'"
+                                    class="flex-1 pb-3 text-center font-heading font-bold text-lg transition-colors border-b-2"
+                                    :class="modalTab === 'calendario' ? (getEstilosNivel(cursoSeleccionado.nivel).texto + ' ' + getEstilosNivel(cursoSeleccionado.nivel).borde) : 'text-brand-muted border-transparent hover:text-white'">
+                                    <i class="ph-bold ph-calendar-blank mr-1"></i> Fechas
+                                </button>
                             </div>
 
-                            <!-- SPRINT LIST -->
-                            <div class="mb-10">
-                                <h4
-                                    class="text-xl font-heading font-bold text-white mb-6 border-b border-brand-border pb-2">
-                                    Lo que aprenderás (Sprints)
-                                </h4>
-                                <div class="space-y-6">
-                                    <template x-for="(sprint, index) in cursoSeleccionado.sprints">
-                                        <div class="relative pl-6 border-l-2"
-                                            :class="getEstilosNivel(cursoSeleccionado.nivel).borde">
-                                            <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full border-2 bg-brand-black"
-                                                :class="getEstilosNivel(cursoSeleccionado.nivel).borde"></div>
+                            <!-- CONTENIDO PESTAÑA 1: TEMARIO -->
+                            <div x-show="modalTab === 'temario'" x-transition:enter="transition ease-out duration-300"
+                                x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
 
-                                            <h5 class="text-white font-bold text-lg mb-1" x-text="sprint.titulo"></h5>
+                                <!-- STORYTELLING -->
+                                <div class="mb-10 space-y-4 text-brand-muted leading-relaxed">
+                                    <p x-show="cursoSeleccionado.storytelling">
+                                        <strong class="text-white block mb-1">El Reto:</strong>
+                                        <span x-html="cursoSeleccionado.storytelling?.reto"></span>
+                                    </p>
+                                    <p x-show="cursoSeleccionado.storytelling">
+                                        <strong class="text-white block mb-1">La Solución:</strong>
+                                        <span x-html="cursoSeleccionado.storytelling?.solucion"></span>
+                                    </p>
+                                    <p x-show="!cursoSeleccionado.storytelling" x-html="cursoSeleccionado.descripcion">
+                                    </p>
+                                </div>
 
-                                            <p class="text-sm text-brand-muted mb-2" x-html="sprint.descripcion"></p>
+                                <!-- SPRINT LIST -->
+                                <div class="mb-10">
+                                    <h4
+                                        class="text-xl font-heading font-bold text-white mb-6 border-b border-brand-border pb-2">
+                                        Lo que aprenderás (Sprints)
+                                    </h4>
+                                    <div class="space-y-6">
+                                        <template x-for="(sprint, index) in cursoSeleccionado.sprints">
+                                            <div class="relative pl-6 border-l-2"
+                                                :class="getEstilosNivel(cursoSeleccionado.nivel).borde">
+                                                <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full border-2 bg-brand-black"
+                                                    :class="getEstilosNivel(cursoSeleccionado.nivel).borde"></div>
 
-                                            <p class="text-sm font-medium flex items-start gap-2"
-                                                :class="getEstilosNivel(cursoSeleccionado.nivel).texto">
-                                                <i class="ph-bold ph-lightning mt-0.5 flex-shrink-0"></i>
-                                                <span><strong class="text-white">Resultado:</strong> <span
-                                                        x-html="sprint.resultado"></span></span>
-                                            </p>
+                                                <h5 class="text-white font-bold text-lg mb-1" x-text="sprint.titulo">
+                                                </h5>
+                                                <p class="text-sm text-brand-muted mb-2" x-html="sprint.descripcion">
+                                                </p>
+                                                <p class="text-sm font-medium flex items-start gap-2"
+                                                    :class="getEstilosNivel(cursoSeleccionado.nivel).texto">
+                                                    <i class="ph-bold ph-lightning mt-0.5 flex-shrink-0"></i>
+                                                    <span><strong class="text-white">Resultado:</strong> <span
+                                                            x-html="sprint.resultado"></span></span>
+                                                </p>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- CONTENIDO PESTAÑA 2: CALENDARIO VISUAL -->
+                            <div x-show="modalTab === 'calendario'" style="display: none;"
+                                x-transition:enter="transition ease-out duration-300"
+                                x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+                                <!-- MINI CALENDARIO (ESTILO MACOS) -->
+                                <div
+                                    class="bg-black/50 border border-brand-border rounded-xl p-4 mb-6 max-w-sm mx-auto shadow-inner">
+
+                                    <!-- Cabecera Mes + Navegación -->
+                                    <div class="flex items-center justify-between mb-4">
+                                        <button @click="changeMonth(-1)"
+                                            class="p-1 text-brand-muted hover:text-white transition-colors">
+                                            <i class="ph-bold ph-caret-left text-lg"></i>
+                                        </button>
+                                        <span
+                                            class="text-white font-heading font-bold uppercase tracking-widest text-sm"
+                                            x-text="getCalTitle()"></span>
+                                        <button @click="changeMonth(1)"
+                                            class="p-1 text-brand-muted hover:text-white transition-colors">
+                                            <i class="ph-bold ph-caret-right text-lg"></i>
+                                        </button>
+                                    </div>
+
+                                    <!-- Días de la semana -->
+                                    <div class="grid grid-cols-7 gap-1 text-center mb-2">
+                                        <template x-for="dia in ['L','M','M','J','V','S','D']">
+                                            <span class="text-[10px] text-brand-muted font-bold" x-text="dia"></span>
+                                        </template>
+                                    </div>
+
+                                    <!-- Cuadrícula de Días -->
+                                    <div class="grid grid-cols-7 gap-1 text-center">
+                                        <template x-for="day in getCalDays()">
+                                            <div class="h-8 w-8 flex items-center justify-center rounded-full text-xs font-medium relative"
+                                                :class="day.isSession ? (getEstilosNivel(cursoSeleccionado.nivel).badge + ' font-bold shadow-[0_0_10px_rgba(0,0,0,0.5)]') : 'text-brand-text hover:bg-white/10'">
+
+                                                <span x-text="day.num"></span>
+
+                                                <!-- Puntito indicador (Opcional, si prefieres solo círculo de fondo, borra esto) -->
+                                                <!-- <div x-show="day.isSession" class="absolute -bottom-1 w-1 h-1 rounded-full bg-white"></div> -->
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                                <div
+                                    class="mb-6 flex flex-col md:flex-row items-center justify-between gap-4 bg-brand-black p-4 rounded-lg border border-brand-border">
+                                    <p class="text-sm text-brand-muted">Añade todas las sesiones a tu agenda para
+                                        reservar los espacios.</p>
+
+
+                                    <!-- Botón Descargar ICS -->
+                                    <button @click="descargarICS(cursoSeleccionado)"
+                                        class="flex-shrink-0 px-4 py-2 border rounded font-bold text-sm flex items-center gap-2 transition-colors"
+                                        :class="[getEstilosNivel(cursoSeleccionado.nivel).texto, getEstilosNivel(cursoSeleccionado.nivel).borde, 'hover:bg-white/5']">
+                                        <i class="ph-bold ph-calendar-plus text-lg"></i> Descargar Calendario (.ics)
+                                    </button>
+                                </div>
+
+                                <!-- Vista de Agenda (Cuadritos) -->
+                                <div class="space-y-3 mb-10">
+                                    <!-- Mensaje si no hay calendario cargado en JSON -->
+                                    <p x-show="!cursoSeleccionado.calendario || cursoSeleccionado.calendario.length === 0"
+                                        class="text-brand-muted italic">
+                                        Fechas exactas por confirmar.
+                                    </p>
+
+                                    <!-- Iterar sobre los días del calendario -->
+                                    <template x-for="sesion in cursoSeleccionado.calendario">
+                                        <div
+                                            class="flex items-center gap-4 p-3 rounded-lg border border-brand-border/50 bg-black/40  transition-colors">
+
+                                            <!-- CUADRITO DE FECHA -->
+                                            <div class="flex flex-col items-center justify-center w-14 h-14 rounded-md border-2 flex-shrink-0"
+                                                :class="getEstilosNivel(cursoSeleccionado.nivel).borde">
+                                                <span
+                                                    class="text-[10px] font-bold uppercase text-brand-muted leading-none mt-1"
+                                                    x-text="getMonthNameShort(sesion.fecha)"></span>
+                                                <span
+                                                    class="text-xl font-heading font-bold text-white leading-none mt-1"
+                                                    x-text="getDayNum(sesion.fecha)"></span>
+                                            </div>
+
+                                            <!-- INFO SESIÓN -->
+                                            <div>
+                                                <p class="text-[11px] font-bold uppercase tracking-widest mb-0.5"
+                                                    :class="getEstilosNivel(cursoSeleccionado.nivel).texto"
+                                                    x-text="'Sesión ' + sesion.dia"></p>
+                                                <p class="text-white text-sm font-medium leading-snug"
+                                                    x-text="sesion.tema"></p>
+                                            </div>
                                         </div>
                                     </template>
                                 </div>
                             </div>
+                            <!-- ========================================== -->
 
                             <!-- REQUISITOS -->
                             <div class="mb-10 bg-brand-surface p-4 rounded border border-brand-border">
@@ -1525,7 +1655,7 @@
                             <div
                                 class="sticky bottom-0 bg-brand-surface/95 backdrop-blur pt-4 pb-0 border-t border-brand-border mt-8">
                                 <template x-if="cursoSeleccionado.estado === 'abierto'">
-                                    <a :href="generarLinkStripe(cursoSeleccionado.stripeUrl)"
+                                    <a :href="generarLinkStripe(cursoSeleccionado)"
                                         class="w-full block text-center uppercase text-base py-4 font-bold rounded hover:scale-[1.01] transition-transform text-black shadow-lg mb-3"
                                         :class="getEstilosNivel(cursoSeleccionado.nivel).badge">
                                         Inscribirme Ahora • <span
@@ -1838,6 +1968,8 @@
                 cursos: [],
                 filtroNivel: 'todos',
                 modalOpen: false,
+                modalTab: 'temario', // 'temario' o 'calendario'
+                calDate: new Date(), // Fecha que controla la vista del calendario
                 cursoSeleccionado: null,
                 utmSource: '',
 
@@ -1958,20 +2090,51 @@
                     return this.cursos.filter(c => c.nivel === this.filtroNivel);
                 },
 
-                abrirModal(curso) {
+                abrirModal(curso, tab = 'temario') {
                     this.cursoSeleccionado = curso;
+                    this.modalTab = tab;
+                    // Inicializar calendario en la fecha de inicio del curso
+                    this.calDate = new Date(curso.fechaInicio + 'T12:00:00');
                     this.modalOpen = true;
                 },
 
-                generarLinkStripe(urlBase) {
-                    if (!urlBase) return '#';
-                    if (!this.utmSource) return urlBase;
+                // GENERADOR DE LINKS STRIPE (ARQUITECTURA HÍBRIDA V4 - BLINDADA)
+                // GENERADOR DE LINKS STRIPE (ARQUITECTURA V7 - 4 DATOS ÓPTIMOS)
+                generarLinkStripe(curso) {
+                    if (!curso.stripeUrl) return '#';
+
                     try {
-                        const url = new URL(urlBase);
-                        url.searchParams.set('client_reference_id', this.utmSource);
-                        url.searchParams.set('utm_source', this.utmSource);
+                        const url = new URL(curso.stripeUrl);
+                        const vendedor = this.utmSource || 'directo';
+
+                        // Lógica Legacy Nivel 1 (Se mantiene intacta)
+                        if (curso.nivel === 1) {
+                            if (this.utmSource) {
+                                url.searchParams.set('client_reference_id', this.utmSource);
+                                url.searchParams.set('utm_source', this.utmSource);
+                            }
+                        }
+                        // Nueva Lógica Nivel 2 en adelante
+                        else {
+                            // Fechas limpias desde el JSON (con fallback de seguridad)
+                            const fechaLimpia = curso.fecha_email || curso.fechaInicio;
+                            const horaLimpia = curso.hora_email || "1700";
+
+                            // PAQUETE FINAL (4 datos): Vendedor ___ ID_Cohorte ___ Fecha_Email ___ Hora_Email
+                            const packedData = `${vendedor}___${curso.id}___${fechaLimpia}___${horaLimpia}`;
+
+                            url.searchParams.set('client_reference_id', packedData);
+
+                            // Mantenemos el UTM Source original por seguridad y analíticas
+                            if (this.utmSource) {
+                                url.searchParams.set('utm_source', this.utmSource);
+                            }
+                        }
+
                         return url.toString();
-                    } catch (e) { return urlBase; }
+                    } catch (e) {
+                        return curso.stripeUrl;
+                    }
                 },
 
                 formatEstado(estado) {
@@ -1997,7 +2160,112 @@
                 formatDateFull(fechaStr) {
                     const date = new Date(fechaStr + 'T12:00:00');
                     return date.toLocaleString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
-                }
+                }, // --- NUEVOS HELPERS PARA CALENDARIO ---
+
+                // Obtener mes corto (ej: "abr")
+                getMonthNameShort(fechaStr) {
+                    if (!fechaStr) return '';
+                    const date = new Date(fechaStr + 'T12:00:00');
+                    return date.toLocaleString('es-ES', { month: 'short' });
+                },
+
+                // Obtener número del día (ej: "20")
+                getDayNum(fechaStr) {
+                    if (!fechaStr) return '';
+                    const date = new Date(fechaStr + 'T12:00:00');
+                    return date.getDate().toString().padStart(2, '0');
+                },
+
+                // Generador Mágico de Archivo .ICS
+                descargarICS(curso) {
+                    if (!curso.calendario || curso.calendario.length === 0) {
+                        alert("Este curso aún no tiene un calendario definido.");
+                        return;
+                    }
+
+                    // Encabezado estándar del archivo ICS
+                    let icsContent = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Gnius Club//Alquimistas//ES\nCALSCALE:GREGORIAN\n";
+
+                    // Asumimos la hora del curso (ej: "1700")
+                    const horaInicio = curso.hora_email || "1700";
+                    const horaStr = horaInicio + "00"; // 170000
+
+                    // Calculamos la hora de fin sumando 2 horas aprox
+                    let horaNum = parseInt(horaInicio.substring(0, 2));
+                    let horaFinNum = horaNum + 2;
+                    const horaFinStr = horaFinNum.toString().padStart(2, '0') + horaInicio.substring(2) + "00";
+
+                    // Crear un evento por cada sesión del JSON
+                    curso.calendario.forEach(sesion => {
+                        const fechaClean = sesion.fecha.replace(/-/g, ''); // 2026-04-20 -> 20260420
+
+                        icsContent += "BEGIN:VEVENT\n";
+                        icsContent += `DTSTART;TZID=America/Mexico_City:${fechaClean}T${horaStr}\n`;
+                        icsContent += `DTEND;TZID=America/Mexico_City:${fechaClean}T${horaFinStr}\n`;
+                        icsContent += `SUMMARY:Alquimistas | ${sesion.tema}\n`;
+                        icsContent += `DESCRIPTION:Sesión ${sesion.dia} del curso: ${curso.titulo}\\nNivel: ${curso.nivel}\n`;
+                        icsContent += "END:VEVENT\n";
+                    });
+
+                    icsContent += "END:VCALENDAR";
+
+                    // Disparar la descarga del archivo en el navegador
+                    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+                    const link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.setAttribute('download', `Calendario_${curso.id}.ics`);
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                },
+                // --- LÓGICA DEL MINI CALENDARIO MACOS ---
+
+                // Cambiar mes (-1 o +1)
+                changeMonth(offset) {
+                    const newDate = new Date(this.calDate);
+                    newDate.setMonth(newDate.getMonth() + offset);
+                    this.calDate = newDate;
+                },
+
+                // Obtener nombre del mes y año visible
+                getCalTitle() {
+                    return this.calDate.toLocaleString('es-ES', { month: 'long', year: 'numeric' });
+                },
+
+                // Generar los días para la cuadrícula (incluyendo espacios vacíos)
+                getCalDays() {
+                    const year = this.calDate.getFullYear();
+                    const month = this.calDate.getMonth();
+
+                    const firstDayOfMonth = new Date(year, month, 1).getDay(); // 0 = Domingo
+                    // Ajuste para que lunes sea 0 (si tu semana empieza en lunes)
+                    // Si prefieres Domingo primero, usa firstDayOfMonth tal cual. 
+                    // Aquí asumo semana Lunes-Domingo para estilo ejecutivo:
+                    const startDay = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
+
+                    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+                    let days = [];
+
+                    // Espacios vacíos antes del 1
+                    for (let i = 0; i < startDay; i++) {
+                        days.push({ num: '', isSession: false });
+                    }
+
+                    // Días del mes
+                    for (let i = 1; i <= daysInMonth; i++) {
+                        // Verificar si este día es una sesión del curso
+                        // Construimos fecha string YYYY-MM-DD para comparar
+                        const currentStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+
+                        // Buscamos en el JSON del curso
+                        const isSession = this.cursoSeleccionado.calendario?.some(s => s.fecha === currentStr);
+
+                        days.push({ num: i, isSession: isSession });
+                    }
+
+                    return days;
+                },
             }
         }
     </script>
