@@ -90,12 +90,33 @@
   {
     "id": "N01-G05-2026-04-20",
     "nivel": 1,
+    "estado": "auto",
     "titulo": "Prompt Estratégico",
-    "nivel_consejo": "Ideal si estás comenzando a usar IA de forma profesional.",
     "subtitulo": "Del “chatear con IA” a dirigirla con precisión.",
+    "nivel_consejo": "Ideal si estás comenzando a usar IA de forma profesional.",
+    "imagen": "assets/alquimistas-Febrero-Cover-landing.jpg",
+
+    "reg_precio": "4,500",
+    "eb_precio": "3,750",
+    "eb_fecha_limite": "2026-03-19",
+    "eb_cupon_code": "ALQ-N1-2604-750",
+    "stripeUrl": "https://buy.stripe.com/5kQ8wOazlenN89Q5Ra5ZC09",
+    "moneda": "MXN",
+
     "fechaInicio": "2026-04-20",
     "kickoff": "Jueves 16 de Abril de 2026",
     "horario": "Lunes y Jueves 6:00 PM<br>(CDMX)",
+
+    "fecha_email": "2026-04-16",
+    "hora_email": "1800",
+
+    "descripcion": "Entrenamiento intensivo de 4 semanas. Aprende a dirigir la IA como un socio estratégico.",
+    "storytelling": {
+      "reto": "¿Te preocupa que la IA reemplace tu trabajo? <strong>No dejes que suceda.</strong> Forma parte del grupo de profesionales que ya usan la tecnología para fortalecer su carrera.",
+      "solucion": "No solo aprenderás herramientas; desarrollarás la habilidad crítica de <strong>pensar como un ingeniero de prompts</strong>. Con clases personalizadas por AlkIA, convertirás horas operativas en minutos de gestión estratégica."
+    },
+    "target": "Profesionales de cualquier industria (Dirección, Marketing, Salud, Finanzas).",
+    "requisitos": "Computadora con acceso a internet. <strong>No se requiere experiencia previa.</strong>",
     "calendario": [
       { "dia": "0", "fecha": "2026-04-16", "tema": "👋 Kickoff / Onboarding" },
       {
@@ -139,20 +160,6 @@
         "tema": "Sprint 4: Integración (Sesión B)"
       }
     ],
-    "fecha_email": "2026-04-16",
-    "hora_email": "1800",
-    "precio": "2,900",
-    "moneda": "MXN",
-    "imagen": "assets/alquimistas-Febrero-Cover-landing.jpg",
-    "stripeUrl": "https://buy.stripe.com/5kQ8wOazlenN89Q5Ra5ZC09",
-    "estado": "auto",
-    "descripcion": "Entrenamiento intensivo de 4 semanas. Aprende a dirigir la IA como un socio estratégico.",
-    "storytelling": {
-      "reto": "¿Te preocupa que la IA reemplace tu trabajo? <strong>No dejes que suceda.</strong> Forma parte del grupo de profesionales que ya usan la tecnología para fortalecer su carrera.",
-      "solucion": "No solo aprenderás herramientas; desarrollarás la habilidad crítica de <strong>pensar como un ingeniero de prompts</strong>. Con clases personalizadas por AlkIA, convertirás horas operativas en minutos de gestión estratégica."
-    },
-    "target": "Profesionales de cualquier industria (Dirección, Marketing, Salud, Finanzas).",
-    "requisitos": "Computadora con acceso a internet. <strong>No se requiere experiencia previa.</strong>",
     "sprints": [
       {
         "titulo": "Sprint 1: Del Chat a la Dirección",
@@ -179,12 +186,33 @@
   {
     "id": "N02-G01-2026-04-20",
     "nivel": 2,
+    "estado": "auto",
     "titulo": "Arquitecto y Gobernante de la IA",
-    "nivel_consejo": "Para quienes ya dominan prompts y quieren diseñar sistemas.",
     "subtitulo": "De usar la IA… a diseñar y gobernar su infraestructura.",
+    "nivel_consejo": "Para quienes ya dominan prompts y quieren diseñar sistemas.",
+    "imagen": "assets/alquimistas-n2-cover.jpg",
+
+    "reg_precio": "4,500",
+    "eb_precio": "3,750",
+    "eb_fecha_limite": "2026-03-17",
+    "eb_cupon_code": "ALQ-N2-2604-750",
+    "stripeUrl": "https://buy.stripe.com/5kQ7sK8rdcfF9dU4N65ZC0a",
+    "moneda": "MXN",
+
     "fechaInicio": "2026-04-20",
     "kickoff": "No hay Kickoff",
     "horario": "Lunes y Jueves 5:00 PM<br>(CDMX)",
+
+    "fecha_email": "2026-04-20",
+    "hora_email": "1700",
+
+    "descripcion": "Entrenamiento intensivo de 4 semanas. Diseña, gobierna y evalúa tu propio sistema profesional con IA.",
+    "storytelling": {
+      "reto": "Ya sabes usar IA. Pero si no gobiernas la información, los criterios y la calidad, sigues dependiendo de respuestas improvisadas.",
+      "solucion": "En este programa construyes tu propia infraestructura de trabajo con IA: un sistema gobernado, evaluable y reutilizable que puedes implementar y demostrar en tu entorno profesional."
+    },
+    "target": "Egresados del Nivel 1 que buscan estructurar y profesionalizar el uso de IA en su trabajo.",
+    "requisitos": "Haber completado el Nivel 1. Computadora con acceso a internet.",
     "calendario": [
       {
         "dia": "1",
@@ -227,20 +255,6 @@
         "tema": "Sprint 4: Productizable (B)"
       }
     ],
-    "fecha_email": "2026-04-20",
-    "hora_email": "1700",
-    "precio": "2,900",
-    "moneda": "MXN",
-    "imagen": "assets/alquimistas-n2-cover.jpg",
-    "stripeUrl": "https://buy.stripe.com/5kQ7sK8rdcfF9dU4N65ZC0a",
-    "estado": "auto",
-    "descripcion": "Entrenamiento intensivo de 4 semanas. Diseña, gobierna y evalúa tu propio sistema profesional con IA.",
-    "storytelling": {
-      "reto": "Ya sabes usar IA. Pero si no gobiernas la información, los criterios y la calidad, sigues dependiendo de respuestas improvisadas.",
-      "solucion": "En este programa construyes tu propia infraestructura de trabajo con IA: un sistema gobernado, evaluable y reutilizable que puedes implementar y demostrar en tu entorno profesional."
-    },
-    "target": "Egresados del Nivel 1 que buscan estructurar y profesionalizar el uso de IA en su trabajo.",
-    "requisitos": "Haber completado el Nivel 1. Computadora con acceso a internet.",
     "sprints": [
       {
         "titulo": "Sprint 1: Gobernar la Verdad",

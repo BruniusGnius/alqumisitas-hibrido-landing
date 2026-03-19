@@ -656,6 +656,95 @@
             /* Ajusta el ancho al 100% */
             /* Otras personalizaciones como color, borde, etc. */
         }
+
+        /* Animación para el Banner Flotante (Se sacude cada 6 segundos) */
+        @keyframes periodic-shake {
+
+            0%,
+            85% {
+                transform: translateY(0) rotate(0);
+            }
+
+            88% {
+                transform: translateY(-4px) rotate(-3deg);
+            }
+
+            91% {
+                transform: translateY(4px) rotate(3deg);
+            }
+
+            94% {
+                transform: translateY(-4px) rotate(-3deg);
+            }
+
+            97% {
+                transform: translateY(4px) rotate(3deg);
+            }
+
+            100% {
+                transform: translateY(0) rotate(0);
+            }
+        }
+
+        .animate-periodic-shake {
+            animation: periodic-shake 6s infinite;
+        }
+
+        @keyframes sparkle-rise {
+            0% {
+                transform: translateY(0) scale(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 1;
+            }
+
+            80% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-45px) scale(1.5) rotate(90deg);
+                opacity: 0;
+            }
+        }
+
+        .magic-particle {
+            position: absolute;
+            color: #f0b90b;
+            /* Efecto de brillo tipo neón dorado */
+            filter: drop-shadow(0 0 8px rgba(240, 185, 11, 0.9));
+            opacity: 0;
+            pointer-events: none;
+            animation: sparkle-rise 2.5s infinite ease-in-out;
+        }
+
+        @keyframes sparkle-rise-banner {
+            0% {
+                transform: translateY(0) scale(0);
+                opacity: 0;
+            }
+
+            30% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-50px) scale(1.5) rotate(45deg);
+                opacity: 0;
+            }
+        }
+
+        .magic-particle-banner {
+            position: absolute;
+            color: #f0b90b;
+            filter: drop-shadow(0 0 10px rgba(240, 185, 11, 1));
+            opacity: 0;
+            pointer-events: none;
+            /* Usamos una animación específica para el banner con mayor escala */
+            animation: sparkle-rise-banner 3s infinite ease-in-out;
+        }
     </style>
 </head>
 
@@ -1462,7 +1551,7 @@
 
                 <template x-for="curso in cursosFiltrados" :key="curso.id">
                     <!-- TARJETA: El borde y la sombra cambian según el nivel si está abierto -->
-                    <div class="pricing-card relative flex flex-col bg-brand-black border rounded-xl overflow-hidden transition-transform hover:-translate-y-2 duration-300"
+                    <div class="pricing-card relative flex flex-col bg-brand-black border rounded-xl transition-transform hover:-translate-y-2 duration-300 overflow-visible"
                         :class="curso.estado === 'abierto' 
                             ? 'border-2 ' + getEstilosNivel(curso.nivel).borde + ' ' + getEstilosNivel(curso.nivel).shadow 
                             : 'border-brand-border opacity-90 hover:opacity-100 grayscale'">
@@ -1475,7 +1564,43 @@
                                 'bg-red-600': curso.estado === 'cerrado'
                              }" x-text="formatEstado(curso.estado)">
                         </div>
+                        <!-- CENFEFA DE ALQUIMISTA V3 - ESTILO PREMIUM -->
+                        <template x-if="esEarlyBirdActivo(curso)">
+                            <div
+                                class="absolute top-[165px] left-1/2 -translate-x-1/2 z-40 w-full flex flex-col items-center">
+                                <!-- Partículas saliendo del tag -->
+                                <div class="relative w-32 h-4">
+                                    <i class="ph-fill ph-star-four magic-particle"
+                                        style="left: 15%; animation-delay: 0s; font-size: 10px;"></i>
+                                    <i class="ph-fill ph-star-four magic-particle"
+                                        style="left: 45%; animation-delay: 0.7s; font-size: 14px;"></i>
+                                    <i class="ph-fill ph-star-four magic-particle"
+                                        style="left: 75%; animation-delay: 1.4s; font-size: 11px;"></i>
+                                </div>
 
+                                <!-- El Tag Principal Inclinado con Outer Glow -->
+                                <div
+                                    class="relative bg-black border-2 border-brand-gold px-5 py-2 rounded-md transform rotate-[-3deg] shadow-[0_0_25px_rgba(240,185,11,0.5)] group-hover:rotate-0 transition-transform duration-500">
+                                    <!-- Borde interno de precisión -->
+                                    <div
+                                        class="absolute inset-0.5 border border-brand-gold/30 rounded-[3px] pointer-events-none">
+                                    </div>
+
+                                    <div class="flex items-center gap-3">
+                                        <i class="ph-fill ph-magic-wand text-brand-gold text-lg drop-shadow-md"></i>
+                                        <p
+                                            class="text-white font-heading font-black text-xs md:text-sm tracking-[0.2em] uppercase whitespace-nowrap">
+                                            Preventa <span class="text-brand-gold italic">Especial</span>
+                                        </p>
+                                    </div>
+                                    <!-- LÍNEA AÑADIDA -->
+                                    <p
+                                        class="text-[8px] text-white/80 tracking-[0.2em] uppercase font-bold mt-1 text-center">
+                                        Por
+                                        tiempo limitado</p>
+                                </div>
+                            </div>
+                        </template>
                         <!-- IMAGEN -->
                         <div class="course-image relative h-56 w-full overflow-hidden">
                             <img :src="curso.imagen" :alt="curso.titulo" class="w-full h-full object-cover">
@@ -1546,56 +1671,143 @@
 
 
                                 <!-- Horario y Precio -->
-                                <div class="pt-2 mt-2 border-t border-brand-border/30">
+                                <!-- Horario y Precio (ACTUALIZADO A EARLY BIRD) -->
+                                <div class="pt-4 mt-2 border-t border-brand-border/30">
                                     <p class="text-brand-muted text-sm text-center font-bold mb-1">
                                         <i class="ph-fill ph-clock"></i> <span x-html="curso.horario"></span>
                                     </p>
 
                                     <!-- NUEVO LINK: Abre Pestaña Calendario -->
-                                    <div class="text-center mt-1 mb-3">
+                                    <div class="text-center mt-1 mb-4">
                                         <button @click="abrirModal(curso, 'calendario')"
-                                            class="text-xs font-bold uppercase tracking-widest underline hover:text-white transition-colors"
+                                            class="text-[11px] font-bold uppercase tracking-widest underline hover:text-white transition-colors"
                                             :class="getEstilosNivel(curso.nivel).texto">
                                             <i class="ph-bold ph-calendar-blank"></i> Ver fechas exactas
                                         </button>
                                     </div>
 
-                                    <p class="mt-4 text-4xl text-white font-bold text-center"
-                                        x-text="'$' + curso.precio + ' ' + curso.moneda"></p>
+                                    <!-- LÓGICA DE PRECIOS DINÁMICOS -->
+                                    <div class="text-center mt-2 relative">
+                                        <!-- SI HAY EARLY BIRD -->
+                                        <template x-if="esEarlyBirdActivo(curso)">
+                                            <div class="text-center">
+                                                <!-- 1. Precio Anterior (Ancla de valor) -->
+                                                <p class="text-green-500 text-sm line-through decoration-green-500 decoration-2 mb-0 font-bold"
+                                                    x-text="'Precio regular: $' + curso.reg_precio + ' ' + curso.moneda">
+                                                </p>
+
+                                                <!-- 2. EL PUENTE (El beneficio aplicado) -->
+                                                <!-- Este texto aparece en dorado, indicando la ganancia inmediata -->
+                                                <p
+                                                    class="text-[12px] font-black text-white uppercase tracking-[0.15em] my-3 drop-shadow-sm">
+                                                    ✨ BENEFICIO:<br><span class="text-brand-gold">-$</span><span
+                                                        class="text-brand-gold"
+                                                        x-text="parseInt(curso.reg_precio.replace(',','')) - parseInt(curso.eb_precio.replace(',',''))"></span>
+                                                    <span class="text-brand-gold" x-text="curso.moneda"></span> <span
+                                                        class="text-white">APLICADO ✨</span>
+                                                </p>
+
+                                                <!-- 3. Precio Final (La decisión) -->
+                                                <p class="text-[40px] text-white font-bold leading-none mb-2 drop-shadow-lg"
+                                                    x-text="'$' + curso.eb_precio + ' ' + curso.moneda"></p>
+
+                                                <!-- El badge de fecha se mantiene abajo como cierre -->
+                                                <div
+                                                    class="inline-flex items-center gap-1.5 bg-orange-950/30 border border-orange-500/40 px-3 py-1 rounded-full mt-1 mb-2">
+                                                    <p
+                                                        class="text-[9px] uppercase tracking-widest font-bold text-orange-400 m-0">
+                                                        Oferta termina el <span
+                                                            x-text="formatEBDeadline(curso.eb_fecha_limite)"></span>
+                                                    </p>
+                                                </div>
+                                                <!-- 5. COUNTDOWN DE DIALES (Gatillo de Ansiedad) -->
+                                                <div class="flex items-center justify-center gap-2 mt-4"
+                                                    x-data="{ timer: obtenerCountdown(curso.eb_fecha_limite) }"
+                                                    x-effect="timer = obtenerCountdown(curso.eb_fecha_limite)">
+
+                                                    <!-- Punto Rojo Titilante (Alineado a las cajas) -->
+                                                    <div class="flex items-center h-8 mb-4">
+                                                        <span
+                                                            class="w-1.5 h-1.5 rounded-full bg-red-600 shadow-[0_0_8px_#dc2626] animate-pulse"></span>
+                                                    </div>
+
+                                                    <!-- Contenedor de Diales -->
+                                                    <div class="flex items-center gap-1">
+                                                        <template
+                                                            x-for="(val, unit) in {d:timer.d, h:timer.h, m:timer.m, s:timer.s}">
+                                                            <div class="flex items-center gap-1">
+                                                                <div class="flex flex-col items-center">
+                                                                    <!-- Caja Numérica -->
+                                                                    <div
+                                                                        class="bg-brand-surface border border-brand-border rounded px-1.5 py-1 min-w-[28px] shadow-inner flex items-center justify-center">
+                                                                        <span
+                                                                            class="text-white font-mono text-sm font-bold tracking-tighter"
+                                                                            x-text="val"></span>
+                                                                    </div>
+                                                                    <!-- Etiqueta -->
+                                                                    <span
+                                                                        class="text-[7px] text-brand-muted uppercase font-black mt-1 tracking-tighter"
+                                                                        x-text="unit === 'd' ? 'días' : unit === 'h' ? 'hrs' : unit === 'm' ? 'min' : 'seg'"></span>
+                                                                </div>
+                                                                <!-- Separador (Centrado con la caja) -->
+                                                                <div class="h-8 flex items-center mb-4"
+                                                                    x-show="unit !== 's'">
+                                                                    <span
+                                                                        class="text-brand-gold/40 font-bold text-xs">:</span>
+                                                                </div>
+                                                            </div>
+                                                        </template>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </template>
+
+                                        <!-- SI NO HAY EARLY BIRD (O YA CADUCÓ) -->
+                                        <template x-if="!esEarlyBirdActivo(curso)">
+                                            <div>
+                                                <p class="text-[40px] text-white font-bold leading-none my-1"
+                                                    x-text="'$' + (curso.reg_precio || curso.precio) + ' ' + curso.moneda">
+                                                </p>
+                                                <p
+                                                    class="text-[10px] uppercase tracking-widest font-bold text-brand-muted mt-2 mb-3">
+                                                    Precio Regular
+                                                </p>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+
+                                <!-- BOTONES -->
+                                <div class="mt-auto space-y-3">
+                                    <!-- BOTÓN MODIFICADO: Pasa 'temario' como parámetro -->
+                                    <button @click="abrirModal(curso, 'temario')"
+                                        class="text-brand-muted underline hover:text-white transition-colors mt-2">
+                                        Ver temario completo
+                                    </button>
+                                    <template x-if="curso.estado === 'abierto'">
+                                        <a :href="generarLinkStripe(curso)"
+                                            class="w-full block uppercase text-sm text-center px-4 py-3 font-bold rounded hover:scale-[1.02] transition-transform text-black shadow-lg"
+                                            :class="getEstilosNivel(curso.nivel).badge">
+                                            Inscribirme Ahora
+                                        </a>
+                                    </template>
+
+                                    <template x-if="curso.estado === 'proximamente' || curso.estado === 'waitlist'">
+                                        <button disabled
+                                            class="w-full bg-brand-surface text-brand-muted py-3 rounded-lg font-bold cursor-not-allowed border border-brand-border uppercase text-sm">
+                                            Lista de Espera
+                                        </button>
+                                    </template>
+
+                                    <template x-if="curso.estado === 'cerrado'">
+                                        <button disabled
+                                            class="w-full bg-red-900/10 text-red-500 py-3 rounded-lg font-bold cursor-not-allowed border border-red-900/30 uppercase text-sm">
+                                            Cerrado
+                                        </button>
+                                    </template>
                                 </div>
                             </div>
-
-                            <!-- BOTONES -->
-                            <div class="mt-auto space-y-3">
-                                <!-- BOTÓN MODIFICADO: Pasa 'temario' como parámetro -->
-                                <button @click="abrirModal(curso, 'temario')"
-                                    class="text-brand-muted underline hover:text-white transition-colors mt-2">
-                                    Ver temario completo
-                                </button>
-                                <template x-if="curso.estado === 'abierto'">
-                                    <a :href="generarLinkStripe(curso)"
-                                        class="w-full block uppercase text-sm py-3 font-bold rounded hover:scale-[1.02] transition-transform text-black shadow-lg"
-                                        :class="getEstilosNivel(curso.nivel).badge">
-                                        Inscribirme Ahora
-                                    </a>
-                                </template>
-
-                                <template x-if="curso.estado === 'proximamente' || curso.estado === 'waitlist'">
-                                    <button disabled
-                                        class="w-full bg-brand-surface text-brand-muted py-3 rounded-lg font-bold cursor-not-allowed border border-brand-border uppercase text-sm">
-                                        Lista de Espera
-                                    </button>
-                                </template>
-
-                                <template x-if="curso.estado === 'cerrado'">
-                                    <button disabled
-                                        class="w-full bg-red-900/10 text-red-500 py-3 rounded-lg font-bold cursor-not-allowed border border-red-900/30 uppercase text-sm">
-                                        Cerrado
-                                    </button>
-                                </template>
-                            </div>
                         </div>
-                    </div>
                 </template>
             </div>
 
@@ -1854,15 +2066,16 @@
                                 </p>
                             </div>
 
-                            <!-- FOOTER -->
+                            <!-- FOOTER DEL MODAL (ACTUALIZADO PRECIOS) -->
                             <div
                                 class="sticky bottom-0 bg-brand-surface/95 backdrop-blur pt-4 pb-0 border-t border-brand-border mt-8">
                                 <template x-if="cursoSeleccionado.estado === 'abierto'">
                                     <a :href="generarLinkStripe(cursoSeleccionado)"
-                                        class="w-full block text-center uppercase text-base py-4 font-bold rounded hover:scale-[1.01] transition-transform text-black shadow-lg mb-3"
+                                        class="w-full flex items-center justify-center gap-2 text-center uppercase text-base py-4 font-bold rounded hover:scale-[1.01] transition-transform text-black shadow-lg mb-3"
                                         :class="getEstilosNivel(cursoSeleccionado.nivel).badge">
-                                        Inscribirme Ahora • <span
-                                            x-text="'$' + cursoSeleccionado.precio + ' ' + cursoSeleccionado.moneda"></span>
+                                        <span>Inscribirme Ahora •</span>
+                                        <span
+                                            x-text="'$' + (esEarlyBirdActivo(cursoSeleccionado) ? cursoSeleccionado.eb_precio : (cursoSeleccionado.reg_precio || cursoSeleccionado.precio)) + ' ' + cursoSeleccionado.moneda"></span>
                                     </a>
                                 </template>
 
@@ -1882,9 +2095,58 @@
                     </div>
                 </template>
             </div>
+
+        </div>
+        <!-- WIDGET FLOTANTE DE PROMOCIÓN - REFINADO -->
+        <div x-show="showPromoBanner && !promoDismissed && hayPromocionesActivas"
+            x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0 translate-y-10"
+            x-transition:enter-end="opacity-100 translate-y-0" style="display: none;"
+            class="fixed bottom-6 right-6 z-[99999] max-w-[320px] w-[90%] md:w-auto">
+
+            <div class="relative group">
+                <!-- Destellos más grandes saliendo del banner -->
+                <div class="absolute -top-12 left-0 w-full h-12 overflow-visible pointer-events-none">
+                    <i class="ph-fill ph-star-four magic-particle-banner text-xl"
+                        style="left: 15%; animation-delay: 0s;"></i>
+                    <i class="ph-fill ph-star-four magic-particle-banner text-2xl"
+                        style="left: 55%; animation-delay: 1s;"></i>
+                    <i class="ph-fill ph-star-four magic-particle-banner text-lg"
+                        style="left: 80%; animation-delay: 2s;"></i>
+                </div>
+
+                <!-- Cuerpo del Banner con Estética Alquimista y Sombra de Resplandor -->
+                <div class="relative bg-black border-2 border-brand-gold p-4 rounded-md shadow-[0_0_30px_rgba(240,185,11,0.5)] animate-periodic-shake flex items-center gap-4 cursor-pointer"
+                    @click="document.getElementById('fechas').scrollIntoView({behavior: 'smooth'})">
+
+                    <!-- Borde interno fino -->
+                    <div class="absolute inset-0.5 border border-brand-gold/20 rounded-[3px]"></div>
+
+                    <!-- Botón Cerrar -->
+                    <button @click.stop="promoDismissed = true"
+                        class="absolute -top-3 -right-3 bg-brand-gold text-black rounded-full w-6 h-6 flex items-center justify-center border-2 border-black hover:scale-110 transition-transform z-10">
+                        <i class="ph-bold ph-x text-[10px]"></i>
+                    </button>
+
+                    <!-- Icono Varita -->
+                    <i class="ph-fill ph-magic-wand text-brand-gold text-3xl drop-shadow-md"></i>
+
+                    <!-- Texto (Redacción Original) -->
+                    <div class="pr-2">
+                        <p
+                            class="text-white font-heading font-black text-sm md:text-base tracking-widest uppercase mb-0.5">
+                            ¡Ahorra Hoy!</p>
+                        <p class="text-brand-text text-xs font-medium leading-tight">Tienes precio de preventa activo.
+                            <span class="text-brand-gold font-bold">Cupos limitados.</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </section>
+
+
+
     <!-- EMPRESAS / B2B SECTION -->
     <section id="empresas" class="py-16 bg-brand-dark border-b border-brand-border">
         <div class="container mx-auto px-5 lg:px-8 max-w-6xl">
@@ -2179,14 +2441,36 @@
                 cursos: [],
                 filtroNivel: 'todos',
                 modalOpen: false,
-                modalTab: 'temario', // 'temario' o 'calendario'
-                calDate: new Date(), // Fecha que controla la vista del calendario
+                modalTab: 'temario',
+                calDate: new Date(),
                 cursoSeleccionado: null,
                 utmSource: '',
+                now: new Date().getTime(),
+
+                // ----> AÑADIDO: Lógica del Banner Flotante
+                showPromoBanner: false,
+                promoDismissed: false,
+
+                get hayPromocionesActivas() {
+                    return this.cursos.some(c => this.esEarlyBirdActivo(c));
+                },
 
                 async initData() {
                     const urlParams = new URLSearchParams(window.location.search);
                     this.utmSource = urlParams.get('utm_source') || '';
+
+                    setInterval(() => { this.now = new Date().getTime(); }, 1000); //
+                    // ----> AÑADIDO: Activa el banner al ver las tarjetas
+                    const observer = new IntersectionObserver((entries) => {
+                        if (entries[0].isIntersecting) {
+                            this.showPromoBanner = true;
+                            observer.unobserve(entries[0].target); // Deja de observar para no gastar recursos
+                        }
+                    }, { threshold: 0.2 });
+                    const sectionFechas = document.getElementById('fechas');
+                    if (sectionFechas) observer.observe(sectionFechas);
+
+
 
                     try {
                         // Agregamos ?v=hora_actual para evitar que el celular use una versión vieja guardada
@@ -2312,40 +2596,50 @@
 
                 // GENERADOR DE LINKS STRIPE (ARQUITECTURA HÍBRIDA V4 - BLINDADA)
                 // GENERADOR DE LINKS STRIPE (ARQUITECTURA V7 - 4 DATOS ÓPTIMOS)
+                // 1. Determinar si el Early Bird está vigente (Termina a las 11:59 PM de la fecha límite)
+                // --- NUEVAS FUNCIONES EARLY BIRD ---
+                esEarlyBirdActivo(curso) {
+                    if (!curso.eb_fecha_limite) return false;
+                    const hoy = new Date();
+                    const limite = new Date(curso.eb_fecha_limite + 'T23:59:59');
+                    return hoy <= limite;
+                },
+
+                formatEBDeadline(fechaStr) {
+                    if (!fechaStr) return '';
+                    const date = new Date(fechaStr + 'T12:00:00');
+                    return date.toLocaleString('es-ES', { day: 'numeric', month: 'short' });
+                },
+
+                // GENERADOR DE LINKS STRIPE (ARQUITECTURA V8 - CON EARLY BIRD)
                 generarLinkStripe(curso) {
-                    if (!curso.stripeUrl) return '#';
+                    // Si el link base no existe o es provisional, desactivamos el botón
+                    if (!curso.stripeUrl || curso.stripeUrl.includes('provisional')) return '#';
 
                     try {
                         const url = new URL(curso.stripeUrl);
                         const vendedor = this.utmSource || 'directo';
 
-                        // Lógica Legacy Nivel 1 (Se mantiene intacta)
-                        if (curso.nivel === 1) {
-                            if (this.utmSource) {
-                                url.searchParams.set('client_reference_id', this.utmSource);
-                                url.searchParams.set('utm_source', this.utmSource);
-                            }
+                        // A. INYECTAR CUPÓN: Si la preventa está activa, Stripe aplicará el descuento automáticamente
+                        if (this.esEarlyBirdActivo(curso) && curso.eb_cupon_code) {
+                            url.searchParams.set('prefilled_promo_code', curso.eb_cupon_code);
                         }
-                        // Nueva Lógica Nivel 2 en adelante
-                        else {
-                            // Fechas limpias desde el JSON (con fallback de seguridad)
-                            const fechaLimpia = curso.fecha_email || curso.fechaInicio;
-                            const horaLimpia = curso.hora_email || "1700";
 
-                            // PAQUETE FINAL (4 datos): Vendedor ___ ID_Cohorte ___ Fecha_Email ___ Hora_Email
-                            const packedData = `${vendedor}___${curso.id}___${fechaLimpia}___${horaLimpia}`;
+                        // B. EMPAQUETADO PARA ZAPIER (El estándar de Nivel 2)
+                        const fechaEmail = curso.fecha_email || curso.fechaInicio;
+                        const horaEmail = curso.hora_email || "1800";
+                        const packedData = `${vendedor}___${curso.id}___${fechaEmail}___${horaEmail}`;
 
-                            url.searchParams.set('client_reference_id', packedData);
+                        url.searchParams.set('client_reference_id', packedData);
 
-                            // Mantenemos el UTM Source original por seguridad y analíticas
-                            if (this.utmSource) {
-                                url.searchParams.set('utm_source', this.utmSource);
-                            }
+                        // C. Mantenemos UTM para analíticas de Stripe
+                        if (this.utmSource) {
+                            url.searchParams.set('utm_source', this.utmSource);
                         }
 
                         return url.toString();
                     } catch (e) {
-                        return curso.stripeUrl;
+                        return curso.stripeUrl; // Fallback de seguridad
                     }
                 },
 
@@ -2483,11 +2777,27 @@
                     }
 
                     return days;
-                }
-            }
-        }
-    </script>
+                },
+                // --- NUEVA FUNCIÓN COUNTDOWN ---
+                obtenerCountdown(fechaLimite) {
+                    if (!fechaLimite) return { d: '00', h: '00', m: '00', s: '00', exp: true };
 
+                    const d = new Date(fechaLimite + 'T23:59:59').getTime();
+                    const diff = d - this.now;
+
+                    if (diff <= 0) return { d: '00', h: '00', m: '00', s: '00', exp: true };
+
+                    return {
+                        d: Math.floor(diff / (1000 * 60 * 60 * 24)).toString().padStart(2, '0'),
+                        h: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0'),
+                        m: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0'),
+                        s: Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0'),
+                        exp: false
+                    };
+                } // <--- Cierre de la función obtenerCountdown
+            }; // <--- Cierre del bloque 'return'
+        } // <--- Cierre de la función 'catalogoCursos'
+    </script>
     <!-- SCRIPT: VISIBILIDAD BRANDING WORKOSFERA (Top & Bottom) -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
