@@ -1692,7 +1692,7 @@
                                         <template x-if="esEarlyBirdActivo(curso)">
                                             <div class="text-center">
                                                 <!-- 1. Precio Anterior (Ancla de valor) -->
-                                                <p class="text-green-500 text-sm line-through decoration-green-500 decoration-2 mb-0 font-bold"
+                                                <p class="text-green-500 text-sm line-through decoration-green-500/65 decoration-0.5 mb-0 font-bold"
                                                     x-text="'Precio regular: $' + curso.reg_precio + ' ' + curso.moneda">
                                                 </p>
 
@@ -1700,7 +1700,7 @@
                                                 <!-- Este texto aparece en dorado, indicando la ganancia inmediata -->
                                                 <p
                                                     class="text-[12px] font-black text-white uppercase tracking-[0.15em] my-3 drop-shadow-sm">
-                                                    ✨ BENEFICIO:<br><span class="text-brand-gold">-$</span><span
+                                                    ✨ <span class="text-brand-gold">-$</span><span
                                                         class="text-brand-gold"
                                                         x-text="parseInt(curso.reg_precio.replace(',','')) - parseInt(curso.eb_precio.replace(',',''))"></span>
                                                     <span class="text-brand-gold" x-text="curso.moneda"></span> <span
