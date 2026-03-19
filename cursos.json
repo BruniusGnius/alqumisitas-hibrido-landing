@@ -194,7 +194,7 @@
 
     "reg_precio": "4,500",
     "eb_precio": "3,750",
-    "eb_fecha_limite": "2026-03-17",
+    "eb_fecha_limite": "2026-03-21",
     "eb_cupon_code": "ALQ-N2-2604-750",
     "stripeUrl": "https://buy.stripe.com/5kQ7sK8rdcfF9dU4N65ZC0a",
     "moneda": "MXN",
