@@ -783,7 +783,36 @@
 </head>
 
 <body class="overflow-x-hidden font-medium text-lg leading-relaxed text-brand-text bg-brand-black">
-    <!-- BARRA SUPERIOR / PRESENTADO POR -->
+    <!-- BRANDING HYDE & SEEK (Sticky Header Elegante con Mención) -->
+    <div id="hydesick-branding"
+        class="hidden sticky top-0 z-[100] bg-white/95 backdrop-blur-md border-b border-gray-100 py-3 md:py-4 transition-all duration-300">
+        <div class="container mx-auto px-5 lg:px-8 max-w-6xl">
+            <!-- items-center asegura el centrado vertical en desktop (md:flex-row) -->
+            <div class="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-8">
+
+                <!-- Frase de Presentación: m-0 para asegurar que no haya espacios extra -->
+                <p
+                    class="m-0 text-gray-500 font-sans font-bold text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-center md:text-right leading-tight">
+                    Presentado por Gnius Academy, <br class="md:hidden"> en colaboración estratégica con
+                </p>
+
+                <!-- Divisor vertical -->
+                <div class="hidden md:block w-px h-8 bg-gray-200"></div>
+
+                <!-- Bloque Partner: Eliminamos mb-6 y flex-col innecesario para centrar la imagen pura -->
+                <div class="flex items-center">
+                    <!-- max-h para control de escala y eliminamos mb-6 -->
+                    <img src="assets/assets2/Hyde & Seek - Logo.png"
+                        class="max-w-[180px] md:max-w-[200px] h-auto block">
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- BARRA SUPERIOR / PRESENTADO POR WORKOSFERA-->
     <div id="top-branding" class="hidden bg-black py-4 border-b border-brand-border">
         <div class="container mx-auto px-5 lg:px-8 max-w-6xl">
             <!-- Flex container: Columna en móvil, Fila en escritorio -->
@@ -792,7 +821,7 @@
                 <!-- Texto -->
                 <p
                     class="text-white font-heading font-medium text-sm md:text-base text-center md:text-right leading-tight">
-                    Presentado por Gnius Club, <br class="md:hidden"> en colaboración estratégica con
+                    Presentado por Gnius Academy, <br class="md:hidden"> en colaboración estratégica con
                 </p>
 
                 <!-- Logo Workosfera -->
@@ -2319,6 +2348,51 @@
             </div>
         </div>
     </section>
+    <!-- ALIANZA HYDE & SEEK (Footer Banner) -->
+    <section id="alianza-hyde" class="hidden py-24 bg-white border-t border-gray-100">
+        <div class="container mx-auto px-5 lg:px-8 max-w-6xl text-black">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-20 items-center">
+
+                <!-- IMAGEN: Victoria Hyde (Efecto elegante) -->
+                <div class="md:col-span-5 order-2 md:order-1 relative">
+                    <div
+                        class="absolute -bottom-4 -left-4 w-full h-full border-2 border-[#a84b48]/20 rounded-2xl -z-10">
+                    </div>
+                    <div class="rounded-2xl overflow-hidden shadow-2xl aspect-square md:aspect-[4/5]">
+                        <!-- Ruta de imagen de su sitio oficial -->
+                        <img src="https://hyde-seek.com/wp-content/uploads/2024/09/Vic-e1636480044489.jpg"
+                            alt="Victoria Hyde - CEO Hyde & Seek" class="w-full h-full object-cover">
+                    </div>
+                </div>
+
+                <!-- TEXTO: Propuesta de Valor -->
+                <div class="md:col-span-7 order-1 md:order-2">
+                    <div
+                        class="inline-block px-3 py-1 bg-[#a84b48]/10 text-[#a84b48] text-[10px] font-bold uppercase tracking-widest rounded-full mb-6">
+                        Strategic Partner
+                    </div>
+                    <h2 class="text-3xl md:text-5xl font-heading font-bold text-black leading-tight mb-6">
+                        Transformamos el potencial en <span class="italic font-light">fuerza de crecimiento.</span>
+                    </h2>
+                    <p class="text-lg text-gray-600 leading-relaxed mb-8">
+                        En <strong>Hyde & Seek</strong>, encontramos a los líderes correctos y potenciamos el
+                        crecimiento profesional
+                        y empresarial. A través del autoconocimiento, impulsamos a empresas y personas hacia la
+                        excelencia y resultados extraordinarios.
+                    </p>
+
+                    <div class="flex items-center gap-6">
+                        <div class="w-12 h-px bg-gray-300"></div>
+                        <span class="text-xs font-bold uppercase tracking-[0.3em] text-gray-400">By Victoria Hyde</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
     <!-- WORKOSFERA SECTION -->
     <section id="alianza" class="hidden py-16 bg-white border-t border-brand-border">
         <div class="container mx-auto px-5 lg:px-8 max-w-6xl">
@@ -2852,33 +2926,39 @@
             }; // <--- Cierre del bloque 'return'
         } // <--- Cierre de la función 'catalogoCursos'
     </script>
-    <!-- SCRIPT: VISIBILIDAD BRANDING WORKOSFERA (Top & Bottom) -->
+    <!-- SCRIPT: CONTROLADOR DE PARTNERS B2B (UTMs) -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // 1. Obtenemos los parámetros de la URL
             const urlParams = new URLSearchParams(window.location.search);
-            const keyword = 'workosfera';
 
-            // 2. Verificamos si algún parámetro UTM contiene la palabra clave
-            const isWorkosfera =
-                (urlParams.get('utm_source')?.toLowerCase().includes(keyword)) ||
-                (urlParams.get('utm_medium')?.toLowerCase().includes(keyword)) ||
-                (urlParams.get('utm_campaign')?.toLowerCase().includes(keyword)) ||
-                (urlParams.get('ref')?.toLowerCase().includes(keyword));
-
-            // 3. Si se cumple, mostramos AMBOS elementos
-            if (isWorkosfera) {
-
-                // Mostrar Barra Superior
-                const topBar = document.getElementById('top-branding');
-                if (topBar) topBar.classList.remove('hidden');
-
-                // Mostrar Sección Inferior (Alianza)
-                const bottomSection = document.getElementById('alianza');
-                if (bottomSection) bottomSection.classList.remove('hidden');
-
-                console.log('Modo Workosfera activado');
+            // Función auxiliar limpia para detectar cualquier UTM
+            function checkPartner(keyword) {
+                return (urlParams.get('utm_source')?.toLowerCase().includes(keyword)) ||
+                    (urlParams.get('utm_medium')?.toLowerCase().includes(keyword)) ||
+                    (urlParams.get('utm_campaign')?.toLowerCase().includes(keyword)) ||
+                    (urlParams.get('ref')?.toLowerCase().includes(keyword));
             }
+
+            // 1. LÓGICA WORKOSFERA
+            if (checkPartner('workosfera')) {
+                const topBar = document.getElementById('top-branding');
+                const bottomSection = document.getElementById('alianza');
+                if (topBar) topBar.classList.remove('hidden');
+                if (bottomSection) bottomSection.classList.remove('hidden');
+                console.log('Branding activado: Workosfera');
+            }
+
+            // 2. LÓGICA HYDE & SEEK
+            if (checkPartner('hyde') || checkPartner('seek')) {
+                const hydeHeader = document.getElementById('hydesick-branding');
+                const hydeFooter = document.getElementById('alianza-hyde'); // <--- AÑADIDO
+                if (hydeHeader) hydeHeader.classList.remove('hidden');
+                if (hydeFooter) hydeFooter.classList.remove('hidden'); // <--- AÑADIDO
+                console.log('Branding activado: Hyde & Seek');
+            }
+
+            // Si en el futuro agregas más partners, solo copias el bloque de arriba
+            // y cambias la palabra clave y el ID del HTML.
         });
     </script>
 
