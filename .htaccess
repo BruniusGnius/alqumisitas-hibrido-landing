@@ -1,0 +1,11 @@
+RewriteEngine On
+
+# 1. Si el usuario pide /gracias, el servidor sirve /gracias.html por detrás
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^(.*)$ $1.html [NC,L]
+
+# 2. (Opcional) Si alguien escribe /gracias.html en el navegador, 
+# lo limpia y lo manda a /gracias (Redirección 301 profesional)
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /.*\.html\ HTTP/
+RewriteRule ^(.*)\.html$ /$1 [R=301,L]
