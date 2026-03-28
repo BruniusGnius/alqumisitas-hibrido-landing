@@ -812,7 +812,8 @@
 
 
     <!-- BARRA SUPERIOR / PRESENTADO POR WORKOSFERA-->
-    <div id="top-branding" class="hidden bg-black py-4 border-b border-brand-border sticky">
+    <div id="top-branding"
+        class="hidden sticky top-0 z-[100] bg-black/95 backdrop-blur-md py-4 border-b border-brand-border transition-all duration-300">
         <div class="container mx-auto px-5 lg:px-8 max-w-6xl">
             <!-- Flex container: Columna en móvil, Fila en escritorio -->
             <div class="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-4">
@@ -1636,46 +1637,69 @@
                              }" x-text="formatEstado(curso.estado)">
                         </div>
 
-                        <!-- CENFEFA DE ALQUIMISTA V3 - ESTILO PREMIUM -->
-                        <!-- 1. TAG PREVENTA AMARILLO CON CONTADOR COLGANTE -->
-                        <template x-if="esEarlyBirdActivo(curso)">
-                            <!-- Aquí inicializamos el reloj para que viva en el tag -->
-                            <div class="absolute top-[170px] left-1/2 -translate-x-1/2 z-40 w-full flex flex-col items-center"
-                                x-data="{ timer: obtenerCountdown(curso.eb_fecha_limite) }"
-                                x-effect="timer = obtenerCountdown(curso.eb_fecha_limite)">
-
-                                <!-- El Tag Principal Inclinado -->
+                        <!-- CENFEFA V4 - LÓGICA DUAL (PARTNER VS PÚBLICO) -->
+                        <!-- CASO 1: Visita de Partner (Pasillo VIP) -->
+                        <template
+                            x-if="activePartner && (activePartner.aplica_a === 'todos' || activePartner.aplica_a.includes(curso.nivel))">
+                            <div
+                                class="absolute top-[170px] left-1/2 -translate-x-1/2 z-40 w-full flex flex-col items-center">
+                                <!-- El Tag Principal (sin contador) -->
                                 <div
                                     class="relative bg-black border-2 border-brand-gold px-5 py-1.5 shadow-[0_0_30px_rgba(240,185,11,0.7)] rounded-md transform rotate-[-3deg] group-hover:rotate-0 transition-transform duration-500 z-20">
-
-                                    <!-- NUEVO: Partículas Radiales saliendo desde el centro del tag -->
+                                    <!-- Partículas Radiales (sin cambios) -->
                                     <div
                                         class="absolute inset-0 flex items-center justify-center pointer-events-none -z-10">
-                                        <!-- Arriba Izquierda -->
                                         <i class="ph-fill ph-star-four magic-particle-radial"
                                             style="--tx: -50px; --ty: -40px; animation-delay: 0s; font-size: 14px;"></i>
-                                        <!-- Arriba Derecha -->
                                         <i class="ph-fill ph-star-four magic-particle-radial"
                                             style="--tx: 50px; --ty: -45px; animation-delay: 0.6s; font-size: 18px;"></i>
-                                        <!-- Abajo Izquierda -->
                                         <i class="ph-fill ph-star-four magic-particle-radial"
                                             style="--tx: -60px; --ty: 35px; animation-delay: 1.2s; font-size: 12px;"></i>
-                                        <!-- Abajo Derecha -->
-                                        <i class="ph-fill ph-star-four magic-particle-radial"
-                                            style="--tx: 55px; --ty: 40px; animation-delay: 0.3s; font-size: 16px;"></i>
-                                        <!-- Directo Arriba -->
-                                        <i class="ph-fill ph-star-four magic-particle-radial"
-                                            style="--tx: 0px; --ty: -60px; animation-delay: 0.9s; font-size: 10px;"></i>
-                                        <!-- Directo Abajo -->
-                                        <i class="ph-fill ph-star-four magic-particle-radial"
-                                            style="--tx: 10px; --ty: 50px; animation-delay: 1.5s; font-size: 15px;"></i>
                                     </div>
-
-                                    <!-- Borde interior decorativo -->
+                                    <!-- Borde interior -->
                                     <div
                                         class="absolute inset-0.5 border border-brand-gold/20 rounded-[3px] pointer-events-none">
                                     </div>
 
+                                    <div class="flex items-center gap-2 justify-center relative z-10">
+                                        <i :class="activePartner.icono || 'ph-fill ph-sparkle'"
+                                            class="text-brand-gold text-lg"></i>
+                                        <p
+                                            class="text-brand-gold text-center font-heading font-black text-xs md:text-sm tracking-[0.1em] uppercase whitespace-nowrap">
+                                            <span class="text-brand-gold" x-html="activePartner.etiqueta"></span>
+                                        </p>
+                                    </div>
+                                    <p
+                                        class="text-[8px] text-white tracking-[0.15em] uppercase font-black mt-0.5 text-center relative z-10">
+                                        <strong class="text-brand-gold">CUPO</strong> LIMITADO
+                                    </p>
+                                </div>
+                            </div>
+                        </template>
+
+                        <!-- CASO 2: Visita Pública (Early Bird con Reloj) -->
+                        <template x-if="!activePartner && esEarlyBirdActivo(curso)">
+                            <!-- Aquí inicializamos el reloj para que viva en el tag -->
+                            <div class="absolute top-[170px] left-1/2 -translate-x-1/2 z-40 w-full flex flex-col items-center"
+                                x-data="{ timer: obtenerCountdown(curso.eb_fecha_limite) }"
+                                x-effect="timer = obtenerCountdown(curso.eb_fecha_limite)">
+                                <!-- El Tag Principal Inclinado -->
+                                <div
+                                    class="relative bg-black border-2 border-brand-gold px-5 py-1.5 shadow-[0_0_30px_rgba(240,185,11,0.7)] rounded-md transform rotate-[-3deg] group-hover:rotate-0 transition-transform duration-500 z-20">
+                                    <!-- Partículas Radiales (sin cambios) -->
+                                    <div
+                                        class="absolute inset-0 flex items-center justify-center pointer-events-none -z-10">
+                                        <i class="ph-fill ph-star-four magic-particle-radial"
+                                            style="--tx: -50px; --ty: -40px; animation-delay: 0s; font-size: 14px;"></i>
+                                        <i class="ph-fill ph-star-four magic-particle-radial"
+                                            style="--tx: 50px; --ty: -45px; animation-delay: 0.6s; font-size: 18px;"></i>
+                                        <i class="ph-fill ph-star-four magic-particle-radial"
+                                            style="--tx: -60px; --ty: 35px; animation-delay: 1.2s; font-size: 12px;"></i>
+                                    </div>
+                                    <!-- Borde interior decorativo -->
+                                    <div
+                                        class="absolute inset-0.5 border border-brand-gold/20 rounded-[3px] pointer-events-none">
+                                    </div>
                                     <div class="flex items-center gap-2 justify-center relative z-10">
                                         <i class="ph-fill ph-magic-wand text-brand-gold text-lg"></i>
                                         <p
@@ -1687,23 +1711,19 @@
                                         class="text-[8px] text-white tracking-[0.15em] uppercase font-black mt-0.5 text-center relative z-10">
                                         <strong class="text-brand-gold">DESCUENTO</strong> Por tiempo limitado
                                     </p>
-
                                     <!-- CONTADOR COLGANTE (Yuxtapuesto exactamente debajo) -->
                                     <div
                                         class="absolute top-[101%] right-0 bg-[#0a0a0a] border border-red-500 rounded-b-md px-2 py-0.5 flex items-center gap-1.5 shadow-[0_5px_10px_rgba(239,68,68,0.2)] z-10">
-                                        <!-- Punto Rojo Titilante Discreto -->
                                         <span
                                             class="w-1.5 h-1.5 rounded-full bg-red-500 shadow-[0_0_6px_#ef4444] animate-pulse"></span>
-
-                                        <!-- Diales Súper Compactos -->
                                         <div
                                             class="flex items-center gap-0.5 text-white font-mono text-[11px] font-bold tracking-tighter leading-none mt-0.5 mb-0.8 ">
-                                            <span x-text="timer.d"></span>
-                                            <span class="text-brand-muted/50 -mt-0.5 mb-0.8">:</span>
-                                            <span x-text="timer.h"></span>
-                                            <span class="text-brand-muted/50 -mt-0.5 mb-0.8">:</span>
-                                            <span x-text="timer.m"></span>
-                                            <span class="text-brand-muted/50 -mt-0.5 mb-0.8">:</span>
+                                            <span x-text="timer.d"></span><span
+                                                class="text-brand-muted/50 -mt-0.5 mb-0.8">:</span>
+                                            <span x-text="timer.h"></span><span
+                                                class="text-brand-muted/50 -mt-0.5 mb-0.8">:</span>
+                                            <span x-text="timer.m"></span><span
+                                                class="text-brand-muted/50 -mt-0.5 mb-0.8">:</span>
                                             <span x-text="timer.s"></span>
                                         </div>
                                     </div>
@@ -2178,48 +2198,68 @@
             </div>
 
         </div>
-        <!-- WIDGET FLOTANTE DE PROMOCIÓN - REFINADO -->
-        <div x-show="showPromoBanner && !promoDismissed && hayPromocionesActivas"
+        <!-- WIDGET FLOTANTE V2 - LÓGICA DUAL -->
+        <div x-show="showPromoBanner && !promoDismissed && (hayPromocionesActivas || activePartner)"
             x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0 translate-y-10"
             x-transition:enter-end="opacity-100 translate-y-0" style="display: none;"
-            class="fixed bottom-6 right-6 z-[99999] max-w-[320px] w-[90%] md:w-auto">
+            class="fixed bottom-6 right-6 z-[99999] max-w-[400px] w-[90%] md:w-auto">
 
             <div class="relative group">
-                <!-- Destellos más grandes saliendo del banner -->
+                <!-- Destellos (comunes para ambos casos) -->
                 <div class="absolute -top-12 left-0 w-full h-12 overflow-visible pointer-events-none">
                     <i class="ph-fill ph-star-four magic-particle-banner text-xl"
                         style="left: 15%; animation-delay: 0s;"></i>
                     <i class="ph-fill ph-star-four magic-particle-banner text-2xl"
                         style="left: 55%; animation-delay: 1s;"></i>
-                    <i class="ph-fill ph-star-four magic-particle-banner text-lg"
-                        style="left: 80%; animation-delay: 2s;"></i>
                 </div>
 
-                <!-- Cuerpo del Banner con Estética Alquimista y Sombra de Resplandor -->
+                <!-- Cuerpo del Banner (Común) -->
                 <div class="relative bg-black border-2 border-brand-gold p-4 rounded-md shadow-[0_0_30px_rgba(240,185,11,0.5)] animate-periodic-shake flex items-center gap-4 cursor-pointer"
                     @click="document.getElementById('fechas').scrollIntoView({behavior: 'smooth'})">
-
-                    <!-- Borde interno fino -->
                     <div class="absolute inset-0.5 border border-brand-gold/20 rounded-[3px]"></div>
-
-                    <!-- Botón Cerrar -->
                     <button @click.stop="promoDismissed = true"
                         class="absolute -top-3 -right-3 bg-brand-gold text-black rounded-full w-6 h-6 flex items-center justify-center border-2 border-black hover:scale-110 transition-transform z-10">
                         <i class="ph-bold ph-x text-[10px]"></i>
                     </button>
 
-                    <!-- Icono Varita -->
-                    <i class="ph-fill ph-magic-wand text-brand-gold text-3xl drop-shadow-md"></i>
+                    <!-- CONTENIDO DINÁMICO DEL BANNER -->
+                    <!-- CASO 1: Visita de Partner -->
+                    <template x-if="activePartner">
+                        <div class="flex items-center gap-3 w-full">
+                            <!-- Contenedor del Logo: Altura estricta para forzar renderizado de SVGs -->
+                            <div class="flex-shrink-0 flex items-center justify-center h-10 md:h-12"
+                                :class="{ 'bg-white p-2 ': activePartner.logo_bg }">
+                                <!-- h-full y w-auto obligan al SVG a calcular su ancho correcto -->
+                                <img :src="activePartner.logo" alt="Logo"
+                                    class="h-full w-auto max-w-[110px] md:max-w-[140px] object-contain block">
+                            </div>
+                            <!-- Texto del Partner -->
+                            <div class="pr-2">
+                                <p class="text-brand-gold font-heading font-black text-sm md:text-base tracking-widest uppercase mb-0.5"
+                                    x-html="activePartner.etiqueta"></p>
+                                <p class="text-white/60 text-sm font-medium leading-tight"
+                                    x-html="activePartner.banner_mensaje"></p>
+                            </div>
+                        </div>
+                    </template>
 
-                    <!-- Texto (Redacción Original) -->
-                    <div class="pr-2">
-                        <p
-                            class="text-white font-heading font-black text-sm md:text-base tracking-widest uppercase mb-0.5">
-                            ¡Ahorra Hoy!</p>
-                        <p class="text-brand-text text-xs font-medium leading-tight">Tienes precio de preventa activo.
-                            <span class="text-brand-gold font-bold">Cupos limitados.</span>
-                        </p>
-                    </div>
+                    <!-- CASO 2: Visita Pública con Preventa -->
+                    <template x-if="!activePartner && hayPromocionesActivas">
+                        <div class="flex items-center gap-4 w-full">
+                            <!-- Icono Varita -->
+                            <i class="ph-fill ph-magic-wand text-brand-gold text-3xl drop-shadow-md"></i>
+                            <!-- Texto Original -->
+                            <div class="pr-2">
+                                <p
+                                    class="text-white font-heading font-black text-sm md:text-base tracking-widest uppercase mb-0.5">
+                                    ¡Ahorra Hoy!</p>
+                                <p class="text-brand-text text-xs font-medium leading-tight">Tienes precio de preventa
+                                    activo.
+                                    <span class="text-brand-gold font-bold">Cupo limitado.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </template>
                 </div>
             </div>
         </div>
@@ -2529,6 +2569,8 @@
                 // --- 1. ESTADO INICIAL Y VARIABLES ---
                 cargando: true,
                 cursos: [],
+                partners: [], // Contendrá los datos de partners.json
+                activePartner: null, // Guardará el partner activo detectado por UTM
                 filtroNivel: 'todos',
                 modalOpen: false,
                 modalTab: 'temario',
@@ -2547,14 +2589,13 @@
                 },
 
                 // --- 2. INICIALIZACIÓN ---
+                // --- 2. INICIALIZACIÓN ---
                 async initData() {
                     const urlParams = new URLSearchParams(window.location.search);
                     this.utmSource = urlParams.get('utm_source') || '';
 
                     // Iniciar motor del reloj
-                    setInterval(() => {
-                        this.now = new Date().getTime();
-                    }, 1000);
+                    setInterval(() => { this.now = new Date().getTime(); }, 1000);
 
                     // Configurar sensor del Banner Flotante
                     const observer = new IntersectionObserver((entries) => {
@@ -2568,29 +2609,38 @@
                     if (sectionFechas) observer.observe(sectionFechas);
 
                     try {
-                        const response = await fetch('cursos.json?v=' + new Date().getTime());
-                        let data = await response.json();
+                        // Carga paralela de cursos y partners
+                        const [cursosResponse, partnersResponse] = await Promise.all([
+                            fetch('cursos.json?v=' + new Date().getTime()),
+                            fetch('partners.json?v=' + new Date().getTime())
+                        ]);
+                        let cursosData = await cursosResponse.json();
+                        this.partners = await partnersResponse.json();
 
-                        // Calcular estados (Abierto, Cerrado, Proximamente)
-                        data = data.map(curso => {
+                        // Lógica para detectar partner activo
+                        const utmString = (urlParams.get('utm_source') || '') + (urlParams.get('ref') || '');
+                        if (utmString) {
+                            this.activePartner = this.partners.find(p =>
+                                p.keywords.some(k => utmString.toLowerCase().includes(k.toLowerCase()))
+                            ) || null;
+                        }
+
+                        // Lógica de cursos (sin cambios)
+                        cursosData = cursosData.map(curso => {
                             curso.estado = this.calcularEstadoLogico(curso);
                             return curso;
                         });
-
-                        // Filtrar solo los que no están cerrados
-                        data = data.filter(curso => curso.estado !== 'cerrado');
-
-                        // Ordenar: Abiertos primero > Desempate por fecha
-                        this.cursos = data.sort((a, b) => {
+                        cursosData = cursosData.filter(curso => curso.estado !== 'cerrado');
+                        this.cursos = cursosData.sort((a, b) => {
                             const prioridades = { 'abierto': 1, 'waitlist': 2, 'proximamente': 3 };
-                            const prioA = prioridades[a.estado] || 4;
-                            const prioB = prioridades[b.estado] || 4;
-                            if (prioA !== prioB) return prioA - prioB;
+                            if (prioridades[a.estado] !== prioridades[b.estado]) {
+                                return (prioridades[a.estado] || 4) - (prioridades[b.estado] || 4);
+                            }
                             return new Date(a.fechaInicio) - new Date(b.fechaInicio);
                         });
 
                     } catch (error) {
-                        console.error('Error cargando cursos:', error);
+                        console.error('Error cargando datos iniciales:', error);
                     } finally {
                         this.cargando = false;
                     }
@@ -2623,12 +2673,16 @@
                         const url = new URL(curso.stripeUrl);
                         const vendedor = this.utmSource || 'directo';
 
-                        // Inyectar cupón si preventa está activa
-                        if (this.esEarlyBirdActivo(curso) && curso.eb_cupon_code) {
+                        // NUEVA LÓGICA: Prioriza el cupón del partner
+                        if (this.activePartner && (this.activePartner.aplica_a === 'todos' || this.activePartner.aplica_a.includes(curso.nivel))) {
+                            url.searchParams.set('prefilled_promo_code', this.activePartner.cupon_stripe);
+                        }
+                        // Lógica de fallback para Early Bird si no hay partner
+                        else if (this.esEarlyBirdActivo(curso) && curso.eb_cupon_code) {
                             url.searchParams.set('prefilled_promo_code', curso.eb_cupon_code);
                         }
 
-                        // Lógica de automatización diferenciada
+                        // Lógica de automatización (sin cambios)
                         if (curso.nivel === 1) {
                             if (this.utmSource) url.searchParams.set('client_reference_id', this.utmSource);
                         } else {

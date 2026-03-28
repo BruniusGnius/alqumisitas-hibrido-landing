@@ -1,0 +1,28 @@
+[
+  {
+    "id": "workosfera",
+    "keywords": ["workosfera"],
+    "tipo_beneficio": "descuento",
+    "descuento_mxn": 750,
+    "cupon_stripe": "WORKOFLOW",
+    "etiqueta": "<p class=''><span class='text-white'>Descuento Especial</span> <br> WORKÓSFERA</p>",
+    "banner_mensaje": "Te otorgamos un beneficio por ser parte de nuestra comunidad",
+    "icono": "ph-buildings",
+    "logo": "https://alquimistas.gnius.club/assets/workosfera-logo-01.svg",
+    "logo_bg": false,
+    "aplica_a": "todos"
+  },
+  {
+    "id": "hyde_seek",
+    "keywords": ["hyde_seek", "hyde-seek", "hyde", "seek"],
+    "tipo_beneficio": "descuento",
+    "descuento_mxn": 750,
+    "cupon_stripe": "HYDESTRATEGY",
+    "etiqueta": "<span class='text-white'>Beca Especial H&S",
+    "banner_mensaje": "Potenciamos tu perfil con un gran descuento",
+    "icono": "ph-diamonds-four",
+    "logo": "https://alquimistas.gnius.club/assets/hyde_seek-logo.png",
+    "logo_bg": true,
+    "aplica_a": [1, 2]
+  }
+]
