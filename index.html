@@ -782,7 +782,8 @@
     </style>
 </head>
 
-<body class="overflow-x-hidden font-medium text-lg leading-relaxed text-brand-text bg-brand-black">
+<body x-data="catalogoCursos()" x-init="initData()"
+    class="overflow-x-hidden font-medium text-lg leading-relaxed text-brand-text bg-brand-black">
     <!-- BRANDING HYDE & SEEK (Sticky Header Elegante con Mención) -->
     <div id="hydesick-branding"
         class="hidden sticky top-0 z-[100] bg-white/95 backdrop-blur-md border-b border-gray-100 py-3 md:py-4 transition-all duration-300">
@@ -871,6 +872,147 @@
 
             <div class="text-center mt-10">
                 <a href="#fechas" class="cta-button">QUIERO EMPEZAR MI ENTRENAMIENTO</a>
+            </div>
+        </div>
+    </section>
+    <!-- ================================================= -->
+    <!-- LAUNCHPAD SECTION (TL;DR Y SELECTOR DE NIVEL) -->
+    <!-- ================================================= -->
+    <section id="launchpad" class="py-24 bg-brand-dark border-b border-brand-border">
+        <div class="container mx-auto px-5 lg:px-8 max-w-6xl">
+
+            <!-- 1. Título principal (TL;DR General) -->
+            <div class="text-center mb-10">
+                <p class="section-kicker mb-4">RESUMEN DEL PROGRAMA</p>
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-white leading-relaxed">
+                    Todo lo que necesitas saber
+                </h2>
+                <p class="text-lg text-brand-gold mt-2 font-medium">
+                    Un programa 100% en línea diseñado para que domines la IA, no para que ella te domine a ti.
+                </p>
+            </div>
+
+            <!-- 2. Banner de Datos Clave (6 Puntos Clave - La Visión del Alquimista) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-20 text-center">
+
+                <!-- 1. ¿Cuándo Inicia? (Logística) -->
+                <div
+                    class="bg-brand-black border border-brand-border/50 rounded-lg p-6 flex flex-col items-center justify-start gap-3 shadow-lg hover:border-brand-gold/50 transition-colors">
+                    <i class="ph-bold ph-calendar-check text-4xl text-brand-gold mb-1"></i>
+                    <h4 class="font-bold text-white leading-tight">¿Cuándo inicia?</h4>
+                    <div x-show="cargando" class="flex justify-center items-center h-8"><i
+                            class="ph-bold ph-spinner animate-spin text-brand-gold text-xl"></i></div>
+                    <div x-show="!cargando && cursos.length > 0" class="flex flex-col gap-2 mt-2 w-full max-w-[200px]"
+                        style="display: none;">
+                        <template x-for="curso in cursos.slice(0, 3)" :key="curso.id">
+                            <a href="#fechas" @click="filtroNivel = curso.nivel"
+                                class="text-[12px] font-bold border-2 px-4 py-2 rounded-md hover:bg-white/10 transition-colors whitespace-nowrap shadow-sm w-full"
+                                :class="[getEstilosNivel(curso.nivel).texto, getEstilosNivel(curso.nivel).borde]">
+                                Nivel <span x-text="curso.nivel"></span>: <span
+                                    x-text="formatDateShort(curso.fecha_email || curso.fechaInicio)"
+                                    class="capitalize"></span>
+                            </a>
+                        </template>
+                    </div>
+                    <p x-show="!cargando && cursos.length === 0" class="text-sm text-brand-muted"
+                        style="display: none;">Fechas por confirmar.</p>
+                </div>
+
+                <!-- 2. Guía Humana e IA (Credibilidad) -->
+                <div
+                    class="bg-brand-black border border-brand-border/50 rounded-lg p-6 flex flex-col items-center justify-start gap-3 shadow-lg hover:border-brand-gold/50 transition-colors">
+                    <i class="ph-bold ph-users-three text-4xl text-brand-gold mb-1"></i>
+                    <h4 class="font-bold text-white leading-tight">¿Quién te guía?</h4>
+                    <p class="text-base text-white/90 leading-relaxed">Aprendes con <strong>ALKIA</strong>
+                        (IA&nbsp;hiper-personalizada), con apoyo de un <strong>coach humano</strong> y bajo la
+                        metodología de
+                        <strong>Rudy&nbsp;Laddaga</strong>.
+                    </p>
+                </div>
+
+                <!-- 3. Lógica sobre Herramientas (LA VISIÓN) -->
+                <div
+                    class="bg-brand-black border border-brand-border/50 rounded-lg p-6 flex flex-col items-center justify-start gap-3 shadow-lg hover:border-brand-gold/50 transition-colors">
+                    <i class="ph-bold ph-intersect text-4xl text-brand-gold mb-1"></i>
+                    <h4 class="font-bold text-white leading-tight">Estrategia, no herramientas</h4>
+                    <p class="text-base text-white/90 leading-relaxed">No enseñamos "apps", enseñamos el
+                        <strong>andamiaje para dominar cualquier LLM</strong>. Tu decides que IA utilizar.
+                    </p>
+                </div>
+
+                <!-- 4. Ritmo Semanal (Metodología) -->
+                <div
+                    class="bg-brand-black border border-brand-border/50 rounded-lg p-6 flex flex-col items-center justify-start gap-3 shadow-lg hover:border-brand-gold/50 transition-colors">
+                    <i class="ph-bold ph-chart-line-up text-4xl text-brand-gold mb-1"></i>
+                    <h4 class="font-bold text-white leading-tight">4 Sprints: Tu Ritmo</h4>
+                    <p class="text-base text-white/90 leading-relaxed"><strong>Un reto real por semana</strong>.
+                        Avanzas a tu velocidad con la plataforma disponible 24/7 para cumplir tus objetivos
+                        profesionales cada lunes.</p>
+                </div>
+
+                <!-- 5. Sesiones de Acompañamiento (Formato) -->
+                <div
+                    class="bg-brand-black border border-brand-border/50 rounded-lg p-6 flex flex-col items-center justify-start gap-3 shadow-lg hover:border-brand-gold/50 transition-colors">
+                    <i class="ph-bold ph-chalkboard-teacher text-4xl text-brand-gold mb-1"></i>
+                    <h4 class="font-bold text-white leading-tight">Sesiones en Vivo</h4>
+                    <p class="text-base text-white/90 leading-relaxed"><strong>2 sesiones de 1 hora</strong>
+                        semanales. Espacios directos para explicar el reto del sprint y resolver tus dudas de
+                        implementación con el coach.</p>
+                </div>
+
+                <!-- 6. Flexibilidad y Grabaciones (Soporte) -->
+                <div
+                    class="bg-brand-black border border-brand-border/50 rounded-lg p-6 flex flex-col items-center justify-start gap-3 shadow-lg hover:border-brand-gold/50 transition-colors">
+                    <i class="ph-bold ph-video-camera text-4xl text-brand-gold mb-1"></i>
+                    <h4 class="font-bold text-white leading-tight">Flexibilidad Total</h4>
+                    <p class="text-base text-white/90 leading-relaxed">Aprende sin presión. <strong>Todas las
+                            sesiones se graban</strong> y ALKIA te acompaña 24/7 para que nunca te detengas, incluso si
+                        viajas o no asistes.</p>
+                </div>
+
+            </div>
+
+            <!-- 3. Selector de Niveles (Lo específico) -->
+            <div class="text-center mb-10 mt-10 border-t border-brand-border/50 pt-16">
+                <p class="section-kicker mb-4">ELIGE TU RUTA</p>
+                <h3 class="text-2xl md:text-3xl font-heading font-bold text-white">¿Cuál es tu punto de partida?</h3>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+
+                <!-- Tarjeta Nivel 1 -->
+                <div
+                    class="bg-brand-surface border-2 border-brand-gold rounded-xl p-8 flex flex-col text-center items-center shadow-[0_0_30px_rgba(240,185,11,0.15)] relative overflow-hidden">
+                    <i class="ph-fill ph-sparkle text-5xl text-brand-gold mb-4"></i>
+                    <h4 class="text-2xl font-heading font-bold text-white mb-2">Nivel 1: Prompting Estratégico</h4>
+                    <p class="text-brand-muted flex-grow mb-8">
+                        <strong>Ideal para ti si</strong> quieres pasar de "chatear" con la IA a dirigirla con precisión
+                        en tu trabajo diario. Es la base indispensable.
+                    </p>
+
+                    <!-- Botón como Ancla HTML + Filtro automático -->
+                    <a href="#fechas" @click="filtroNivel = 1"
+                        class="w-full max-w-xs block uppercase text-sm text-center px-4 py-3 font-bold rounded transition-transform text-black shadow-lg bg-brand-gold hover:bg-brand-gold-dark hover:scale-[1.02]">
+                        Ver Fechas y Precios - Nivel 1
+                    </a>
+                </div>
+
+                <!-- Tarjeta Nivel 2 -->
+                <div
+                    class="bg-brand-surface border-2 border-blue-500 rounded-xl p-8 flex flex-col text-center items-center shadow-[0_0_30px_rgba(59,130,246,0.15)] relative overflow-hidden">
+                    <i class="ph-fill ph-tree-structure text-5xl text-blue-400 mb-4"></i>
+                    <h4 class="text-2xl font-heading font-bold text-white mb-2">Nivel 2: Arquitectura de IA</h4>
+                    <p class="text-brand-muted flex-grow mb-8">
+                        <strong>Ideal para ti si</strong> ya dominas los prompts y ahora necesitas diseñar sistemas de
+                        confianza, gobernar información e infraestructura.
+                    </p>
+
+                    <!-- Botón como Ancla HTML + Filtro automático -->
+                    <a href="#fechas" @click="filtroNivel = 2"
+                        class="w-full max-w-xs block uppercase text-sm text-center px-4 py-3 font-bold rounded transition-transform text-white shadow-lg bg-blue-600 hover:bg-blue-700 hover:scale-[1.02]">
+                        Ver Fechas y Precios - Nivel 2
+                    </a>
+                </div>
             </div>
         </div>
     </section>
@@ -1557,8 +1699,7 @@
     </section>
 
     <!-- FECHAS / GRUPOS SECTION (DINÁMICA CON ALPINE.JS) -->
-    <section id="fechas" class="py-24 border-b border-brand-border bg-brand-black" x-data="catalogoCursos()"
-        x-init="initData()">
+    <section id="fechas" class="py-24 border-b border-brand-border bg-brand-black">
 
         <div class="container mx-auto px-5 lg:px-8 max-w-6xl">
             <div class="text-center mb-12">
@@ -1821,8 +1962,8 @@
                                         <!-- Este nuevo div es el que hace la magia de centrado -->
                                         <div class="min-h-[150px] flex flex-col justify-center">
 
-                                            <!-- SI HAY EARLY BIRD -->
-                                            <template x-if="esEarlyBirdActivo(curso)">
+                                            <!-- SI HAY DESCUENTO (EARLY BIRD O PARTNER) -->
+                                            <template x-if="tieneDescuentoVisual(curso)">
                                                 <div>
                                                     <!-- Precio Anterior (Ancla de valor) con SELLO -->
                                                     <div class="relative inline-block mb-3 mt-3">
@@ -1841,28 +1982,33 @@
 
                                                         <!-- Precio Tachado -->
                                                         <p class="text-green-500 text-3xl line-through decoration-green-500/65 decoration-[2px] mb-0 font-bold"
-                                                            x-text="' $' + curso.reg_precio + ' ' + curso.moneda">
+                                                            x-text="' $' + (curso.reg_precio || curso.precio) + ' ' + curso.moneda">
                                                         </p>
                                                     </div>
 
                                                     <!-- Precio Final (La decisión) -->
                                                     <p class="text-[36px] text-white font-bold leading-none mb-2 drop-shadow-lg"
-                                                        x-text="'$' + curso.eb_precio + '&nbsp;' + curso.moneda"></p>
+                                                        x-text="'$' + getPrecioDescuento(curso) + '&nbsp;' + curso.moneda">
+                                                    </p>
 
-                                                    <!-- El badge de fecha -->
+                                                    <!-- El badge de fecha / partner -->
                                                     <div
-                                                        class="inline-flex items-center gap-1.5 bg-orange-950/30  px-3 py-1 rounded-full mt-1 mb-2">
+                                                        class="inline-flex items-center gap-1.5 bg-orange-950/30 px-3 py-1 rounded-full mt-1 mb-2">
                                                         <p
-                                                            class="text-[10px]  tracking-widest font-bold text-brand-muted m-0">
-                                                            Válido al <span class="text-orange-400 uppercase"
-                                                                x-text="formatEBDeadline(curso.eb_fecha_limite)"></span>
+                                                            class="text-[10px] tracking-widest font-bold text-brand-muted m-0">
+                                                            <span x-show="isPartnerActivoParaCurso(curso)"
+                                                                class="text-orange-400 uppercase">Beneficio Alianza
+                                                                Activo</span>
+                                                            <span x-show="!isPartnerActivoParaCurso(curso)">Válido al
+                                                                <span class="text-orange-400 uppercase"
+                                                                    x-text="formatEBDeadline(curso.eb_fecha_limite)"></span></span>
                                                         </p>
                                                     </div>
                                                 </div>
                                             </template>
 
-                                            <!-- SI NO HAY EARLY BIRD (O YA CADUCÓ) -->
-                                            <template x-if="!esEarlyBirdActivo(curso)">
+                                            <!-- SI NO HAY DESCUENTO (O YA CADUCÓ) -->
+                                            <template x-if="!tieneDescuentoVisual(curso)">
                                                 <div>
                                                     <p class="text-[40px] text-white font-bold leading-none"
                                                         x-text="'$' + (curso.reg_precio || curso.precio) + ' ' + curso.moneda">
@@ -1876,39 +2022,38 @@
 
                                         </div>
                                     </div>
-                                </div>
 
-                                <!-- BOTONES -->
-                                <div class="mt-auto space-y-3 ">
-                                    <!-- BOTÓN MODIFICADO: Pasa 'temario' como parámetro -->
-                                    <button @click="abrirModal(curso, 'temario')"
-                                        class="text-brand-muted underline hover:text-white transition-colors mt-2 mb-6">
-                                        Ver temario completo
-                                    </button>
-                                    <template x-if="curso.estado === 'abierto'">
-                                        <a :href="generarLinkStripe(curso)"
-                                            class="w-full block uppercase text-sm text-center px-4 py-3 font-bold rounded hover:scale-[1.02] transition-transform text-black shadow-lg"
-                                            :class="getEstilosNivel(curso.nivel).badge">
-                                            Inscribirme Ahora
-                                        </a>
-                                    </template>
-
-                                    <template x-if="curso.estado === 'proximamente' || curso.estado === 'waitlist'">
-                                        <button disabled
-                                            class="w-full bg-brand-surface text-brand-muted py-3 rounded-lg font-bold cursor-not-allowed border border-brand-border uppercase text-sm">
-                                            Lista de Espera
+                                    <!-- BOTONES -->
+                                    <div class="mt-auto space-y-3 ">
+                                        <!-- BOTÓN MODIFICADO: Pasa 'temario' como parámetro -->
+                                        <button @click="abrirModal(curso, 'temario')"
+                                            class="text-brand-muted underline hover:text-white transition-colors mt-2 mb-6">
+                                            Ver temario completo
                                         </button>
-                                    </template>
+                                        <template x-if="curso.estado === 'abierto'">
+                                            <a :href="generarLinkStripe(curso)"
+                                                class="w-full block uppercase text-sm text-center px-4 py-3 font-bold rounded hover:scale-[1.02] transition-transform text-black shadow-lg"
+                                                :class="getEstilosNivel(curso.nivel).badge">
+                                                Inscribirme Ahora
+                                            </a>
+                                        </template>
 
-                                    <template x-if="curso.estado === 'cerrado'">
-                                        <button disabled
-                                            class="w-full bg-red-900/10 text-red-500 py-3 rounded-lg font-bold cursor-not-allowed border border-red-900/30 uppercase text-sm">
-                                            Cerrado
-                                        </button>
-                                    </template>
+                                        <template x-if="curso.estado === 'proximamente' || curso.estado === 'waitlist'">
+                                            <button disabled
+                                                class="w-full bg-brand-surface text-brand-muted py-3 rounded-lg font-bold cursor-not-allowed border border-brand-border uppercase text-sm">
+                                                Lista de Espera
+                                            </button>
+                                        </template>
+
+                                        <template x-if="curso.estado === 'cerrado'">
+                                            <button disabled
+                                                class="w-full bg-red-900/10 text-red-500 py-3 rounded-lg font-bold cursor-not-allowed border border-red-900/30 uppercase text-sm">
+                                                Cerrado
+                                            </button>
+                                        </template>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                 </template>
             </div>
 
@@ -2176,7 +2321,7 @@
                                         :class="getEstilosNivel(cursoSeleccionado.nivel).badge">
                                         <span>Inscribirme Ahora •</span>
                                         <span
-                                            x-text="'$' + (esEarlyBirdActivo(cursoSeleccionado) ? cursoSeleccionado.eb_precio : (cursoSeleccionado.reg_precio || cursoSeleccionado.precio)) + ' ' + cursoSeleccionado.moneda"></span>
+                                            x-text="'$' + (tieneDescuentoVisual(cursoSeleccionado) ? getPrecioDescuento(cursoSeleccionado) : (cursoSeleccionado.reg_precio || cursoSeleccionado.precio)) + ' ' + cursoSeleccionado.moneda"></span>
                                     </a>
                                 </template>
 
@@ -2667,6 +2812,22 @@
                     return hoy <= limite;
                 },
 
+                isPartnerActivoParaCurso(curso) {
+                    return this.activePartner && (this.activePartner.aplica_a === 'todos' || this.activePartner.aplica_a.includes(curso.nivel));
+                },
+
+                tieneDescuentoVisual(curso) {
+                    return this.isPartnerActivoParaCurso(curso) || this.esEarlyBirdActivo(curso);
+                },
+
+                getPrecioDescuento(curso) {
+                    if (this.isPartnerActivoParaCurso(curso) && this.activePartner.descuento_mxn) {
+                        const regNum = parseInt((curso.reg_precio || curso.precio).toString().replace(/,/g, ''));
+                        return (regNum - this.activePartner.descuento_mxn).toLocaleString('en-US');
+                    }
+                    return curso.eb_precio;
+                },
+
                 generarLinkStripe(curso) {
                     if (!curso.stripeUrl || curso.stripeUrl.includes('provisional')) return '#';
                     try {
@@ -2674,7 +2835,7 @@
                         const vendedor = this.utmSource || 'directo';
 
                         // NUEVA LÓGICA: Prioriza el cupón del partner
-                        if (this.activePartner && (this.activePartner.aplica_a === 'todos' || this.activePartner.aplica_a.includes(curso.nivel))) {
+                        if (this.isPartnerActivoParaCurso(curso)) {
                             url.searchParams.set('prefilled_promo_code', this.activePartner.cupon_stripe);
                         }
                         // Lógica de fallback para Early Bird si no hay partner
@@ -2682,7 +2843,7 @@
                             url.searchParams.set('prefilled_promo_code', curso.eb_cupon_code);
                         }
 
-                        // Lógica de automatización (sin cambios)
+                        // Lógica de automatización
                         if (curso.nivel === 1) {
                             if (this.utmSource) url.searchParams.set('client_reference_id', this.utmSource);
                         } else {
@@ -2775,6 +2936,9 @@
                 getMonthName(fechaStr) { return new Date(fechaStr + 'T12:00:00').toLocaleString('es-ES', { month: 'long' }); },
                 getYear(fechaStr) { return new Date(fechaStr + 'T12:00:00').getFullYear(); },
                 formatDateFull(fechaStr) { return new Date(fechaStr + 'T12:00:00').toLocaleString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }); },
+                formatDateShort(fechaStr) {
+                    return new Date(fechaStr + 'T12:00:00').toLocaleString('es-ES', { day: 'numeric', month: 'short' }).replace('.', '');
+                },
                 getMonthNameShort(fechaStr) { return new Date(fechaStr + 'T12:00:00').toLocaleString('es-ES', { month: 'short' }); },
                 getDayNum(fechaStr) { return new Date(fechaStr + 'T12:00:00').getDate().toString().padStart(2, '0'); },
                 changeMonth(offset) {
@@ -2825,6 +2989,8 @@
             }
         });
     </script>
+    <!-- chatwith -->
+    <script src="https://chatwith.tools/chatbot/668de3d8-c9e9-4b73-846a-1ed817098d3b.js" async=""></script>
 
 </body>
 
