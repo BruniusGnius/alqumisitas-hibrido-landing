@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fechas y Precios | Alquimistas de IA</title>
+
+    <!-- Fuentes y Estilos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@400;500;600;700;800&family=Saira:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Configuración Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-black': '#0a0a0a',
+                        'brand-dark': '#121212',
+                        'brand-surface': '#1c1c1c',
+                        'brand-border': '#333333',
+                        'brand-text': '#f0f0f0',
+                        'brand-muted': '#a0a0a0',
+                        'brand-gold': '#f0b90b',
+                        'brand-gold-dark': '#e8a900',
+                    },
+                    fontFamily: {
+                        'sans': ['Saira', 'sans-serif'],
+                        'heading': ['Saira Semi Condensed', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #f0f0f0;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+
+        [x-cloak] {
+            display: none !important;
+        }
+
+        /* Animación suave para el acordeón */
+        .accordion-content {
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+
+        .accordion-content.expanded {
+            max-height: 500px;
+            opacity: 1;
+        }
+
+        /* Animación de destellos para la Promo */
+        @keyframes sparkle-radial {
+            0% {
+                transform: translate(0, 0) scale(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 1;
+                filter: blur(0px);
+            }
+
+            70% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(1.3) rotate(180deg);
+                opacity: 0;
+                filter: blur(1px);
+            }
+        }
+
+        .magic-particle-radial {
+            position: absolute;
+            color: #f0b90b;
+            filter: drop-shadow(0 0 6px rgba(240, 185, 11, 0.9));
+            opacity: 0;
+            pointer-events: none;
+            animation: sparkle-radial 2.5s infinite ease-out;
+        }
+    </style>
+</head>
+
+<body x-data="catalogoCursos()" x-init="initData()" class="overflow-x-hidden">
+
+    <!-- 1. BANNERS DE PARTNERS -->
+    <div id="hydesick-branding"
+        class="hidden sticky top-0 z-[100] bg-white/95 backdrop-blur py-3 border-b border-gray-100 transition-all">
+        <div class="container mx-auto px-5 flex items-center justify-center gap-4">
+            <p class="text-gray-500 font-sans font-bold text-[10px] uppercase tracking-[0.2em]">En colaboración
+                estratégica con</p>
+            <img src="assets/hyde_seek-logo.png" class="h-6 md:h-8">
+        </div>
+    </div>
+
+    <div id="top-branding"
+        class="hidden sticky top-0 z-[100] bg-black/95 backdrop-blur py-4 border-b border-brand-border transition-all">
+        <div class="container mx-auto px-5 flex items-center justify-center gap-4">
+            <p class="text-white font-heading font-medium text-sm">En colaboración estratégica con</p>
+            <img src="assets/workosfera-logo-01.svg" class="h-6 md:h-7">
+        </div>
+    </div>
+
+    <!-- 2. NAVEGACIÓN GLOBAL -->
+    <div x-data="navBar()">
+        <nav :style="`top: ${topOffset};`"
+            class="fixed w-full z-[90] bg-black/80 backdrop-blur-md border-b border-brand-border transition-all duration-300">
+            <div class="container mx-auto px-5 lg:px-8 max-w-6xl">
+                <div class="flex items-center justify-between h-16 md:h-20">
+                    <a href="index.html" data-preserve-utm class="flex-shrink-0">
+                        <img src="assets/gnius-academy-logo.png" alt="Gnius Academy"
+                            class="h-8 md:h-9 lg:h-10 w-auto block">
+                    </a>
+
+                    <div class="hidden md:flex items-center justify-center space-x-6 lg:space-x-8 flex-grow">
+                        <a href="index.html" data-preserve-utm
+                            class="text-brand-text hover:text-brand-gold font-heading font-bold uppercase tracking-wider text-[11px] lg:text-[13px] transition-colors">Inicio</a>
+                        <a href="index.html#beneficios" data-preserve-utm
+                            class="text-brand-text hover:text-brand-gold font-heading font-bold uppercase tracking-wider text-[11px] lg:text-[13px] transition-colors">Qué
+                            aprenderás</a>
+                        <a href="index.html#certificacion" data-preserve-utm
+                            class="text-white hover:text-white font-heading font-bold uppercase tracking-wider text-[11px] lg:text-[13px] flex items-center gap-1.5">
+                            <i class="ph-fill ph-seal-check text-lg text-brand-gold"></i> Certificación
+                        </a>
+                        <a href="temarios.html" data-preserve-utm
+                            class="text-brand-text hover:text-brand-gold font-heading font-bold uppercase tracking-wider text-[11px] lg:text-[13px] transition-colors">Temarios</a>
+                        <!-- NUEVO: Fechas (Activo si estás en fechas.html) -->
+                        <a href="fechas.html" data-preserve-utm
+                            class="font-heading font-bold uppercase text-[11px] lg:text-[13px]"
+                            :class="window.location.pathname.includes('fechas.html') ? 'text-brand-gold border-b-2 border-brand-gold' : 'text-brand-text hover:text-brand-gold'">
+                            Fechas
+                        </a>
+                        <button @click="toggleChatAlkIA()"
+                            class="text-brand-muted hover:text-brand-gold font-heading font-bold uppercase tracking-wider text-[11px] lg:text-[13px] transition-colors flex items-center gap-1">
+                            <i class="ph-bold ph-chat-teardrop-text text-lg"></i> Resuelve Dudas
+                        </button>
+                    </div>
+
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-brand-text p-2">
+                        <i class="ph-bold" :class="mobileMenuOpen ? 'ph-x text-2xl' : 'ph-list text-2xl'"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Menú Móvil -->
+            <div x-show="mobileMenuOpen" style="display: none;"
+                class="md:hidden bg-brand-surface border-b border-brand-border px-6 py-8 space-y-6 flex flex-col">
+                <a href="index.html" data-preserve-utm
+                    class="text-brand-text font-heading font-bold uppercase tracking-wider">Inicio</a>
+                <a href="index.html#beneficios" data-preserve-utm
+                    class="text-brand-text font-heading font-bold uppercase tracking-wider">Qué aprenderás</a>
+                <a href="index.html#certificacion" data-preserve-utm
+                    class="text-brand-gold font-heading font-bold uppercase tracking-wider flex items-center gap-2"><i
+                        class="ph-fill ph-seal-check"></i> Certificación ISO</a>
+                <a href="temarios.html" data-preserve-utm
+                    class="text-brand-text hover:text-brand-gold font-heading font-bold uppercase tracking-wider">Temarios</a>
+                <!-- NUEVO: Fechas (Activo si estás en fechas.html) -->
+                <a href="fechas.html" data-preserve-utm
+                    class="font-heading font-bold uppercase text-[11px] lg:text-[13px]"
+                    :class="window.location.pathname.includes('fechas.html') ? 'text-brand-gold border-b-2 border-brand-gold' : 'text-brand-text hover:text-brand-gold'">
+                    Fechas
+                </a>
+                <button @click="toggleChatAlkIA(); mobileMenuOpen = false"
+                    class="text-brand-muted font-heading font-bold uppercase tracking-wider flex items-center gap-2 text-left"><i
+                        class="ph-bold ph-chat-teardrop-text"></i> Resuelve Dudas</button>
+            </div>
+        </nav>
+    </div>
+
+    <!-- 3. CUERPO: ESCÁNER RÁPIDO DE FECHAS -->
+    <main class="pt-32 pb-32 min-h-screen flex flex-col">
+        <div class="container mx-auto px-5 max-w-4xl flex-grow">
+
+            <div class="mb-10 text-center md:text-left">
+                <p
+                    class="text-brand-gold font-heading font-bold tracking-[0.3em] uppercase mb-2 flex items-center justify-center md:justify-start gap-2">
+                    <i class="ph-fill ph-calendar-check text-lg"></i> Inscripciones
+                </p>
+                <h1 class="text-4xl md:text-5xl font-heading font-black text-white uppercase">Calendario de Cohortes
+                </h1>
+                <p class="text-brand-muted mt-3">Selecciona tu nivel, revisa el horario y asegura tu lugar.</p>
+            </div>
+
+            <!-- FILTRO RÁPIDO (Tabs) -->
+            <div class="flex gap-2 mb-10 overflow-x-auto pb-2 border-b border-brand-border">
+                <button @click="filtroNivel = 'todos'"
+                    :class="filtroNivel === 'todos' ? 'bg-white text-black' : 'text-brand-muted hover:text-white'"
+                    class="px-5 py-2 rounded-full font-heading font-bold uppercase tracking-widest text-xs transition-colors whitespace-nowrap">
+                    Todos los Cohortes
+                </button>
+                <button x-show="cursos.some(c => c.nivel === 1)" @click="filtroNivel = 1"
+                    :class="filtroNivel === 1 ? 'bg-brand-gold text-black' : 'text-brand-gold border border-brand-gold/30 hover:bg-brand-gold/10'"
+                    class="px-5 py-2 rounded-full font-heading font-bold uppercase tracking-widest text-xs transition-colors whitespace-nowrap">
+                    Nivel 1
+                </button>
+                <button x-show="cursos.some(c => c.nivel === 2)" @click="filtroNivel = 2"
+                    :class="filtroNivel === 2 ? 'bg-blue-600 text-white' : 'text-blue-400 border border-blue-500/30 hover:bg-blue-600/10'"
+                    class="px-5 py-2 rounded-full font-heading font-bold uppercase tracking-widest text-xs transition-colors whitespace-nowrap">
+                    Nivel 2
+                </button>
+            </div>
+
+            <!-- LOADER -->
+            <div x-show="cargando" class="text-center py-20">
+                <i class="ph-bold ph-spinner animate-spin text-4xl text-brand-gold"></i>
+                <p class="text-brand-muted mt-4 font-heading uppercase tracking-widest text-sm">Cargando grupos...</p>
+            </div>
+
+            <!-- LISTA ESTILO ACORDEÓN (Checkout de Vuelo) -->
+            <div x-show="!cargando" x-cloak class="space-y-4 mb-16">
+                <template x-for="curso in cursosFiltrados" :key="curso.id">
+
+                    <!-- 1. CONTENEDOR PRINCIPAL DEL ACORDEÓN (Color por Nivel) -->
+                    <div x-data="{ expanded: false }"
+                        class="rounded-2xl border transition-all duration-300 backdrop-blur-sm overflow-hidden" :class="[
+                            expanded ? 'shadow-lg' : 'hover:border-opacity-60',
+                            curso.nivel === 1 ? 'bg-[#f0b90b]/5 border-[#f0b90b]/30' : '',
+                            curso.nivel === 2 ? 'bg-blue-500/5 border-blue-500/30' : '',
+                            curso.nivel === 3 ? 'bg-orange-500/5 border-orange-500/30' : '',
+                            curso.nivel === 4 ? 'bg-slate-300/5 border-slate-300/30' : ''
+                        ]">
+
+                        <!-- 2. CABECERA (ZONA CLICKABLE) -->
+                        <div @click="expanded = !expanded"
+                            class="p-4 md:p-6 cursor-pointer flex flex-col md:flex-row md:items-center justify-between gap-4 relative overflow-visible"
+                            x-data="{ timer: obtenerCountdown(curso.eb_fecha_limite) }"
+                            x-init="setInterval(() => { timer = obtenerCountdown(curso.eb_fecha_limite) }, 1000)">
+
+                            <!-- BLOQUE IZQUIERDO: FECHA Y TÍTULO -->
+                            <div class="flex items-center gap-4 md:gap-6 flex-1 min-w-0">
+                                <!-- Fecha GIGANTE (Escaneo Rápido) -->
+                                <div class="flex flex-col items-center justify-center bg-black w-[4.5rem] h-[4.5rem] md:w-[5.5rem] md:h-[5.5rem] rounded-xl shadow-lg border flex-shrink-0"
+                                    :class="curso.nivel === 1 ? 'border-brand-gold/30' : (curso.nivel === 2 ? 'border-blue-500/30' : 'border-white/10')">
+                                    <span
+                                        class="text-[11px] md:text-xs font-bold uppercase text-brand-muted leading-none mt-1 tracking-widest"
+                                        x-text="getMonthNameShort(curso.fecha_email || curso.fechaInicio)"></span>
+                                    <span
+                                        class="text-3xl md:text-5xl font-heading font-black text-white leading-none mt-1 drop-shadow-md"
+                                        x-text="getDayNum(curso.fecha_email || curso.fechaInicio)"></span>
+                                </div>
+
+                                <!-- Texto del Curso -->
+                                <div class="flex-1 min-w-0 pr-4">
+                                    <span class="text-[11px] font-bold uppercase tracking-widest"
+                                        :class="getEstilosNivel(curso.nivel).texto"
+                                        x-text="'NIVEL ' + curso.nivel"></span>
+                                    <h3 class="text-lg md:text-2xl font-heading font-bold text-white leading-tight uppercase mt-0.5 max-w-[220px] md:max-w-[450px] line-clamp-2"
+                                        x-text="curso.titulo"></h3>
+                                </div>
+                            </div>
+
+                            <!-- BLOQUE DERECHO: TAGS Y CONDICIONALES (Corregido: Reloj solo para preventa pública) -->
+                            <div
+                                class="flex flex-wrap md:flex-nowrap items-center md:justify-end gap-3 ml-0 md:ml-auto w-full md:w-auto relative">
+
+                                <!-- TAG DE PROMO (Aparece si hay Descuento de Partner O de Preventa) -->
+                                <template x-if="tieneDescuentoVisual(curso)">
+                                    <div class="relative group">
+                                        <!-- La etiqueta base con destellos -->
+                                        <div
+                                            class="relative bg-black border border-brand-gold/50 px-3 py-1.5 rounded shadow-[0_0_15px_rgba(240,185,11,0.2)] z-20 overflow-hidden">
+                                            <!-- Partículas Radiales -->
+                                            <div
+                                                class="absolute inset-0 flex items-center justify-center pointer-events-none -z-10 opacity-70">
+                                                <i class="ph-fill ph-star-four magic-particle-radial"
+                                                    style="--tx: -15px; --ty: -10px; animation-delay: 0s; font-size: 8px;"></i>
+                                                <i class="ph-fill ph-star-four magic-particle-radial"
+                                                    style="--tx: 15px; --ty: 10px; animation-delay: 0.5s; font-size: 10px;"></i>
+                                            </div>
+                                            <div class="flex items-center gap-2 relative z-10">
+                                                <!-- Icono cambia si es Partner o Preventa -->
+                                                <i :class="isPartnerActivoParaCurso(curso) ? 'ph-fill ph-handshake' : 'ph-fill ph-sparkle'"
+                                                    class="text-brand-gold animate-pulse"></i>
+
+                                                <!-- Texto dinámico -->
+                                                <span
+                                                    class="text-[10px] font-black uppercase tracking-widest text-brand-gold"
+                                                    x-text="isPartnerActivoParaCurso(curso) ? 'Beneficio Alianza' : 'Preventa Activa'">
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <!-- EL CONTADOR: SOLO se muestra si es Early Bird público Y NO hay un partner activo -->
+                                        <template x-if="esEarlyBirdActivo(curso) && !isPartnerActivoParaCurso(curso)">
+                                            <div
+                                                class="absolute top-[95%] right-0 bg-[#0a0a0a] border border-red-500/40 rounded-b-md px-2 py-1 flex items-center gap-2 shadow-lg z-10 min-w-[110px] justify-center">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+                                                <div
+                                                    class="flex items-center gap-0.5 text-white font-mono text-[10px] font-bold tracking-tighter">
+                                                    <span x-text="timer.d"></span><span>:</span>
+                                                    <span x-text="timer.h"></span><span>:</span>
+                                                    <span x-text="timer.m"></span><span>:</span>
+                                                    <span x-text="timer.s"></span>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </template>
+
+                                <!-- Status Badge (Inscripciones Abiertas / Proximamente) -->
+                                <div class="px-3 py-1.5 rounded text-[10px] font-black uppercase tracking-widest border border-white/10 bg-white/5"
+                                    :class="curso.estado === 'abierto' ? 'text-green-400' : 'text-blue-400'">
+                                    <span x-text="formatEstado(curso.estado)"></span>
+                                </div>
+
+                                <!-- Icono Flecha -->
+                                <i class="ph-bold text-xl text-white/30 transition-transform hidden md:block"
+                                    :class="expanded ? 'ph-caret-up' : 'ph-caret-down'"></i>
+                            </div>
+                        </div>
+
+                        <!-- 3. CONTENIDO DESPLEGABLE -->
+                        <div class="accordion-content border-t border-brand-border/30 bg-black/40"
+                            :class="expanded ? 'expanded' : ''">
+                            <div class="p-5 md:p-6 grid grid-cols-1 md:grid-cols-12 gap-6">
+
+                                <!-- Detalles del Curso -->
+                                <div class="md:col-span-7 space-y-4">
+                                    <div class="flex items-start gap-3">
+                                        <i class="ph-bold ph-rocket-launch text-brand-muted text-xl mt-0.5"></i>
+                                        <div>
+                                            <p
+                                                class="text-[10px] md:text-[11px] text-brand-muted uppercase tracking-widest font-bold">
+                                                Kickoff Session</p>
+                                            <p class="text-sm md:text-base font-medium text-white"
+                                                x-text="curso.kickoff || formatDateFull(curso.fechaInicio)"></p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <i class="ph-bold ph-users-four text-brand-muted text-xl mt-0.5"></i>
+                                        <div>
+                                            <p
+                                                class="text-[10px] md:text-[11px] text-brand-muted uppercase tracking-widest font-bold">
+                                                Modalidad</p>
+                                            <p class="text-sm md:text-base font-medium text-white">Cohorte cerrada
+                                                (Aprendizaje colaborativo)</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <i class="ph-bold ph-clock text-brand-muted text-xl mt-0.5"></i>
+                                        <div>
+                                            <p
+                                                class="text-[10px] md:text-[11px] text-brand-muted uppercase tracking-widest font-bold">
+                                                Horario de Clases</p>
+                                            <p class="text-sm md:text-base font-medium text-white"
+                                                x-html="curso.horario"></p>
+                                        </div>
+                                    </div>
+                                    <div class="pt-2">
+                                        <a :href="'temarios.html?nivel=' + curso.nivel" data-preserve-utm
+                                            class="inline-flex items-center gap-1.5 text-[11px] md:text-xs font-bold uppercase tracking-widest hover:underline transition-all"
+                                            :class="getEstilosNivel(curso.nivel).texto">
+                                            <i class="ph-bold ph-book-open-text text-lg"></i> Ver temario detallado de
+                                            este nivel
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- Bloque de Pago -->
+                                <div
+                                    class="md:col-span-5 flex flex-col justify-center items-center md:items-end text-center md:text-right border-t md:border-t-0 md:border-l border-brand-border/50 pt-6 md:pt-0 pl-0 md:pl-6">
+                                    <template x-if="tieneDescuentoVisual(curso)">
+                                        <div class="mb-3">
+                                            <p class="text-brand-muted line-through text-sm font-bold"
+                                                x-text="'$' + (curso.reg_precio || curso.precio) + ' ' + curso.moneda">
+                                            </p>
+                                            <p class="text-4xl font-heading font-black text-white leading-none"
+                                                x-text="'$' + getPrecioDescuento(curso) + ' ' + curso.moneda"></p>
+                                            <p
+                                                class="text-[10px] text-brand-gold uppercase tracking-widest font-bold mt-1">
+                                                Descuento aplicado</p>
+                                        </div>
+                                    </template>
+
+                                    <template x-if="!tieneDescuentoVisual(curso)">
+                                        <div class="mb-3">
+                                            <p class="text-4xl font-heading font-black text-white leading-none"
+                                                x-text="'$' + (curso.reg_precio || curso.precio) + ' ' + curso.moneda">
+                                            </p>
+                                            <p
+                                                class="text-[10px] text-brand-muted uppercase tracking-widest font-bold mt-1">
+                                                Precio Regular</p>
+                                        </div>
+                                    </template>
+
+                                    <template x-if="curso.estado === 'abierto'">
+                                        <a :href="generarLinkStripe(curso)"
+                                            class="w-full inline-block px-6 py-4 font-heading font-bold uppercase tracking-widest text-[13px] rounded shadow-lg transition-transform hover:scale-105 text-center"
+                                            :class="getEstilosNivel(curso.nivel).badge">
+                                            Proceder al Pago <i class="ph-bold ph-arrow-right ml-1"></i>
+                                        </a>
+                                    </template>
+
+                                    <template x-if="curso.estado !== 'abierto'">
+                                        <button disabled
+                                            class="w-full px-6 py-4 bg-brand-surface border border-brand-border text-brand-muted font-heading font-bold uppercase tracking-widest text-[13px] rounded cursor-not-allowed">
+                                            Lista de Espera
+                                        </button>
+                                    </template>
+
+                                    <div
+                                        class="flex items-center gap-1.5 mt-3 text-brand-muted/50 justify-center md:justify-end">
+                                        <i class="ph-fill ph-lock-key text-xs"></i>
+                                        <span class="text-[9px] uppercase tracking-widest font-bold">Pago Seguro vía
+                                            Stripe</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            <!-- CALENDARIO VISUAL GLOBAL (Ubicado después de los acordeones) -->
+            <div x-show="!cargando && cursosFiltrados.length > 0" x-cloak x-data="fechasCalendar()"
+                class="bg-brand-surface/20 border border-brand-border rounded-3xl p-6 md:p-10 shadow-2xl backdrop-blur-md mt-16">
+
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl font-heading font-bold text-white uppercase tracking-widest">Vista Mensual</h2>
+                    <p class="text-sm text-brand-muted mt-1">Mapa de entregas y sesiones</p>
+                </div>
+
+                <!-- Control de Mes -->
+                <div class="flex items-center justify-between mb-8 max-w-sm mx-auto">
+                    <button @click="changeMonth(-1)" class="p-2 text-brand-muted hover:text-white transition-colors"><i
+                            class="ph-bold ph-caret-left text-xl"></i></button>
+                    <h3 class="text-xl font-heading font-bold uppercase tracking-widest text-white" x-text="monthName">
+                    </h3>
+                    <button @click="changeMonth(1)" class="p-2 text-brand-muted hover:text-white transition-colors"><i
+                            class="ph-bold ph-caret-right text-xl"></i></button>
+                </div>
+
+                <div class="grid grid-cols-7 gap-2 text-center">
+                    <template x-for="d in ['L','M','M','J','V','S','D']">
+                        <div class="text-[10px] uppercase font-bold text-brand-muted mb-2" x-text="d"></div>
+                    </template>
+
+                    <template x-for="day in calendarDays">
+                        <div class="relative h-12 md:h-16 w-full flex flex-col items-center justify-center rounded-xl border transition-colors"
+                            :class="day.num ? (day.events.length > 0 ? 'bg-black/60 border-white/10' : 'bg-black/20 border-transparent') : 'border-transparent'">
+
+                            <span class="text-xs z-10"
+                                :class="day.events.length > 0 ? 'text-white font-bold' : 'text-brand-muted'"
+                                x-text="day.num"></span>
+
+                            <!-- Iconos y Puntos con Glow -->
+                            <div class="absolute bottom-1.5 flex gap-1 justify-center w-full z-20">
+                                <template x-for="ev in day.events">
+                                    <div class="flex items-center justify-center">
+                                        <template x-if="ev.type === 'inicio' || ev.type === 'fin'">
+                                            <i :class="[
+                                   ev.nivel === 1 ? 'ph-fill ph-sparkle text-brand-gold drop-shadow-[0_0_8px_#f0b90b]' : '',
+                                   ev.nivel === 2 ? 'ph-fill ph-lightning text-blue-500 drop-shadow-[0_0_8px_#3b82f6]' : '',
+                                   'text-[14px] md:text-[18px]'
+                               ]"></i>
+                                        </template>
+                                        <template x-if="ev.type === 'sesion'">
+                                            <div :class="[
+                                   ev.nivel === 1 ? 'bg-brand-gold shadow-[0_0_8px_#f0b90b]' : '',
+                                   ev.nivel === 2 ? 'bg-blue-500 shadow-[0_0_8px_#3b82f6]' : '',
+                                   'w-1.5 h-1.5 md:w-2 md:h-2 rounded-full'
+                               ]"></div>
+                                        </template>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Leyenda Semántica -->
+                <div
+                    class="flex flex-wrap items-center justify-center gap-6 mt-8 pt-6 border-t border-brand-border/50 text-[9px] md:text-[11px] font-bold uppercase tracking-widest text-brand-muted">
+                    <div class="flex items-center gap-2"><i class="ph-fill ph-sparkle text-brand-gold text-base"></i>
+                        Inicio/Fin N1</div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-2.5 h-2.5 rounded-full bg-brand-gold shadow-[0_0_8px_#f0b90b]"></div> Sesiones N1
+                    </div>
+                    <div class="flex items-center gap-2"><i class="ph-fill ph-lightning text-blue-500 text-base"></i>
+                        Inicio/Fin N2</div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-[0_0_8px_#3b82f6]"></div> Sesiones N2
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- SCRIPTS -->
+    <script src="app.js"></script>
+    <script src="https://chatwith.tools/chatbot/668de3d8-c9e9-4b73-846a-1ed817098d3b.js" async></script>
+
+    <!-- Lógica Exclusiva del Calendario Global de Fechas -->
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('fechasCalendar', () => ({
+                currentDate: new Date(),
+                get monthName() {
+                    return this.currentDate.toLocaleString('es-ES', { month: 'long', year: 'numeric' });
+                },
+                changeMonth(offset) {
+                    this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + offset, 1);
+                },
+                get calendarDays() {
+                    const year = this.currentDate.getFullYear();
+                    const month = this.currentDate.getMonth();
+                    const daysInMonth = new Date(year, month + 1, 0).getDate();
+                    const firstDay = new Date(year, month, 1).getDay();
+                    const startDay = firstDay === 0 ? 6 : firstDay - 1;
+
+                    let daysArr = [];
+                    for (let i = 0; i < startDay; i++) daysArr.push({ num: '', events: [] });
+
+                    for (let i = 1; i <= daysInMonth; i++) {
+                        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+                        let dayEvents = [];
+
+                        // Accedemos a los cursos filtrados del componente padre
+                        const currentCourses = this.cursosFiltrados || [];
+
+                        currentCourses.forEach(c => {
+                            const startDate = c.fecha_email || c.fechaInicio;
+                            const endDate = (c.calendario && c.calendario.length > 0)
+                                ? c.calendario[c.calendario.length - 1].fecha
+                                : startDate;
+
+                            if (dateStr === startDate) {
+                                dayEvents.push({ type: 'inicio', nivel: c.nivel });
+                            } else if (dateStr === endDate) {
+                                dayEvents.push({ type: 'fin', nivel: c.nivel });
+                            } else if (c.calendario && c.calendario.some(s => s.fecha === dateStr)) {
+                                dayEvents.push({ type: 'sesion', nivel: c.nivel });
+                            }
+                        });
+                        daysArr.push({ num: i, events: dayEvents });
+                    }
+                    return daysArr;
+                }
+            }));
+        });
+    </script>
+
+
+</body>
+
+</html>

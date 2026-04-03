@@ -277,5 +277,101 @@
         "resultado": "Terminan con una herramienta profesional propia, gobernada y lista para aplicarse en el trabajo real."
       }
     ]
+  },
+  {
+    "id": "N01-G06-2026-05-20",
+    "nivel": 1,
+    "estado": "auto",
+    "titulo": "Prompt Estratégico",
+    "subtitulo": "Del “chatear con IA” a dirigirla con precisión.",
+    "nivel_consejo": "Ideal si estás comenzando a usar IA de forma profesional.",
+    "imagen": "assets/alquimistas-Febrero-Cover-landing.jpg",
+
+    "reg_precio": "4,500",
+    "eb_precio": "3,750",
+    "eb_fecha_limite": "2026-04-30",
+    "eb_cupon_code": "ALQ-N1-2604-750",
+    "stripeUrl": "https://buy.stripe.com/5kQ8wOazlenN89Q5Ra5ZC09",
+    "moneda": "MXN",
+
+    "fechaInicio": "2026-05-20",
+    "kickoff": "Jueves 16 de Abril de 2026",
+    "horario": "Lunes y Jueves 6:00 PM<br>(CDMX)",
+
+    "fecha_email": "2026-05-16",
+    "hora_email": "1800",
+
+    "descripcion": "Entrenamiento intensivo de 4 semanas. Aprende a dirigir la IA como un socio estratégico.",
+    "storytelling": {
+      "reto": "¿Te preocupa que la IA reemplace tu trabajo? <strong>No dejes que suceda.</strong> Forma parte del grupo de profesionales que ya usan la tecnología para fortalecer su carrera.",
+      "solucion": "No solo aprenderás herramientas; desarrollarás la habilidad crítica de <strong>pensar como un ingeniero de prompts</strong>. Con clases personalizadas por AlkIA, convertirás horas operativas en minutos de gestión estratégica."
+    },
+    "target": "Profesionales de cualquier industria (Dirección, Marketing, Salud, Finanzas).",
+    "requisitos": "Computadora con acceso a internet. <strong>No se requiere experiencia previa.</strong>",
+    "calendario": [
+      { "dia": "0", "fecha": "2026-04-16", "tema": "👋 Kickoff / Onboarding" },
+      {
+        "dia": "1",
+        "fecha": "2026-05-20",
+        "tema": "Sprint 1: Dirección (Sesión A)"
+      },
+      {
+        "dia": "2",
+        "fecha": "2026-05-23",
+        "tema": "Sprint 1: Dirección (Sesión B)"
+      },
+      {
+        "dia": "3",
+        "fecha": "2026-05-27",
+        "tema": "Sprint 2: Control Total (Sesión A)"
+      },
+      {
+        "dia": "4",
+        "fecha": "2026-05-30",
+        "tema": "Sprint 2: Control Total (Sesión B)"
+      },
+      {
+        "dia": "5",
+        "fecha": "2026-06-04",
+        "tema": "Sprint 3: Arquitectura (Sesión A)"
+      },
+      {
+        "dia": "6",
+        "fecha": "2026-06-07",
+        "tema": "Sprint 3: Arquitectura (Sesión B)"
+      },
+      {
+        "dia": "7",
+        "fecha": "2026-06-11",
+        "tema": "Sprint 4: Integración (Sesión A)"
+      },
+      {
+        "dia": "8",
+        "fecha": "2026-06-14",
+        "tema": "Sprint 4: Integración (Sesión B)"
+      }
+    ],
+    "sprints": [
+      {
+        "titulo": "Sprint 1: Del Chat a la Dirección",
+        "descripcion": "Los participantes aprenden cómo piensa realmente un modelo. Construyen su <strong>Primer Prompt Maestro</strong> y desarrollan la habilidad de transformar cualquier tarea en una instrucción clara, estructurada y profesional.",
+        "resultado": "Dejan de pelear con la IA y empiezan a obtener <strong>resultados útiles desde el primer intento</strong>."
+      },
+      {
+        "titulo": "Sprint 2: Control Total",
+        "descripcion": "Aquí dominan el músculo más importante: controlar a la IA. Aprenden frameworks avanzados <strong>(ARV, DIIR, DELTA)</strong> para iterar, corregir errores y refinar como un ingeniero.",
+        "resultado": "Producen mensajes, reportes y análisis de <strong>calidad profesional en minutos</strong>, no horas."
+      },
+      {
+        "titulo": "Sprint 3: Arquitectura Cognitiva",
+        "descripcion": "Dejan de usar prompts sueltos y comienzan a diseñar <strong>sistemas de trabajo inteligentes</strong>: módulos, roles y plantillas que pueden ejecutar una y otra vez (SOPs cognitivos).",
+        "resultado": "Cada participante crea su propia <strong>herramienta profesional con IA</strong>, que le ahorra tiempo diario."
+      },
+      {
+        "titulo": "Sprint 4: Integración Real",
+        "descripcion": "Implementan IA en un <strong>proceso, flujo o tarea clave</strong> real de su institución. Aprenden a documentar, medir impacto y presentar resultados.",
+        "resultado": "Implementación real con <strong>impacto medible</strong> que justifica la inversión."
+      }
+    ]
   }
 ]

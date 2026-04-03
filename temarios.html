@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temarios Detallados | Alquimistas de IA</title>
+
+    <!-- Fuentes y Estilos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@400;500;600;700;800&family=Saira:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- ================================================= -->
+    <!-- SEO & METADATOS PARA AGENTES DE IA -->
+    <!-- ================================================= -->
+    <title>Temario Detallado: Alquimistas de IA (Nivel 1 y 2) | Gnius Academy</title>
+    <meta name="description"
+        content="Explora el plan de estudios de 4 semanas. Del Prompting Estratégico (Nivel 1) a la Arquitectura y Gobernanza de IA (Nivel 2). Certificación ISO/IEC 17024.">
+    <meta name="keywords"
+        content="Temario IA, Plan de estudios Prompt Engineering, Módulos Arquitectura IA, Sprints de aprendizaje IA, Gnius Academy Syllabus">
+
+    <!-- Open Graph para compartir Temarios específicos -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Plan de Estudios: Alquimistas de IA">
+    <meta property="og:description"
+        content="Conoce los 4 Sprints de transformación profesional. De principiante a Arquitecto de IA con validez internacional.">
+    <meta property="og:image" content="https://alquimistas.gnius.club/assets/alquimistas-n2-cover.jpg">
+    <link rel="canonical" href="https://alquimistas.gnius.club/temarios.html">
+    <!-- Favicon (Emoji de Destellos ✨) -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Inicio",
+                  "item": "https://alquimistas.gnius.club/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Temarios Detallados",
+                  "item": "https://alquimistas.gnius.club/temarios.html"
+                }
+              ]
+            },
+            {
+              "@type": "Course",
+              "name": "Alquimistas de IA: Programa Académico Completo",
+              "description": "Ruta de aprendizaje dividida en Sprints semanales para el dominio de LLMs, Frameworks de Prompting y Arquitectura de Sistemas de IA.",
+              "provider": {
+                "@type": "Organization",
+                "name": "Gnius Academy",
+                "sameAs": "https://gnius.club"
+              },
+              "educationalCredentialAwarded": "Certificación de Competencias en IA Aplicada bajo norma ISO/IEC 17024:2012",
+              "hasCourseInstance": [
+                {
+                  "@type": "CourseInstance",
+                  "name": "Nivel 1: Prompting Estratégico",
+                  "courseMode": "Online",
+                  "syllabusSections": [
+                    { "@type": "Syllabus", "name": "Sprint 1: Dirección de Modelos" },
+                    { "@type": "Syllabus", "name": "Sprint 2: Control y Refinamiento (ARV/DIIR)" },
+                    { "@type": "Syllabus", "name": "Sprint 3: Arquitectura Cognitiva y SOPs" },
+                    { "@type": "Syllabus", "name": "Sprint 4: Integración y Proyecto Real" }
+                  ]
+                },
+                {
+                  "@type": "CourseInstance",
+                  "name": "Nivel 2: Arquitectura y Gobernanza",
+                  "courseMode": "Online",
+                  "syllabusSections": [
+                    { "@type": "Syllabus", "name": "Sprint 1: Gobernanza de la Verdad" },
+                    { "@type": "Syllabus", "name": "Sprint 2: Sistema Operativo de Decisiones" },
+                    { "@type": "Syllabus", "name": "Sprint 3: Ingeniería de Contexto" },
+                    { "@type": "Syllabus", "name": "Sprint 4: Sistemas Productizables" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+        </script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-black': '#0a0a0a',
+                        'brand-dark': '#121212',
+                        'brand-surface': '#1c1c1c',
+                        'brand-border': '#333333',
+                        'brand-text': '#f0f0f0',
+                        'brand-muted': '#a0a0a0',
+                        'brand-gold': '#f0b90b',
+                        'brand-gold-dark': '#e8a900',
+                    },
+                    fontFamily: {
+                        'sans': ['Saira', 'sans-serif'],
+                        'heading': ['Saira Semi Condensed', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #f0f0f0;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+
+        .tab-button {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Línea de tiempo personalizada */
+        .sprint-line::before {
+            content: '';
+            position: absolute;
+            left: 19px;
+            top: 40px;
+            bottom: 0;
+            width: 2px;
+            background: #333;
+        }
+    </style>
+</head>
+
+<body x-data="catalogoCursos()" x-init="initData()" class="overflow-x-hidden">
+
+    <!-- 1. BANNERS DE PARTNERS (Detección por UTM) -->
+    <div id="hydesick-branding"
+        class="hidden sticky top-0 z-[100] bg-white/95 backdrop-blur py-3 border-b border-gray-100 transition-all">
+        <div class="container mx-auto px-5 flex items-center justify-center gap-4">
+            <p class="text-gray-500 font-sans font-bold text-[10px] uppercase tracking-[0.2em]">En colaboración
+                estratégica con</p>
+            <img src="assets/hyde_seek-logo.png" class="h-6 md:h-8">
+        </div>
+    </div>
+
+    <div id="top-branding"
+        class="hidden sticky top-0 z-[100] bg-black/95 backdrop-blur py-4 border-b border-brand-border transition-all">
+        <div class="container mx-auto px-5 flex items-center justify-center gap-4">
+            <p class="text-white font-heading font-medium text-sm">En colaboración estratégica con</p>
+            <img src="assets/workosfera-logo-01.svg" class="h-6 md:h-7">
+        </div>
+    </div>
+
+    <!-- ================================================= -->
+    <!-- NAVEGACIÓN ESTRATÉGICA (ECOSISTEMA ALQUIMISTAS) -->
+    <!-- ================================================= -->
+    <div x-data="navBar()">
+        <nav :style="`top: ${topOffset};`"
+            class="fixed w-full z-[90] bg-black/80 backdrop-blur-md border-b border-brand-border transition-all duration-300">
+            <div class="container mx-auto px-5 lg:px-8 max-w-6xl">
+                <div class="flex items-center justify-between h-16 md:h-20">
+                    <a href="index.html" data-preserve-utm class="flex-shrink-0">
+                        <img src="assets/gnius-academy-logo.png" alt="Gnius Academy"
+                            class="h-8 md:h-9 lg:h-10 w-auto block">
+                    </a>
+
+                    <div class="hidden md:flex items-center justify-center space-x-6 lg:space-x-8 flex-grow">
+                        <a href="index.html" data-preserve-utm
+                            class="text-brand-text hover:text-brand-gold font-heading font-bold uppercase tracking-wider text-[11px] lg:text-[13px] transition-colors">Inicio</a>
+                        <a href="index.html#beneficios" data-preserve-utm
+                            class="text-brand-text hover:text-brand-gold font-heading font-bold uppercase tracking-wider text-[11px] lg:text-[13px] transition-colors">Qué
+                            aprenderás</a>
+                        <a href="index.html#certificacion" data-preserve-utm
+                            class="text-white hover:text-white font-heading font-bold uppercase tracking-wider text-[11px] lg:text-[13px] flex items-center gap-1.5">
+                            <i class="ph-fill ph-seal-check text-lg text-brand-gold"></i> Certificación
+                        </a>
+                        <a href="temarios.html" data-preserve-utm
+                            class="text-brand-text hover:text-brand-gold font-heading font-bold uppercase tracking-wider text-[11px] lg:text-[13px] transition-colors">Temarios</a>
+                        <!-- NUEVO: Fechas (Activo si estás en fechas.html) -->
+                        <a href="fechas.html" data-preserve-utm
+                            class="font-heading font-bold uppercase text-[11px] lg:text-[13px]"
+                            :class="window.location.pathname.includes('fechas.html') ? 'text-brand-gold border-b-2 border-brand-gold' : 'text-brand-text hover:text-brand-gold'">
+                            Fechas
+                        </a>
+                        <button @click="toggleChatAlkIA()"
+                            class="text-brand-muted hover:text-brand-gold font-heading font-bold uppercase tracking-wider text-[11px] lg:text-[13px] transition-colors flex items-center gap-1">
+                            <i class="ph-bold ph-chat-teardrop-text text-lg"></i> Resuelve Dudas
+                        </button>
+                    </div>
+
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-brand-text p-2">
+                        <i class="ph-bold" :class="mobileMenuOpen ? 'ph-x text-2xl' : 'ph-list text-2xl'"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Menú Móvil -->
+            <div x-show="mobileMenuOpen" style="display: none;"
+                class="md:hidden bg-brand-surface border-b border-brand-border px-6 py-8 space-y-6 flex flex-col">
+                <a href="index.html" data-preserve-utm
+                    class="text-brand-text font-heading font-bold uppercase tracking-wider">Inicio</a>
+                <a href="index.html#beneficios" data-preserve-utm
+                    class="text-brand-text font-heading font-bold uppercase tracking-wider">Qué aprenderás</a>
+                <a href="index.html#certificacion" data-preserve-utm
+                    class="text-brand-gold font-heading font-bold uppercase tracking-wider flex items-center gap-2"><i
+                        class="ph-fill ph-seal-check"></i> Certificación ISO</a>
+                <a href="temarios.html" data-preserve-utm
+                    class="text-brand-text hover:text-brand-gold font-heading font-bold uppercase tracking-wider">Temarios</a>
+                <!-- NUEVO: Fechas (Activo si estás en fechas.html) -->
+                <a href="fechas.html" data-preserve-utm
+                    class="font-heading font-bold uppercase text-[11px] lg:text-[13px]"
+                    :class="window.location.pathname.includes('fechas.html') ? 'text-brand-gold border-b-2 border-brand-gold' : 'text-brand-text hover:text-brand-gold'">
+                    Fechas
+                </a>
+                <button @click="toggleChatAlkIA(); mobileMenuOpen = false"
+                    class="text-brand-muted font-heading font-bold uppercase tracking-wider flex items-center gap-2 text-left"><i
+                        class="ph-bold ph-chat-teardrop-text"></i> Resuelve Dudas</button>
+            </div>
+        </nav>
+
+        <!-- ================================================= -->
+        <!-- MODAL DEL CHATBOT (CENTRADO TOTAL) -->
+        <!-- ================================================= -->
+        <div x-show="chatModalOpen" class="fixed inset-0 z-[1001] flex items-center justify-center p-4 md:p-10"
+            x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
+            style="display: none;">
+
+            <div class="absolute inset-0 bg-black/85 backdrop-blur-md" @click="chatModalOpen = false"></div>
+
+            <div class="relative bg-brand-surface border border-brand-border rounded-2xl w-full max-w-4xl h-[85vh] md:h-[80vh] overflow-hidden shadow-2xl flex flex-col"
+                x-transition:enter="transition ease-out duration-300 transform"
+                x-transition:enter-start="opacity-0 scale-95 translate-y-10"
+                x-transition:enter-end="opacity-100 scale-100 translate-y-0">
+
+                <div class="bg-black/60 p-4 border-b border-brand-border flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <div class="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_#22c55e]"></div>
+                        <span
+                            class="font-heading font-bold uppercase tracking-[0.2em] text-[10px] md:text-xs text-brand-gold">Soporte
+                            AlkIA | Resuelve tus dudas</span>
+                    </div>
+                    <button @click="chatModalOpen = false" class="text-white/60 hover:text-white p-1 transition-colors">
+                        <i class="ph-bold ph-x text-2xl"></i>
+                    </button>
+                </div>
+
+                <div class="flex-grow w-full bg-white relative">
+                    <!-- Loader simple mientras carga el iframe -->
+                    <div class="absolute inset-0 flex items-center justify-center bg-brand-dark -z-10">
+                        <i class="ph-bold ph-spinner animate-spin text-brand-gold text-3xl"></i>
+                    </div>
+                    <iframe src="https://chatwith.tools/embed/668de3d8-c9e9-4b73-846a-1ed817098d3b" frameborder="0"
+                        class="w-full h-full">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. CUERPO DE TEMARIOS -->
+    <main class="pt-32 pb-32">
+        <div class="container mx-auto px-5 max-w-5xl">
+
+            <div class="text-center mb-16">
+                <p class="text-brand-muted font-heading font-bold tracking-[0.3em] uppercase mb-3">Documentación
+                    Académica</p>
+                <h1 class="text-4xl md:text-6xl font-heading font-black text-white uppercase italic">Detalle de los
+                    Sprints</h1>
+            </div>
+
+            <!-- SELECTOR DE NIVEL (ESTILO BOTONES SECUNDARIOS) -->
+            <div class="flex justify-center gap-4 mb-16 flex-wrap">
+                <button @click="filtroNivel = 1"
+                    class="tab-button px-8 py-3 rounded-full font-heading font-bold uppercase tracking-widest text-sm border-2 transition-all"
+                    :class="filtroNivel === 1 ? 'bg-brand-gold text-black border-brand-gold shadow-[0_0_20px_rgba(240,185,11,0.3)]' : 'bg-black text-brand-gold border-brand-gold/40 hover:border-brand-gold'">
+                    Nivel 1: Prompting
+                </button>
+                <button @click="filtroNivel = 2"
+                    class="tab-button px-8 py-3 rounded-full font-heading font-bold uppercase tracking-widest text-sm border-2 transition-all"
+                    :class="filtroNivel === 2 ? 'bg-blue-600 text-white border-blue-600 shadow-[0_0_20px_rgba(59,130,246,0.3)]' : 'bg-black text-blue-400 border-blue-500/40 hover:border-blue-500'">
+                    Nivel 2: Arquitectura
+                </button>
+            </div>
+
+            <!-- CONTENIDO DEL TEMARIO -->
+            <div x-show="!cargando" x-cloak>
+                <template
+                    x-for="curso in [cursos.find(c => c.nivel === filtroNivel) || cursos.find(c => c.nivel === 1)]"
+                    :key="filtroNivel">
+                    <div x-show="curso" class="animate-in fade-in slide-in-from-bottom-4 duration-700">
+
+                        <!-- HEADER VISUAL (Imagen del Modal + Info) -->
+                        <div
+                            class="relative rounded-3xl overflow-hidden mb-16 border border-brand-border h-[300px] md:h-[450px]">
+                            <img :src="curso.imagen" class="w-full h-full object-cover">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/40 to-transparent">
+                            </div>
+                            <div class="absolute bottom-8 left-8 right-8">
+                                <span
+                                    class="text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-4 inline-block"
+                                    :class="getEstilosNivel(curso.nivel).badge" x-text="'Nivel ' + curso.nivel"></span>
+                                <h2 class="text-3xl md:text-5xl font-heading font-black text-white uppercase"
+                                    x-text="curso.titulo"></h2>
+                                <p class="text-lg md:text-xl font-medium mt-2"
+                                    :class="getEstilosNivel(curso.nivel).texto" x-html="curso.subtitulo"></p>
+                            </div>
+                        </div>
+
+                        <!-- STORYTELLING -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20 border-b border-brand-border pb-20">
+                            <div class="bg-brand-surface/20 p-8 rounded-2xl border border-brand-border/30">
+                                <h3 class="text-white font-heading font-bold text-xl mb-4 flex items-center gap-2">
+                                    <i class="ph-bold ph-warning-circle text-brand-gold"></i> El Desafío
+                                </h3>
+                                <p class="text-brand-muted leading-relaxed" x-html="curso.storytelling?.reto"></p>
+                            </div>
+                            <div class="bg-brand-surface/20 p-8 rounded-2xl border border-brand-border/30">
+                                <h3 class="text-white font-heading font-bold text-xl mb-4 flex items-center gap-2">
+                                    <i class="ph-bold ph-lightbulb text-brand-gold"></i> La Propuesta
+                                </h3>
+                                <p class="text-brand-muted leading-relaxed" x-html="curso.storytelling?.solucion"></p>
+                            </div>
+                        </div>
+
+                        <!-- LOS SPRINTS (Timeline Vertical) -->
+                        <div class="max-w-3xl mx-auto">
+                            <h3
+                                class="text-2xl font-heading font-bold text-white mb-12 text-center uppercase tracking-widest">
+                                Contenido por Semanas</h3>
+
+                            <div class="space-y-16">
+                                <template x-for="(sprint, index) in curso.sprints" :key="index">
+                                    <div class="relative pl-16 sprint-line" role="listitem">
+                                        <!-- Círculo -->
+                                        <div class="absolute left-0 top-0 w-10 h-10 rounded-full border-2 bg-brand-black flex items-center justify-center z-10"
+                                            :class="getEstilosNivel(curso.nivel).borde">
+                                            <span class="text-white font-bold" x-text="index + 1"></span>
+                                        </div>
+
+                                        <div
+                                            class="bg-brand-surface/10 hover:bg-brand-surface/30 transition-colors p-6 rounded-2xl border border-brand-border/20">
+                                            <h4 class="text-xl font-heading font-black text-white mb-3 uppercase"
+                                                x-text="sprint.titulo" :id="'sprint-' + index"></h4>
+                                            <p class="text-brand-muted leading-relaxed mb-6"
+                                                x-html="sprint.descripcion"></p>
+
+                                            <div
+                                                class="flex items-start gap-4 p-4 rounded-xl border border-white/5 bg-white/5">
+                                                <i class="ph-fill ph-crown text-2xl"
+                                                    :class="getEstilosNivel(curso.nivel).texto"></i>
+                                                <div>
+                                                    <span
+                                                        class="text-[10px] font-bold uppercase tracking-widest text-white/50 block mb-1"
+                                                        aria-label="Objetivo de aprendizaje alcanzado">Entregable
+                                                        / Resultado</span>
+                                                    <p class="text-sm font-bold text-white" x-html="sprint.resultado">
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+
+                    </div>
+                </template>
+            </div>
+        </div>
+    </main>
+
+    <!-- 4. ESTRATEGIA DE CIERRE (BARRA INFERIOR DISCRETA) -->
+    <!-- Reemplazamos el botón flotante por una barra tipo "SOPORTE DE VUELO" que solo aparece al hacer scroll -->
+    <div x-show="!mobileMenuOpen" x-data="{ show: false }"
+        x-init="window.addEventListener('scroll', () => { show = window.scrollY > 400 })" x-show="show"
+        x-transition:enter="transition ease-out duration-300" x-transition:enter-start="translate-y-full"
+        x-transition:enter-end="translate-y-0"
+        class="fixed bottom-0 left-0 w-full z-[100] p-4 md:p-6 pointer-events-none">
+
+        <div
+            class="container mx-auto max-w-4xl flex items-center justify-between bg-brand-black/90 backdrop-blur-xl border border-brand-border p-3 md:p-4 rounded-2xl shadow-2xl pointer-events-auto">
+            <div class="hidden md:block pl-4">
+                <p class="text-xs font-bold text-brand-gold uppercase tracking-widest">Inscripciones Abiertas</p>
+                <p class="text-sm text-white font-medium">Asegura tu lugar en la siguiente generación</p>
+            </div>
+
+            <div class="flex items-center gap-3 w-full md:w-auto">
+                <button @click="toggleChatAlkIA()"
+                    class="flex-1 md:flex-none px-6 py-3 border border-brand-border text-white font-heading font-bold uppercase text-xs rounded-xl hover:bg-white/5 transition-colors">
+                    Dudas
+                </button>
+                <a href="index.html#fechas" data-preserve-utm
+                    class="flex-[2] md:flex-none px-8 py-3 bg-brand-gold text-black font-heading font-bold uppercase tracking-widest text-xs rounded-xl text-center hover:scale-105 transition-transform shadow-lg shadow-brand-gold/20">
+                    Elegir Fecha
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="app.js"></script>
+    <script src="https://chatwith.tools/chatbot/668de3d8-c9e9-4b73-846a-1ed817098d3b.js" async></script>
+    <style>
+        #chatwith-widget-container,
+        .chatwith-launcher {
+            display: none !important;
+        }
+    </style>
+    <!-- ================================================= -->
+    <!-- BOTÓN FLOTANTE TÁCTICO (CTA DE CONVERSIÓN) -->
+    <!-- ================================================= -->
+    <div class="fixed bottom-6 right-6 z-[100] group pointer-events-none">
+        <a href="index.html#fechas" data-preserve-utm
+            class="pointer-events-auto flex items-center gap-3 bg-gradient-to-t from-brand-gold-dark to-brand-gold px-6 py-4 rounded-2xl shadow-[0_10px_30px_rgba(240,185,11,0.4)] hover:shadow-[0_15px_40px_rgba(240,185,11,0.6)] hover:-translate-y-2 transition-all duration-300">
+
+            <!-- Icono con micro-animación -->
+            <div class="bg-black/10 p-2 rounded-lg">
+                <i class="ph-fill ph-calendar-plus text-black text-2xl animate-pulse"></i>
+            </div>
+
+            <!-- Texto del CTA -->
+            <div class="flex flex-col">
+                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-black/60 leading-none mb-1">Paso
+                    Final</span>
+                <span class="text-sm font-heading font-black uppercase tracking-widest text-black leading-none">Elegir
+                    Fecha</span>
+            </div>
+
+            <!-- Flecha de empuje visual -->
+            <i class="ph-bold ph-arrow-right text-black text-lg group-hover:translate-x-1 transition-transform"></i>
+        </a>
+    </div>
+</body>
+
+</html>

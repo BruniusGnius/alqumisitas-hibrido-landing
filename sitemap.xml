@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+    <!-- 
+      PÁGINA PRINCIPAL (MÁXIMA PRIORIDAD)
+      - loc: La URL canónica de tu sitio.
+      - lastmod: La última fecha de modificación (cámbiala cuando hagas un ajuste importante).
+      - changefreq: 'monthly' porque el contenido principal es estable, pero las fechas de las cohortes cambian.
+      - priority: 1.0 porque es la página más importante de todo el sitio.
+    -->
+    <url>
+        <loc>https://alquimistas.gnius.club/</loc>
+        <lastmod>2026-04-03</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1.0</priority>
+    </url>
+
+    <!-- 
+      PÁGINA DE TEMARIOS (ALTA PRIORIDAD - CONTENIDO PILAR)
+      - changefreq: 'yearly' porque el plan de estudios de un curso es muy estable.
+      - priority: 0.9 porque es contenido de soporte fundamental que demuestra autoridad (E-E-A-T).
+    -->
+    <url>
+        <loc>https://alquimistas.gnius.club/temarios.html</loc>
+        <lastmod>2026-04-03</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- 
+      PÁGINA DE FECHAS (ALTA PRIORIDAD - CONTENIDO DINÁMICO)
+      - changefreq: 'weekly' porque esta es la página que se actualizará con más frecuencia (nuevas cohortes).
+      - priority: 0.9 porque es una página de conversión clave, especialmente para el tráfico del chatbot.
+    -->
+    <url>
+        <loc>https://alquimistas.gnius.club/fechas.html</loc>
+        <lastmod>2026-04-03</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+</urlset>
