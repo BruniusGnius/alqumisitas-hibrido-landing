@@ -24,5 +24,18 @@
     "logo": "https://alquimistas.gnius.club/assets/hyde_seek-logo.png",
     "logo_bg": true,
     "aplica_a": [1, 2]
+  },
+  {
+    "id": "KCP",
+    "keywords": ["kcp", "kimberly", "clark", "kimberly-clark", "kcp2026"],
+    "tipo_beneficio": "descuento",
+    "descuento_mxn": 750,
+    "cupon_stripe": "KCP2026",
+    "etiqueta": "<span class='text-white'>Beneficio Corporativo</span> KCP",
+    "banner_mensaje": "Tarifa corporativa preferencial para el desarrollo de competencias en Inteligencia Artificial.",
+    "icono": "ph-briefcase",
+    "logo": "assets/gnius-academy-logo.png",
+    "logo_bg": false,
+    "aplica_a": [1, 2]
   }
 ]
