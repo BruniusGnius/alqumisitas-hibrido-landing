@@ -104,6 +104,7 @@ document.addEventListener("alpine:init", () => {
   }));
   // B. Componente Principal de Cursos (Neuromarketing y Precios - INTACTO)
   Alpine.data("catalogoCursos", () => ({
+    // --- ESTADO INICIAL ---
     cargando: true,
     cursos: [],
     partners: [],
@@ -114,12 +115,19 @@ document.addEventListener("alpine:init", () => {
     calDate: new Date(),
     cursoSeleccionado: null,
     utmSource: "",
+
+    // --- VARIABLES DE ESTADO PARA WIDGETS ---
     now: new Date().getTime(),
+    chatModalOpen: false, // <-- Asegúrate que esta línea esté presente
     showPromoBanner: false,
     promoDismissed: false,
 
     get hayPromocionesActivas() {
-      return this.cursos.some((curso) => this.esEarlyBirdActivo(curso));
+      // El banner sale si hay Partner activo O si hay Early Birds por fecha
+      return (
+        !!this.activePartner ||
+        this.cursos.some((curso) => this.esEarlyBirdActivo(curso))
+      );
     },
 
     async initData() {
@@ -140,7 +148,19 @@ document.addEventListener("alpine:init", () => {
         this.filtroNivel = "todos";
       }
       // ---------------------------
+      // --- RE-ACTIVACIÓN DEL GATILLO DE SCROLL ---
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            this.showPromoBanner = true;
+          }
+        },
+        { threshold: 0.1 }
+      );
 
+      const sectionFechas = document.getElementById("fechas");
+      if (sectionFechas) observer.observe(sectionFechas);
+      // ------------------------------------------
       // El fetch debe ser relativo (sin la / al inicio)
       // para que funcione igual en local y en servidor.
       try {
@@ -162,7 +182,20 @@ document.addEventListener("alpine:init", () => {
               )
             ) || null;
         }
+        // --- RE-ACTIVACIÓN DEL GATILLO DE SCROLL ---
+        const observer = new IntersectionObserver(
+          (entries) => {
+            if (entries[0].isIntersecting) {
+              this.showPromoBanner = true;
+              // observer.unobserve(entries[0].target); // Opcional: quitar si quieres que salga siempre
+            }
+          },
+          { threshold: 0.1 }
+        );
 
+        const sectionFechas = document.getElementById("fechas");
+        if (sectionFechas) observer.observe(sectionFechas);
+        // ------------------------------------------
         cursosData = cursosData.map((curso) => {
           curso.estado = this.calcularEstadoLogico(curso);
           return curso;
@@ -232,7 +265,22 @@ document.addEventListener("alpine:init", () => {
       }
       return curso.eb_precio;
     },
+    // --- LÓGICA DE PROMOCIONES Y PARTNERS ---
+    tienePromoActiva(curso) {
+      // 1. ¿Hay Partner VIP aplicable a este curso?
+      if (this.activePartner) {
+        const aplicaATodos = this.activePartner.aplica_a === "todos";
+        const aplicaAEsteNivel =
+          Array.isArray(this.activePartner.aplica_a) &&
+          this.activePartner.aplica_a.includes(curso.nivel);
+        if (aplicaATodos || aplicaAEsteNivel) return "partner";
+      }
 
+      // 2. Si no hay Partner, ¿Hay Early Bird por fecha?
+      if (this.esEarlyBirdActivo(curso)) return "earlybird";
+
+      return false; // Precio regular
+    },
     generarLinkStripe(curso) {
       if (!curso.stripeUrl || curso.stripeUrl.includes("provisional"))
         return "#";
@@ -242,7 +290,10 @@ document.addEventListener("alpine:init", () => {
         const vendedor = this.utmSource || "directo";
 
         // 1. INYECTAR CUPÓN (Prioridad Partner, luego Early Bird)
-        if (this.isPartnerActivoParaCurso(curso)) {
+        if (
+          this.isPartnerActivoParaCurso(curso) &&
+          this.activePartner.cupon_stripe
+        ) {
           url.searchParams.set(
             "prefilled_promo_code",
             this.activePartner.cupon_stripe
@@ -251,24 +302,21 @@ document.addEventListener("alpine:init", () => {
           url.searchParams.set("prefilled_promo_code", curso.eb_cupon_code);
         }
 
-        // 2. INYECTAR DATOS PARA ZAPIER (UNIFICADO PARA N1 Y N2)
-        // Ya no hay "if curso.nivel === 1". Todos envían el paquete completo.
+        // 2. INYECTAR DATOS PARA ZAPIER (ESTÁNDAR UNIFICADO PARA N1 Y N2)
         const fechaEmail = curso.fecha_email || curso.fechaInicio;
         const horaEmail = curso.hora_email || "1800";
-
-        // Paquete: vendedor___N01-G06-2026-06-01___2026-05-28___1800
         const packedData = `${vendedor}___${curso.id}___${fechaEmail}___${horaEmail}`;
 
         url.searchParams.set("client_reference_id", packedData);
 
-        // Dejamos el UTM source limpio para analíticas de Stripe
+        // 3. UTM para analíticas nativas de Stripe
         if (this.utmSource) {
           url.searchParams.set("utm_source", this.utmSource);
         }
 
         return url.toString();
       } catch (e) {
-        return curso.stripeUrl;
+        return curso.stripeUrl; // Fallback de seguridad en caso de error en la URL
       }
     },
 

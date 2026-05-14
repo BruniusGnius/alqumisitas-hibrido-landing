@@ -27,7 +27,14 @@
   },
   {
     "id": "KCP",
-    "keywords": ["kcp", "kimberly", "clark", "kimberly-clark", "kcp2026"],
+    "keywords": [
+      "kcp",
+      "kimberly",
+      "clark",
+      "kimberly-clark",
+      "kcp2026",
+      "KCP2026"
+    ],
     "tipo_beneficio": "descuento",
     "descuento_mxn": 750,
     "cupon_stripe": "KCP2026",
