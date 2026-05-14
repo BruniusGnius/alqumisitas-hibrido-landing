@@ -236,10 +236,12 @@ document.addEventListener("alpine:init", () => {
     generarLinkStripe(curso) {
       if (!curso.stripeUrl || curso.stripeUrl.includes("provisional"))
         return "#";
+
       try {
         const url = new URL(curso.stripeUrl);
         const vendedor = this.utmSource || "directo";
 
+        // 1. INYECTAR CUPÓN (Prioridad Partner, luego Early Bird)
         if (this.isPartnerActivoParaCurso(curso)) {
           url.searchParams.set(
             "prefilled_promo_code",
@@ -249,17 +251,21 @@ document.addEventListener("alpine:init", () => {
           url.searchParams.set("prefilled_promo_code", curso.eb_cupon_code);
         }
 
-        if (curso.nivel === 1) {
-          if (this.utmSource)
-            url.searchParams.set("client_reference_id", this.utmSource);
-        } else {
-          const fechaEmail = curso.fecha_email || curso.fechaInicio;
-          const horaEmail = curso.hora_email || "1800";
-          const packedData = `${vendedor}___${curso.id}___${fechaEmail}___${horaEmail}`;
-          url.searchParams.set("client_reference_id", packedData);
+        // 2. INYECTAR DATOS PARA ZAPIER (UNIFICADO PARA N1 Y N2)
+        // Ya no hay "if curso.nivel === 1". Todos envían el paquete completo.
+        const fechaEmail = curso.fecha_email || curso.fechaInicio;
+        const horaEmail = curso.hora_email || "1800";
+
+        // Paquete: vendedor___N01-G06-2026-06-01___2026-05-28___1800
+        const packedData = `${vendedor}___${curso.id}___${fechaEmail}___${horaEmail}`;
+
+        url.searchParams.set("client_reference_id", packedData);
+
+        // Dejamos el UTM source limpio para analíticas de Stripe
+        if (this.utmSource) {
+          url.searchParams.set("utm_source", this.utmSource);
         }
 
-        if (this.utmSource) url.searchParams.set("utm_source", this.utmSource);
         return url.toString();
       } catch (e) {
         return curso.stripeUrl;
