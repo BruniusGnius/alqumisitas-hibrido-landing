@@ -201,7 +201,13 @@ document.addEventListener("alpine:init", () => {
           return curso;
         });
 
-        cursosData = cursosData.filter((curso) => curso.estado !== "cerrado");
+        // FILTRO INTELIGENTE: Conserva los cerrados si estamos en temarios
+        cursosData = cursosData.filter((curso) => {
+          if (window.location.pathname.includes("temarios.html")) {
+            return true; // Muestra todos en temarios
+          }
+          return curso.estado !== "cerrado"; // Oculta los cerrados en la landing
+        });
 
         this.cursos = cursosData.sort((a, b) => {
           const prioridades = { abierto: 1, waitlist: 2, proximamente: 3 };
