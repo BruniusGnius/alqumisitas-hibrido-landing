@@ -69,9 +69,9 @@ document.addEventListener("DOMContentLoaded", () => {
 // ALPINE.JS - COMPONENTES GLOBALES
 // =========================================================================
 document.addEventListener("alpine:init", () => {
-  // A. Componente de Navegación Global (Conexión con Widget Original)
+  // A. Componente de Navegación Global
   Alpine.data("navBar", () => ({
-    mobileMenuOpen: false,
+    mobileMenuOpen: false, // <-- Asegúrate de que esta línea esté aquí
     topOffset: "0px",
 
     init() {
@@ -140,7 +140,7 @@ document.addEventListener("alpine:init", () => {
       if (nivelParam) {
         // Si la URL dice ?nivel=2, todas las páginas obedecen y filtran.
         this.filtroNivel = parseInt(nivelParam);
-      } else if (window.location.pathname.includes("temarios.html")) {
+      } else if (window.location.pathname.includes("temario")) {
         // Si estamos en temarios y NO hay parámetro, forzamos Nivel 1.
         this.filtroNivel = 1;
       } else {
@@ -203,10 +203,10 @@ document.addEventListener("alpine:init", () => {
 
         // FILTRO INTELIGENTE: Conserva los cerrados si estamos en temarios
         cursosData = cursosData.filter((curso) => {
-          if (window.location.pathname.includes("temarios.html")) {
-            return true; // Muestra todos en temarios
+          if (window.location.pathname.includes("temario")) {
+            return true; // Muestra todos en temarios (Abiertos y Cerrados)
           }
-          return curso.estado !== "cerrado"; // Oculta los cerrados en la landing
+          return curso.estado !== "cerrado"; // En index.html sí oculta los cerrados
         });
 
         this.cursos = cursosData.sort((a, b) => {

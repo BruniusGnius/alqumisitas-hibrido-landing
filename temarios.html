@@ -303,9 +303,9 @@
             <!-- CONTENIDO DEL TEMARIO -->
             <div x-show="!cargando" x-cloak>
                 <template
-                    x-for="curso in [cursos.find(c => c.nivel === filtroNivel) || cursos.find(c => c.nivel === 1)]"
+                    x-for="curso in [cursos.find(c => c.nivel === filtroNivel) || cursos.find(c => c.nivel === 1)].filter(Boolean)"
                     :key="filtroNivel">
-                    <div x-show="curso" class="animate-in fade-in slide-in-from-bottom-4 duration-700">
+                    <div class="animate-in fade-in slide-in-from-bottom-4 duration-700">
 
                         <!-- HEADER VISUAL (Imagen del Modal + Info) -->
                         <div
