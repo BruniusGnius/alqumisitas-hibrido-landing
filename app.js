@@ -131,6 +131,8 @@ document.addEventListener("alpine:init", () => {
     },
 
     async initData() {
+      setInterval(() => { this.now = new Date().getTime(); }, 1000);
+
       const urlParams = new URLSearchParams(window.location.search);
       this.utmSource = urlParams.get("utm_source") || "";
 
