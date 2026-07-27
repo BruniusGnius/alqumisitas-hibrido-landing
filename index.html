@@ -2062,6 +2062,9 @@
                                     <p class="text-brand-muted text-sm text-center font-bold mb-1">
                                         <i class="ph-fill ph-clock"></i> <span x-html="curso.horario"></span>
                                     </p>
+                                    <p x-show="curso.modalidad_nota"
+                                        class="text-xs text-brand-muted text-center leading-relaxed px-3"
+                                        x-html="curso.modalidad_card || curso.modalidad_nota"></p>
 
                                     <!-- NUEVO LINK: Abre Pestaña Calendario -->
                                     <div class="text-center mt-1 mb-4">
@@ -2258,6 +2261,9 @@
                                             :class="getEstilosNivel(cursoSeleccionado.nivel).texto"></i>
                                         <span x-html="cursoSeleccionado.horario"></span>
                                     </p>
+                                    <p x-show="cursoSeleccionado.modalidad_nota"
+                                        class="text-xs text-brand-muted mt-2 leading-relaxed"
+                                        x-text="cursoSeleccionado.modalidad_nota"></p>
                                 </div>
                             </div>
 
@@ -2370,8 +2376,9 @@
                                 </div>
                                 <div
                                     class="mb-6 flex flex-col md:flex-row items-center justify-between gap-4 bg-brand-black p-4 rounded-lg border border-brand-border">
-                                    <p class="text-sm text-brand-muted">Añade todas las sesiones a tu agenda para
-                                        reservar los espacios.</p>
+                                    <p class="text-sm text-brand-muted"
+                                        x-text="cursoSeleccionado.modalidad_nota || 'Añade todas las sesiones a tu agenda para reservar los espacios.'">
+                                    </p>
 
 
                                     <!-- Botón Descargar ICS -->
@@ -2411,6 +2418,9 @@
                                                 <p class="text-[11px] font-bold uppercase tracking-widest mb-0.5"
                                                     :class="getEstilosNivel(cursoSeleccionado.nivel).texto"
                                                     x-text="'Sesión ' + sesion.dia"></p>
+                                                <p x-show="sesion.tipo"
+                                                    class="text-[10px] text-brand-muted uppercase tracking-widest font-bold mb-1"
+                                                    x-text="sesion.tipo === 'grabado' ? 'Grabado' : (sesion.tipo === 'coaching' ? 'En vivo' : 'Kickoff en vivo')"></p>
                                                 <p class="text-white text-sm font-medium leading-snug"
                                                     x-text="sesion.tema"></p>
                                             </div>
@@ -3006,11 +3016,18 @@
 
                     curso.calendario.forEach(sesion => {
                         const fechaClean = sesion.fecha.replace(/-/g, '');
+                        const modalidad = sesion.tipo === 'grabado'
+                            ? 'Grabado'
+                            : sesion.tipo === 'coaching'
+                                ? 'En vivo'
+                                : sesion.tipo === 'kickoff'
+                                    ? 'Kickoff en vivo'
+                                    : 'Sesion';
                         icsContent += "BEGIN:VEVENT\n";
                         icsContent += `DTSTART;TZID=America/Mexico_City:${fechaClean}T${horaStr}\n`;
                         icsContent += `DTEND;TZID=America/Mexico_City:${fechaClean}T${horaFinStr}\n`;
-                        icsContent += `SUMMARY:Alquimistas | ${sesion.tema}\n`;
-                        icsContent += `DESCRIPTION:Sesión ${sesion.dia} del curso: ${curso.titulo}\\nNivel: ${curso.nivel}\n`;
+                        icsContent += `SUMMARY:Alquimistas | ${modalidad} | ${sesion.tema}\n`;
+                        icsContent += `DESCRIPTION:Sesion ${sesion.dia} del curso: ${curso.titulo}\\nNivel: ${curso.nivel}\\nModalidad: ${modalidad}\\n${curso.modalidad_nota || ""}\n`;
                         icsContent += "END:VEVENT\n";
                     });
                     icsContent += "END:VCALENDAR";

@@ -366,6 +366,9 @@
                                                 Horario de Clases</p>
                                             <p class="text-sm md:text-base font-medium text-white"
                                                 x-html="curso.horario"></p>
+                                            <p x-show="curso.modalidad_nota"
+                                                class="text-xs text-brand-muted mt-1 leading-relaxed"
+                                                x-text="curso.modalidad_nota"></p>
                                         </div>
                                     </div>
                                     <div class="pt-2">
@@ -440,6 +443,9 @@
                 <div class="text-center mb-8">
                     <h2 class="text-2xl font-heading font-bold text-white uppercase tracking-widest">Vista Mensual</h2>
                     <p class="text-sm text-brand-muted mt-1">Mapa de entregas y sesiones</p>
+                    <p x-show="cursosFiltrados.some(c => c.modalidad_nota)"
+                        class="text-xs text-brand-muted mt-3 max-w-2xl mx-auto leading-relaxed"
+                        x-text="cursosFiltrados.find(c => c.modalidad_nota)?.modalidad_nota"></p>
                 </div>
 
                 <!-- Control de Mes -->

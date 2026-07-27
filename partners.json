@@ -44,5 +44,28 @@
     "logo": "assets/gnius-academy-logo.png",
     "logo_bg": false,
     "aplica_a": [1, 2]
+  },
+  {
+    "id": "centro_empresarial_tuxtla",
+    "keywords": [
+      "centro-tuxtla",
+      "centro-empresarial-tuxtla",
+      "centro_empresarial_tuxtla",
+      "centroempresarialtuxtla",
+      "tuxtla-alquimista",
+      "tuxtla",
+      "CETAlQ",
+      "CET-ALQ",
+      "CET"
+    ],
+    "tipo_beneficio": "descuento",
+    "descuento_mxn": 750,
+    "cupon_stripe": "CET",
+    "etiqueta": "<span class='text-white'>Beneficio Centro Empresarial</span> Tuxtla",
+    "banner_mensaje": "Tarifa preferencial para miembros del Centro Empresarial de Tuxtla.",
+    "icono": "ph-buildings",
+    "logo": "assets/gnius-academy-logo.png",
+    "logo_bg": false,
+    "aplica_a": [1]
   }
 ]

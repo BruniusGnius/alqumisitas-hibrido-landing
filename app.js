@@ -367,11 +367,19 @@ document.addEventListener("alpine:init", () => {
 
       curso.calendario.forEach((sesion) => {
         const fechaClean = sesion.fecha.replace(/-/g, "");
+        const modalidad =
+          sesion.tipo === "grabado"
+            ? "Grabado"
+            : sesion.tipo === "coaching"
+              ? "En vivo"
+              : sesion.tipo === "kickoff"
+                ? "Kickoff en vivo"
+                : "Sesion";
         icsContent += "BEGIN:VEVENT\n";
         icsContent += `DTSTART;TZID=America/Mexico_City:${fechaClean}T${horaStr}\n`;
         icsContent += `DTEND;TZID=America/Mexico_City:${fechaClean}T${horaFinStr}\n`;
-        icsContent += `SUMMARY:Alquimistas | ${sesion.tema}\n`;
-        icsContent += `DESCRIPTION:Sesión ${sesion.dia} del curso: ${curso.titulo}\\nNivel: ${curso.nivel}\n`;
+        icsContent += `SUMMARY:Alquimistas | ${modalidad} | ${sesion.tema}\n`;
+        icsContent += `DESCRIPTION:Sesion ${sesion.dia} del curso: ${curso.titulo}\\nNivel: ${curso.nivel}\\nModalidad: ${modalidad}\\n${curso.modalidad_nota || ""}\n`;
         icsContent += "END:VEVENT\n";
       });
       icsContent += "END:VCALENDAR";
