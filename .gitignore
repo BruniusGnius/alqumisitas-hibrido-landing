@@ -50,6 +50,7 @@ certificados-alquimistas/package-lock.json
 certificados-alquimistas
 # Local Netlify folder
 .netlify
+/.ftp.env
 /certificados
 *.pptx
 SSOT-Alquimistas-Programa-Educativo.md
