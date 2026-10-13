@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fechas y Precios — Alquimistas de I.A.</title>
+  <meta name="description" content="Consulta los próximos cohorts de Alquimistas de I.A. y elige tu fecha. Inscripciones abiertas.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Saira:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'brand-black':   '#0a0a0a',
+            'brand-dark':    '#121212',
+            'brand-surface': '#1c1c1c',
+            'brand-border':  '#2a2a2a',
+            'brand-text':    '#f0f0f0',
+            'brand-muted':   '#a0a0a0',
+            'brand-gold':    '#f0b90b',
+            'brand-gold-dark': '#e8a900',
+          },
+          fontFamily: {
+            'sans':    ['Saira', 'sans-serif'],
+            'heading': ['"IBM Plex Serif"', 'serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="app.js"></script>
+
+  <style>
+    [x-cloak] { display: none !important; }
+    body { background-color: #0a0a0a; color: #f0f0f0; -webkit-font-smoothing: antialiased; }
+
+    .section-kicker {
+      display: block;
+      font-family: 'Saira', sans-serif;
+      font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      color: #f0b90b; margin-bottom: 0.75rem;
+    }
+
+    .img-ph {
+      background: linear-gradient(135deg, rgba(240,185,11,0.04) 0%, rgba(28,28,28,0.8) 100%);
+      border: 1px dashed rgba(240,185,11,0.2);
+      border-radius: 0.5rem;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 0.75rem; color: #a0a0a0;
+    }
+    .img-ph i    { color: rgba(240,185,11,0.25); }
+    .img-ph span { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.45; font-family: 'Saira', sans-serif; }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      padding: 0.85rem 1.75rem;
+      background: #f0b90b; color: #0a0a0a;
+      font-family: 'Saira Semi Condensed', sans-serif; font-weight: 800;
+      font-size: 0.9rem; letter-spacing: 0.08em; text-transform: uppercase;
+      border-radius: 4px; transition: background 0.2s, transform 0.15s;
+      text-decoration: none; cursor: pointer; border: none;
+    }
+    .btn-primary:hover { background: #ffe234; transform: translateY(-1px); }
+
+    .btn-outline {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border: 1px solid rgba(240,185,11,0.4); color: #f0b90b;
+      font-family: 'Saira Semi Condensed', sans-serif; font-weight: 700;
+      font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase;
+      border-radius: 4px; transition: border-color 0.2s, background 0.2s;
+      text-decoration: none; cursor: pointer;
+    }
+    .btn-outline:hover { border-color: #f0b90b; background: rgba(240,185,11,0.06); }
+
+    .content-card {
+      background: #1c1c1c; border: 1px solid #2a2a2a; border-radius: 8px;
+      transition: border-color 0.2s;
+    }
+    .content-card:hover { border-color: rgba(240,185,11,0.2); }
+
+    /* Calendar */
+    .cal-day-session {
+      background: rgba(240,185,11,0.15);
+      border: 1px solid rgba(240,185,11,0.4);
+      border-radius: 4px; color: #f0b90b; font-weight: 700;
+    }
+
+    /* Modal overlay */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 9000;
+      background: rgba(0,0,0,0.85); backdrop-filter: blur(6px);
+      display: flex; align-items: flex-end; justify-content: center;
+    }
+    @media (min-width: 768px) {
+      .modal-overlay { align-items: center; }
+    }
+    .modal-panel {
+      background: #121212;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px 12px 0 0;
+      width: 100%; max-width: 760px;
+      max-height: 92vh; overflow-y: auto;
+    }
+    @media (min-width: 768px) {
+      .modal-panel { border-radius: 12px; }
+    }
+
+    /* Promo banner */
+    .promo-banner {
+      position: fixed; bottom: 80px; right: 16px;
+      z-index: 8000; max-width: 280px;
+    }
+  </style>
+</head>
+
+<body class="font-sans" x-data="catalogoCursos()" x-init="initData()">
+
+  <!-- ===== PARTNER BANNERS ===== -->
+  <div id="hydesick-branding" class="hidden sticky top-0 z-[100] bg-white/96 backdrop-blur py-3 border-b border-gray-200">
+    <div class="container mx-auto px-5 flex items-center justify-center gap-4">
+      <p class="text-gray-500 font-heading font-bold text-[10px] uppercase tracking-[0.2em]">En colaboración estratégica con</p>
+      <img src="../assets/hyde_seek-logo.png" class="h-6 md:h-8">
+    </div>
+  </div>
+  <div id="top-branding" class="hidden sticky top-0 z-[100] bg-black/96 backdrop-blur py-4 border-b border-brand-border">
+    <div class="container mx-auto px-5 flex items-center justify-center gap-4">
+      <p class="text-brand-muted font-heading font-bold text-[10px] uppercase tracking-[0.2em]">Beneficio de alianza activo</p>
+      <img :src="activePartner?.logo" class="h-6 md:h-8 max-w-[120px] object-contain">
+    </div>
+  </div>
+
+  <!-- ===== NAV ===== -->
+  <nav class="sticky z-50 bg-brand-black/95 backdrop-blur border-b border-brand-border" :style="'top:' + topOffset">
+    <div class="container mx-auto px-5 max-w-7xl flex items-center justify-between h-16">
+      <a href="index.html" class="flex items-center gap-2.5">
+        <i class="ph-fill ph-magic-wand text-brand-gold text-xl"></i>
+        <span class="font-heading font-bold text-white tracking-wide text-sm uppercase">Alquimistas <span class="text-brand-gold">I.A.</span></span>
+      </a>
+      <div class="hidden md:flex items-center gap-6">
+        <a href="index.html" class="text-brand-muted hover:text-white text-sm font-sans transition-colors">Landing</a>
+        <a href="temarios.html" class="text-brand-muted hover:text-white text-sm font-sans transition-colors" data-preserve-utm>Temarios</a>
+        <a href="fechas.html" class="text-white text-sm font-sans border-b border-brand-gold pb-0.5">Fechas</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="bg-brand-dark border-b border-brand-border py-16 md:py-20">
+    <div class="container mx-auto px-5 max-w-6xl">
+      <div class="grid grid-cols-1 md:grid-cols-[1fr_300px] gap-10 items-center">
+        <div>
+          <span class="section-kicker">Próximos cohorts</span>
+          <h1 class="font-heading font-black text-4xl md:text-5xl text-white leading-tight mb-4">Fechas y Precios</h1>
+          <p class="text-brand-muted leading-relaxed max-w-lg">Elige el cohort que se adapta a tu agenda. Grupos pequeños, coach en vivo, certificación oficial.</p>
+        </div>
+        <div class="hidden md:block">
+          <div class="img-ph h-44">
+            <i class="ph-bold ph-calendar-star text-5xl"></i>
+            <span>Imagen · calendario · cohort</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filtro nivel -->
+      <div class="flex gap-2 mt-8 flex-wrap">
+        <button @click="filtroNivel = 'todos'"
+          :class="filtroNivel === 'todos' ? 'bg-brand-gold text-brand-black font-bold' : 'bg-brand-surface text-brand-muted border border-brand-border hover:border-brand-gold/30 hover:text-white'"
+          class="font-heading text-xs uppercase tracking-widest px-4 py-2.5 rounded transition-colors">
+          Todos los niveles
+        </button>
+        <button @click="filtroNivel = 1"
+          :class="filtroNivel === 1 ? 'bg-brand-gold text-brand-black font-bold' : 'bg-brand-surface text-brand-muted border border-brand-border hover:border-brand-gold/30 hover:text-white'"
+          class="font-heading text-xs uppercase tracking-widest px-4 py-2.5 rounded transition-colors">
+          N1 · Prompting
+        </button>
+        <button @click="filtroNivel = 2"
+          :class="filtroNivel === 2 ? 'bg-blue-600 text-white font-bold' : 'bg-brand-surface text-brand-muted border border-brand-border hover:border-blue-500/30 hover:text-white'"
+          class="font-heading text-xs uppercase tracking-widest px-4 py-2.5 rounded transition-colors">
+          N2 · Agentes
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CURSO CARDS ===== -->
+  <section id="fechas" class="py-14 md:py-20 bg-brand-black">
+    <div class="container mx-auto px-5 max-w-6xl">
+
+      <!-- Loading -->
+      <div x-show="cargando" class="flex items-center justify-center py-20">
+        <div class="flex items-center gap-3 text-brand-muted">
+          <i class="ph-bold ph-circle-notch animate-spin text-brand-gold text-2xl"></i>
+          <span class="font-heading uppercase tracking-widest text-xs">Cargando cohorts...</span>
+        </div>
+      </div>
+
+      <!-- Empty -->
+      <div x-show="!cargando && cursosFiltrados.length === 0" class="text-center py-20 text-brand-muted">
+        <i class="ph-bold ph-calendar-x text-5xl text-brand-border mb-4 block"></i>
+        <p class="font-heading font-bold uppercase tracking-widest text-sm">No hay cohorts disponibles para este filtro.</p>
+      </div>
+
+      <!-- Grid de cards -->
+      <div x-show="!cargando && cursosFiltrados.length > 0" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+        <template x-for="curso in cursosFiltrados" :key="curso.id">
+          <div class="content-card flex flex-col overflow-hidden">
+
+            <!-- Image placeholder o portada -->
+            <template x-if="!curso.portada">
+              <div class="img-ph h-44">
+                <i class="ph-bold ph-image text-4xl"></i>
+                <span x-text="'Portada N' + curso.nivel"></span>
+              </div>
+            </template>
+            <template x-if="curso.portada">
+              <img :src="'../' + curso.portada" class="w-full h-44 object-cover">
+            </template>
+
+            <div class="p-5 flex flex-col flex-1 gap-4">
+
+              <!-- Estado + nivel badges -->
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="px-2 py-1 rounded text-[10px] font-heading font-bold uppercase tracking-widest"
+                  :class="{
+                    'bg-brand-gold/15 text-brand-gold': curso.estado === 'abierto',
+                    'bg-blue-500/15 text-blue-400': curso.estado === 'proximamente',
+                    'bg-amber-500/15 text-amber-400': curso.estado === 'waitlist',
+                    'bg-brand-muted/10 text-brand-muted': curso.estado === 'cerrado'
+                  }"
+                  x-text="formatEstado(curso.estado)"></span>
+                <span class="px-2 py-1 rounded text-[10px] font-heading font-bold uppercase tracking-widest"
+                  :class="getEstilosNivel(curso.nivel).badge"
+                  x-text="'Nivel ' + curso.nivel"></span>
+              </div>
+
+              <!-- Info -->
+              <div class="flex-1">
+                <h3 class="font-heading font-bold text-white text-lg leading-tight mb-1" x-text="curso.titulo"></h3>
+                <p class="text-brand-muted text-sm" x-text="'Inicio: ' + formatDateFull(curso.fechaInicio)"></p>
+                <p class="text-brand-muted text-sm" x-text="'Kickoff: ' + (curso.kickoff || '—')"></p>
+              </div>
+
+              <!-- Precio -->
+              <div>
+                <template x-if="tieneDescuentoVisual(curso)">
+                  <div class="flex items-center gap-2 mb-0.5">
+                    <span class="text-brand-muted line-through text-sm" x-text="'$' + (curso.reg_precio || curso.precio) + ' MXN'"></span>
+                    <span class="text-xs bg-brand-gold/15 text-brand-gold font-heading font-bold uppercase tracking-wide px-2 py-0.5 rounded"
+                      x-text="tienePromoActiva(curso) === 'partner' ? 'Alianza' : 'Early Bird'"></span>
+                  </div>
+                </template>
+                <template x-if="!tieneDescuentoVisual(curso)">
+                  <div class="mb-0.5"></div>
+                </template>
+                <p class="font-heading font-black text-3xl text-white">
+                  $<span x-text="tieneDescuentoVisual(curso) ? getPrecioDescuento(curso) : (curso.reg_precio || curso.precio)"></span>
+                  <span class="text-brand-muted text-base font-sans font-normal"> MXN</span>
+                </p>
+              </div>
+
+              <!-- Acciones -->
+              <div class="flex gap-2">
+                <button @click="abrirModal(curso, 'temario')" class="btn-outline flex-1 text-xs py-2">
+                  <i class="ph-bold ph-list-bullets"></i> Temario
+                </button>
+                <template x-if="curso.estado === 'abierto'">
+                  <a :href="generarLinkStripe(curso)" class="btn-primary flex-1 text-xs py-2" data-preserve-utm>
+                    Inscribirme →
+                  </a>
+                </template>
+                <template x-if="curso.estado === 'proximamente' || curso.estado === 'waitlist'">
+                  <button class="btn-outline flex-1 text-xs py-2 opacity-70 cursor-not-allowed">
+                    <i class="ph-bold ph-list-plus"></i> Lista de espera
+                  </button>
+                </template>
+                <template x-if="curso.estado === 'cerrado'">
+                  <span class="flex-1 flex items-center justify-center text-brand-border text-xs font-heading uppercase tracking-wider border border-brand-border rounded py-2">Cerrado</span>
+                </template>
+              </div>
+
+            </div>
+          </div>
+        </template>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== B2B ===== -->
+  <section class="py-16 bg-brand-dark border-t border-brand-border">
+    <div class="container mx-auto px-5 max-w-5xl">
+      <div class="grid grid-cols-1 md:grid-cols-[55fr_45fr] gap-10 items-center">
+        <div>
+          <span class="section-kicker">Empresas</span>
+          <h2 class="font-heading font-black text-3xl text-white mb-4">¿Capacitar a tu equipo?</h2>
+          <p class="text-brand-muted leading-relaxed mb-6">Ofrecemos cohorts corporativos adaptados a tu industria, con métricas de adopción y seguimiento post-programa. Desde 5 personas.</p>
+          <a href="mailto:rudy@gnius.club?subject=Capacitación%20Equipos%20Alquimistas" class="btn-outline">
+            <i class="ph-bold ph-buildings"></i> Escríbenos
+          </a>
+        </div>
+        <div class="hidden md:block">
+          <div class="img-ph h-48">
+            <i class="ph-bold ph-users-three text-5xl"></i>
+            <span>Imagen · equipo corporativo · cohort empresa</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="bg-brand-black border-t border-brand-border py-8">
+    <div class="container mx-auto px-5 max-w-6xl flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <i class="ph-fill ph-magic-wand text-brand-gold text-lg"></i>
+        <span class="font-heading font-bold text-white text-sm uppercase tracking-wide">Gnius Academy · Alquimistas de I.A.</span>
+      </div>
+      <div class="flex gap-6">
+        <a href="index.html" class="text-brand-muted hover:text-white text-sm transition-colors">Landing</a>
+        <a href="temarios.html" class="text-brand-muted hover:text-white text-sm transition-colors">Temarios</a>
+        <a href="mailto:rudy@gnius.club" class="text-brand-gold hover:underline text-sm">rudy@gnius.club</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== MODAL DETALLE ===== -->
+  <div x-show="modalOpen" x-cloak class="modal-overlay" @click.self="modalOpen = false">
+    <div class="modal-panel">
+
+      <!-- Header -->
+      <div class="sticky top-0 bg-brand-dark border-b border-brand-border z-10">
+        <div class="flex items-center justify-between px-5 py-4">
+          <div>
+            <h2 class="font-heading font-bold text-white" x-text="cursoSeleccionado?.titulo || ''"></h2>
+            <p class="text-brand-muted text-xs" x-text="cursoSeleccionado ? formatDateFull(cursoSeleccionado.fechaInicio) : ''"></p>
+          </div>
+          <button @click="modalOpen = false" class="text-brand-muted hover:text-white p-2 transition-colors">
+            <i class="ph-bold ph-x text-xl"></i>
+          </button>
+        </div>
+        <!-- Tabs -->
+        <div class="flex border-t border-brand-border">
+          <button @click="modalTab = 'temario'" class="flex-1 py-3 text-xs font-heading font-bold uppercase tracking-widest transition-colors"
+            :class="modalTab === 'temario' ? 'text-brand-gold border-b-2 border-brand-gold' : 'text-brand-muted hover:text-white'">
+            Temario
+          </button>
+          <button @click="modalTab = 'fechas'" class="flex-1 py-3 text-xs font-heading font-bold uppercase tracking-widest transition-colors"
+            :class="modalTab === 'fechas' ? 'text-brand-gold border-b-2 border-brand-gold' : 'text-brand-muted hover:text-white'">
+            Calendario
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab: Temario -->
+      <div x-show="modalTab === 'temario'" class="p-5 space-y-5">
+        <!-- Portada -->
+        <template x-if="!cursoSeleccionado?.portada">
+          <div class="img-ph h-40">
+            <i class="ph-bold ph-image text-5xl"></i>
+            <span>Portada del curso</span>
+          </div>
+        </template>
+        <template x-if="cursoSeleccionado?.portada">
+          <img :src="'../' + cursoSeleccionado.portada" class="w-full h-40 object-cover rounded-lg">
+        </template>
+
+        <!-- Sprints -->
+        <template x-if="cursoSeleccionado?.sprints?.length">
+          <div class="space-y-3">
+            <template x-for="(sprint, si) in cursoSeleccionado.sprints" :key="si">
+              <div class="bg-brand-black border border-brand-border rounded-lg p-4">
+                <div class="flex items-start gap-3">
+                  <div class="flex-shrink-0 w-8 h-8 rounded-full border border-brand-gold/30 flex items-center justify-center font-heading font-bold text-brand-gold text-xs" x-text="(si + 1).toString().padStart(2,'0')"></div>
+                  <div class="flex-1">
+                    <h4 class="font-heading font-bold text-white mb-1" x-text="sprint.titulo"></h4>
+                    <p class="text-brand-muted text-sm leading-relaxed" x-text="sprint.descripcion"></p>
+                    <template x-if="sprint.resultado">
+                      <p class="text-brand-gold text-xs font-heading font-bold uppercase tracking-wider mt-2" x-text="'→ ' + sprint.resultado"></p>
+                    </template>
+                  </div>
+                </div>
+              </div>
+            </template>
+          </div>
+        </template>
+
+        <!-- Herramientas -->
+        <template x-if="cursoSeleccionado?.herramientas?.length">
+          <div>
+            <p class="text-brand-muted text-xs font-heading uppercase tracking-widest mb-2">Herramientas</p>
+            <div class="flex flex-wrap gap-2">
+              <template x-for="h in cursoSeleccionado.herramientas" :key="h">
+                <span class="px-2.5 py-1 bg-brand-surface border border-brand-border rounded text-xs text-brand-muted font-sans" x-text="h"></span>
+              </template>
+            </div>
+          </div>
+        </template>
+
+        <!-- Requisitos -->
+        <template x-if="cursoSeleccionado?.requisitos">
+          <div class="bg-brand-surface border border-brand-border rounded-lg p-4">
+            <p class="text-xs font-heading font-bold uppercase tracking-widest text-brand-muted mb-1">Requisitos</p>
+            <p class="text-brand-muted text-sm leading-relaxed" x-text="cursoSeleccionado.requisitos"></p>
+          </div>
+        </template>
+      </div>
+
+      <!-- Tab: Fechas / Calendario -->
+      <div x-show="modalTab === 'fechas'" class="p-5 space-y-5">
+        <div class="bg-brand-black border border-brand-border rounded-lg p-4">
+
+          <!-- Nav mes -->
+          <div class="flex items-center justify-between mb-4">
+            <button @click="changeMonth(-1)" class="p-2 text-brand-muted hover:text-white transition-colors"><i class="ph-bold ph-caret-left"></i></button>
+            <p class="font-heading font-bold text-white text-sm capitalize" x-text="getCalTitle()"></p>
+            <button @click="changeMonth(1)" class="p-2 text-brand-muted hover:text-white transition-colors"><i class="ph-bold ph-caret-right"></i></button>
+          </div>
+
+          <!-- Días semana -->
+          <div class="grid grid-cols-7 gap-1 mb-1">
+            <template x-for="d in ['Lu','Ma','Mi','Ju','Vi','Sa','Do']">
+              <div class="text-center text-brand-muted text-[10px] font-heading font-bold py-1" x-text="d"></div>
+            </template>
+          </div>
+          <!-- Días -->
+          <div class="grid grid-cols-7 gap-1">
+            <template x-for="day in getCalDays()" :key="day.num + '-' + day.isSession">
+              <div class="aspect-square flex items-center justify-center text-xs"
+                :class="day.num === '' ? '' : (day.isSession ? 'cal-day-session' : 'text-brand-muted')"
+                x-text="day.num"></div>
+            </template>
+          </div>
+        </div>
+
+        <!-- Lista de sesiones -->
+        <template x-if="cursoSeleccionado?.calendario?.length">
+          <div class="space-y-2">
+            <template x-for="(ses, i) in cursoSeleccionado.calendario" :key="ses.fecha">
+              <div class="flex items-center gap-3 bg-brand-surface border border-brand-border rounded-lg px-4 py-3">
+                <div class="text-center flex-shrink-0 w-10">
+                  <p class="font-heading font-black text-brand-gold text-lg leading-none" x-text="getDayNum(ses.fecha)"></p>
+                  <p class="text-brand-muted text-[9px] uppercase" x-text="getMonthNameShort(ses.fecha)"></p>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="font-heading font-bold text-white text-sm" x-text="ses.dia"></p>
+                  <p class="text-brand-muted text-xs truncate" x-text="ses.tema"></p>
+                </div>
+              </div>
+            </template>
+          </div>
+        </template>
+
+        <button @click="descargarICS(cursoSeleccionado)" class="btn-outline w-full text-xs py-3">
+          <i class="ph-bold ph-calendar-plus"></i> Descargar .ics
+        </button>
+      </div>
+
+      <!-- Footer modal sticky -->
+      <div class="sticky bottom-0 bg-brand-dark border-t border-brand-border px-5 py-4">
+        <template x-if="cursoSeleccionado?.estado === 'abierto'">
+          <div>
+            <div class="flex items-center gap-2 mb-1 flex-wrap">
+              <template x-if="tieneDescuentoVisual(cursoSeleccionado)">
+                <span class="text-brand-muted line-through text-sm"
+                  x-text="'$' + (cursoSeleccionado.reg_precio || cursoSeleccionado.precio) + ' MXN'"></span>
+              </template>
+            </div>
+            <div class="flex items-center justify-between gap-4">
+              <p class="font-heading font-black text-3xl text-white">
+                $<span x-text="tieneDescuentoVisual(cursoSeleccionado) ? getPrecioDescuento(cursoSeleccionado) : (cursoSeleccionado.reg_precio || cursoSeleccionado.precio)"></span>
+                <span class="text-brand-muted text-base font-sans font-normal"> MXN</span>
+              </p>
+              <a :href="generarLinkStripe(cursoSeleccionado)" class="btn-primary flex-shrink-0 text-sm py-3 px-8" data-preserve-utm>
+                Inscribirme →
+              </a>
+            </div>
+          </div>
+        </template>
+        <template x-if="cursoSeleccionado?.estado !== 'abierto'">
+          <div class="text-center text-brand-muted text-sm font-heading uppercase tracking-wider" x-text="formatEstado(cursoSeleccionado?.estado || '')"></div>
+        </template>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== PROMO BANNER ===== -->
+  <div class="promo-banner" x-show="showPromoBanner && !promoDismissed && hayPromocionesActivas" x-cloak
+    x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
+    <div class="bg-brand-dark border border-brand-gold/25 rounded-lg p-4 shadow-2xl">
+      <button @click="promoDismissed = true" class="absolute top-2 right-2 text-brand-muted hover:text-white p-1"><i class="ph-bold ph-x text-sm"></i></button>
+      <template x-if="activePartner">
+        <div>
+          <p class="text-brand-gold font-heading font-bold text-xs uppercase tracking-widest mb-1">Descuento activo</p>
+          <p class="text-white text-sm font-heading" x-text="activePartner.nombre + ' — $' + activePartner.descuento_mxn + ' MXN off'"></p>
+        </div>
+      </template>
+      <template x-if="!activePartner && cursos.some(c => esEarlyBirdActivo(c))">
+        <div>
+          <p class="text-brand-gold font-heading font-bold text-xs uppercase tracking-widest mb-1">Early Bird activo</p>
+          <p class="text-white text-sm">Precio reducido disponible</p>
+        </div>
+      </template>
+    </div>
+  </div>
+
+</body>
+</html>

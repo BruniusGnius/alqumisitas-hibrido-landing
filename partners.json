@@ -13,6 +13,19 @@
     "aplica_a": "todos"
   },
   {
+    "id": "munet",
+    "keywords": ["munet"],
+    "tipo_beneficio": "descuento",
+    "descuento_mxn": 750,
+    "cupon_stripe": "CONECTAMUNET",
+    "etiqueta": "<span class='text-white'>Beneficio MUNET</span> para profesionales",
+    "banner_mensaje": "Lleva nuevas ideas a tu trabajo con IA. Tienes $750 MXN de beneficio.",
+    "icono": "ph-atom",
+    "logo": "assets/munet-logo-manual-vertical.png",
+    "logo_bg": false,
+    "aplica_a": "todos"
+  },
+  {
     "id": "hyde_seek",
     "keywords": ["hyde_seek", "hyde-seek", "hyde", "seek"],
     "tipo_beneficio": "descuento",

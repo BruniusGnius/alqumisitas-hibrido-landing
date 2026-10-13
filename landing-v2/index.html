@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alquimistas de I.A. — Prompting Estratégico · Cohort Julio 2026</title>
+  <meta name="description" content="En 4 semanas dejas de temerle a la IA y aprendes a dirigirla con el criterio que ya tienes. Cohort en vivo · arranca el 13 de julio.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Saira:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'brand-black':   '#0a0a0a',
+            'brand-dark':    '#121212',
+            'brand-surface': '#1c1c1c',
+            'brand-border':  '#2a2a2a',
+            'brand-text':    '#f0f0f0',
+            'brand-muted':   '#a0a0a0',
+            'brand-gold':    '#f0b90b',
+            'brand-gold-dark': '#e8a900',
+          },
+          fontFamily: {
+            'sans':    ['Saira', 'sans-serif'],
+            'heading': ['"IBM Plex Serif"', 'serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+  <!-- landingN1 component — debe ir antes del CDN de Alpine -->
+  <script>
+    document.addEventListener("alpine:init", () => {
+      Alpine.data("landingN1", () => ({
+        cargando: true,
+        curso: null,
+        partners: [],
+        activePartner: null,
+        utmSource: "",
+        now: new Date().getTime(),
+        chatModalOpen: false,
+        mobileMenuOpen: false,
+        topOffset: "0px",
+        invitacionCode: "",
+        invitacionApplied: false,
+        faqOpen: null,
+
+        async init() {
+          setInterval(() => { this.now = new Date().getTime(); }, 1000);
+          const urlParams = new URLSearchParams(window.location.search);
+          this.utmSource = urlParams.get("utm_source") || "";
+          const utmStr = (urlParams.get("utm_source") || "") + (urlParams.get("ref") || "");
+
+          try {
+            const [cRes, pRes] = await Promise.all([
+              fetch("../cursos.json?v=" + Date.now()),
+              fetch("../partners.json?v=" + Date.now()),
+            ]);
+            const cursos  = await cRes.json();
+            this.partners = await pRes.json();
+
+            if (utmStr) {
+              this.activePartner = this.partners.find(p =>
+                p.keywords.some(k => utmStr.toLowerCase().includes(k.toLowerCase()))
+              ) || null;
+              if (this.activePartner) {
+                document.getElementById("top-branding")?.classList.remove("hidden");
+              }
+            }
+
+            const n1 = cursos
+              .filter(c => c.nivel === 1)
+              .map(c => { c._estado = this.calcularEstado(c); return c; })
+              .sort((a, b) => new Date(a.fechaInicio) - new Date(b.fechaInicio));
+
+            this.curso = n1.find(c => c._estado === "abierto" || c._estado === "proximamente")
+                      || n1[n1.length - 1]
+                      || null;
+          } catch (e) {
+            console.error("Error cargando landing:", e);
+          } finally {
+            this.cargando = false;
+          }
+
+          this.calculateOffset();
+          window.addEventListener("resize", () => this.calculateOffset());
+        },
+
+        calcularEstado(c) {
+          if (c.estado !== "auto") return c.estado;
+          const diff = Math.ceil((new Date(c.fechaInicio + "T00:00:00") - new Date()) / 86400000);
+          if (diff < -11) return "cerrado";
+          if (diff <= 60) return "abierto";
+          return "proximamente";
+        },
+
+        get esEarlyBird() {
+          if (!this.curso?.eb_fecha_limite) return false;
+          return new Date(this.now) <= new Date(this.curso.eb_fecha_limite + "T23:59:59");
+        },
+
+        get partnerActivo() {
+          if (!this.activePartner) return false;
+          const a = this.activePartner.aplica_a;
+          return a === "todos" || (Array.isArray(a) && a.includes(1));
+        },
+
+        get tieneDescuento() {
+          return this.partnerActivo || this.invitacionApplied || this.esEarlyBird;
+        },
+
+        get precioMostrar() {
+          if (!this.curso) return "4,500";
+          if (this.partnerActivo && this.activePartner.descuento_mxn) {
+            const base = parseInt((this.curso.reg_precio || "4500").replace(/,/g, ""));
+            return (base - this.activePartner.descuento_mxn).toLocaleString("en-US");
+          }
+          if (this.invitacionApplied) return "3,750";
+          if (this.esEarlyBird && this.curso.eb_precio) return this.curso.eb_precio;
+          return this.curso.reg_precio || "4,500";
+        },
+
+        get stripeUrl() {
+          if (!this.curso?.stripeUrl || this.curso.stripeUrl.includes("provisional")) return "#";
+          try {
+            const url = new URL(this.curso.stripeUrl);
+            const vendedor = this.utmSource || "directo";
+            if (this.partnerActivo && this.activePartner.cupon_stripe) {
+              url.searchParams.set("prefilled_promo_code", this.activePartner.cupon_stripe);
+            } else if (this.invitacionApplied && this.invitacionCode.trim()) {
+              url.searchParams.set("prefilled_promo_code", this.invitacionCode.trim().toUpperCase());
+            } else if (this.esEarlyBird && this.curso.eb_cupon_code) {
+              url.searchParams.set("prefilled_promo_code", this.curso.eb_cupon_code);
+            }
+            const fechaE = this.curso.fecha_email || this.curso.fechaInicio;
+            const horaE  = this.curso.hora_email  || "1800";
+            url.searchParams.set("client_reference_id", `${vendedor}___${this.curso.id}___${fechaE}___${horaE}`);
+            if (this.utmSource) url.searchParams.set("utm_source", this.utmSource);
+            return url.toString();
+          } catch (e) {
+            return this.curso.stripeUrl;
+          }
+        },
+
+        get stripeUrlPlazos() {
+          return "mailto:rudy@gnius.club?subject=Plan%20a%20Plazos%20%E2%80%94%20Alquimistas%20N1";
+        },
+
+        get countdownKickoff() {
+          if (!this.curso?.fechaInicio) return null;
+          const diff = new Date(this.curso.fechaInicio + "T00:00:00").getTime() - this.now;
+          if (diff <= 0) return null;
+          return {
+            d: Math.floor(diff / 86400000).toString().padStart(2, "0"),
+            h: Math.floor((diff % 86400000) / 3600000).toString().padStart(2, "0"),
+            m: Math.floor((diff % 3600000) / 60000).toString().padStart(2, "0"),
+            s: Math.floor((diff % 60000) / 1000).toString().padStart(2, "0"),
+          };
+        },
+
+        applyInvitacion() {
+          if (this.invitacionCode.trim().length > 2) this.invitacionApplied = true;
+        },
+        removeInvitacion() { this.invitacionApplied = false; this.invitacionCode = ""; },
+        toggleFaq(i) { this.faqOpen = this.faqOpen === i ? null : i; },
+        calculateOffset() {
+          const hyde  = document.getElementById("hydesick-branding");
+          const worko = document.getElementById("top-branding");
+          let h = 0;
+          if (hyde  && !hyde.classList.contains("hidden"))  h = hyde.offsetHeight;
+          else if (worko && !worko.classList.contains("hidden")) h = worko.offsetHeight;
+          this.topOffset = h + "px";
+        },
+        toggleChatAlkIA() {
+          const l = document.getElementById("chatwith-launcher");
+          if (l) l.click(); else this.chatModalOpen = !this.chatModalOpen;
+        },
+      }));
+    });
+  </script>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="app.js"></script>
+
+  <style>
+    [x-cloak] { display: none !important; }
+
+    body {
+      background-color: #0a0a0a;
+      color: #f0f0f0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .section-kicker {
+      display: block;
+      font-family: 'Saira', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #f0b90b;
+      margin-bottom: 0.75rem;
+    }
+
+    /* Imagen placeholder */
+    .img-ph {
+      background: linear-gradient(135deg, rgba(240,185,11,0.04) 0%, rgba(28,28,28,0.8) 100%);
+      border: 1px dashed rgba(240,185,11,0.2);
+      border-radius: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      color: #a0a0a0;
+    }
+    .img-ph i    { color: rgba(240,185,11,0.25); }
+    .img-ph span { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.45; font-family: 'Saira', sans-serif; }
+
+    /* Acordeón FAQ */
+    .faq-body {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.32s cubic-bezier(0.4,0,0.2,1);
+    }
+    .faq-body.open { grid-template-rows: 1fr; }
+    .faq-body > div { overflow: hidden; }
+
+    /* Destellos */
+    @keyframes sparkle-radial {
+      0%   { transform: translate(0,0) scale(0) rotate(0deg); opacity: 0; }
+      20%  { opacity: 1; }
+      70%  { opacity: 1; }
+      100% { transform: translate(var(--tx),var(--ty)) scale(1.3) rotate(180deg); opacity: 0; filter: blur(1px); }
+    }
+    .magic-particle {
+      position: absolute; top: 50%; left: 50%;
+      color: #f0b90b;
+      filter: drop-shadow(0 0 6px rgba(240,185,11,0.9));
+      opacity: 0; pointer-events: none;
+      animation: sparkle-radial 2.8s infinite ease-out;
+    }
+
+    /* Botones */
+    .btn-primary {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      padding: 0.9rem 2rem;
+      background: #f0b90b; color: #0a0a0a;
+      font-family: 'Saira Semi Condensed', sans-serif; font-weight: 800;
+      font-size: 0.95rem; letter-spacing: 0.08em; text-transform: uppercase;
+      border-radius: 4px; transition: background 0.2s, transform 0.15s;
+      text-decoration: none; cursor: pointer;
+    }
+    .btn-primary:hover { background: #ffe234; transform: translateY(-1px); }
+
+    .btn-outline {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      padding: 0.85rem 1.75rem;
+      border: 1px solid rgba(240,185,11,0.4); color: #f0b90b;
+      font-family: 'Saira Semi Condensed', sans-serif; font-weight: 700;
+      font-size: 0.9rem; letter-spacing: 0.06em; text-transform: uppercase;
+      border-radius: 4px; transition: border-color 0.2s, background 0.2s;
+      text-decoration: none; cursor: pointer;
+    }
+    .btn-outline:hover { border-color: #f0b90b; background: rgba(240,185,11,0.06); }
+
+    /* Sticky mobile CTA */
+    .sticky-cta {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      z-index: 9000;
+      background: rgba(10,10,10,0.97);
+      border-top: 1px solid #2a2a2a;
+      backdrop-filter: blur(12px);
+      padding: 12px 16px;
+    }
+
+    /* Card de curso / contenido */
+    .content-card {
+      background: #1c1c1c;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+    }
+    .content-card:hover { border-color: rgba(240,185,11,0.25); transition: border-color 0.2s; }
+  </style>
+</head>
+
+<body class="font-sans overflow-x-hidden" x-data="landingN1()" x-init="init()">
+
+  <!-- ===== PARTNER BANNERS ===== -->
+  <div id="hydesick-branding" class="hidden sticky top-0 z-[100] bg-white/96 backdrop-blur py-3 border-b border-gray-200">
+    <div class="container mx-auto px-5 flex items-center justify-center gap-4">
+      <p class="text-gray-500 font-heading font-bold text-[10px] uppercase tracking-[0.2em]">En colaboración estratégica con</p>
+      <img src="../assets/hyde_seek-logo.png" class="h-6 md:h-8">
+    </div>
+  </div>
+  <div id="top-branding" class="hidden sticky top-0 z-[100] bg-black/96 backdrop-blur py-4 border-b border-brand-border">
+    <div class="container mx-auto px-5 flex items-center justify-center gap-4">
+      <p class="text-brand-muted font-heading font-bold text-[10px] uppercase tracking-[0.2em]">Beneficio de alianza activo</p>
+      <img :src="activePartner?.logo" class="h-6 md:h-8 max-w-[120px] object-contain">
+    </div>
+  </div>
+
+  <!-- ===== NAV ===== -->
+  <nav class="sticky z-50 bg-brand-black/95 backdrop-blur border-b border-brand-border transition-all" :style="'top:' + topOffset">
+    <div class="container mx-auto px-5 lg:px-8 max-w-7xl flex items-center justify-between h-16">
+      <a href="index.html" class="flex items-center gap-2.5">
+        <i class="ph-fill ph-magic-wand text-brand-gold text-xl"></i>
+        <span class="font-heading font-bold text-white tracking-wide text-sm uppercase">Alquimistas <span class="text-brand-gold">N1</span></span>
+      </a>
+      <div class="hidden md:flex items-center gap-6">
+        <a href="#metodologia" class="text-brand-muted hover:text-white text-sm font-sans transition-colors">Cómo funciona</a>
+        <a href="#sprints" class="text-brand-muted hover:text-white text-sm font-sans transition-colors">Lo que aprenderás</a>
+        <a href="temarios.html" class="text-brand-muted hover:text-white text-sm font-sans transition-colors" data-preserve-utm>Temarios</a>
+        <a href="fechas.html" class="text-brand-muted hover:text-white text-sm font-sans transition-colors" data-preserve-utm>Fechas</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <button @click="toggleChatAlkIA()" class="hidden md:flex items-center gap-1.5 text-brand-muted hover:text-brand-gold transition-colors text-sm font-heading">
+          <i class="ph-bold ph-robot text-lg"></i>
+          <span class="hidden lg:inline uppercase tracking-wider text-xs font-bold">AlkIA</span>
+        </button>
+        <a :href="stripeUrl" class="hidden md:inline-flex btn-primary text-sm py-2.5 px-5" data-preserve-utm>
+          Quiero mi lugar →
+        </a>
+        <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2 text-brand-muted hover:text-white">
+          <i class="ph-bold text-xl" :class="mobileMenuOpen ? 'ph-x' : 'ph-list'"></i>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile menu -->
+    <div x-show="mobileMenuOpen" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="md:hidden border-t border-brand-border bg-brand-dark px-5 py-5 space-y-3">
+      <a href="#metodologia" @click="mobileMenuOpen=false" class="block text-white font-sans py-2 border-b border-brand-border">Cómo funciona</a>
+      <a href="#sprints" @click="mobileMenuOpen=false" class="block text-white font-sans py-2 border-b border-brand-border">Lo que aprenderás</a>
+      <a href="temarios.html" class="block text-white font-sans py-2 border-b border-brand-border">Temarios</a>
+      <a href="fechas.html" class="block text-white font-sans py-2 border-b border-brand-border">Fechas y Precios</a>
+      <a :href="stripeUrl" class="btn-primary w-full mt-2 py-3.5">Quiero mi lugar →</a>
+    </div>
+  </nav>
+
+  <!-- ============================================================ -->
+  <!-- BLOQUE 1 — HERO (2 columnas: copy 57% | imagen 43%) -->
+  <!-- ============================================================ -->
+  <section class="bg-brand-black pt-20 pb-16 md:pt-28 md:pb-24 border-b border-brand-border relative overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_30%,rgba(240,185,11,0.05)_0%,transparent_60%)] pointer-events-none"></div>
+
+    <div class="container mx-auto px-5 lg:px-8 max-w-7xl">
+      <div class="grid grid-cols-1 lg:grid-cols-[57fr_43fr] gap-12 lg:gap-16 items-center">
+
+        <!-- Left: copy principal -->
+        <div>
+          <span class="section-kicker">Alquimistas · Nivel 1 · Prompting Estratégico</span>
+
+          <h1 class="font-heading font-black text-4xl sm:text-5xl lg:text-[3.5rem] leading-[1.05] text-white mb-6">
+            Tus 20 años de experiencia no son tu desventaja frente a la IA.
+            Son tu <span class="text-brand-gold">ventaja injusta.</span>
+          </h1>
+
+          <p class="text-brand-muted text-lg leading-relaxed mb-8 max-w-xl">
+            En 4 semanas dejas de temerle a la inteligencia artificial y aprendes a <strong class="text-white">dirigirla</strong> —con el criterio que ya tienes— sobre tu propio trabajo. Practicando, no viendo videos.
+          </p>
+
+          <!-- Pills de info -->
+          <div class="flex flex-wrap gap-2 mb-9">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-brand-surface border border-brand-border text-brand-muted text-xs font-heading uppercase tracking-wider">
+              <i class="ph-fill ph-calendar-check text-brand-gold"></i> Arranca 13 jul
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-brand-surface border border-brand-border text-brand-muted text-xs font-heading uppercase tracking-wider">
+              <i class="ph-fill ph-clock text-brand-gold"></i> 4 semanas en vivo
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-brand-surface border border-brand-border text-brand-muted text-xs font-heading uppercase tracking-wider">
+              <i class="ph-fill ph-certificate text-brand-gold"></i> Cert. ISO/IEC 17024
+            </span>
+          </div>
+
+          <!-- Precio dinámico -->
+          <div class="mb-8" x-show="!cargando">
+            <div x-show="tieneDescuento" x-cloak class="mb-1 flex items-center gap-2 flex-wrap">
+              <span class="text-brand-muted line-through text-lg">$4,500 MXN</span>
+              <span class="text-xs bg-brand-gold/15 text-brand-gold font-heading font-bold uppercase tracking-wider px-2 py-0.5 rounded" x-show="partnerActivo">Alianza</span>
+              <span class="text-xs bg-brand-gold/15 text-brand-gold font-heading font-bold uppercase tracking-wider px-2 py-0.5 rounded" x-show="!partnerActivo && invitacionApplied">Invitación</span>
+              <span class="text-xs bg-brand-gold/15 text-brand-gold font-heading font-bold uppercase tracking-wider px-2 py-0.5 rounded" x-show="!partnerActivo && !invitacionApplied && esEarlyBird">Early Bird</span>
+            </div>
+            <p class="font-heading font-black text-5xl text-white leading-none">
+              $<span x-text="precioMostrar">4,500</span>
+              <span class="text-brand-muted text-2xl font-sans font-normal ml-1">MXN · IVA inc.</span>
+            </p>
+          </div>
+
+          <!-- CTAs -->
+          <div class="flex flex-col sm:flex-row gap-3 mb-6">
+            <a :href="stripeUrl" class="btn-primary text-sm px-8 py-4" data-preserve-utm>
+              <i class="ph-bold ph-arrow-right"></i>
+              Quiero mi lugar en el cohort
+            </a>
+            <a href="#oferta" class="btn-outline text-sm px-6 py-4">Ver qué incluye</a>
+          </div>
+
+          <p class="text-brand-muted text-sm flex items-start gap-2">
+            <i class="ph-bold ph-shield-check text-brand-gold/70 mt-0.5 flex-shrink-0"></i>
+            Garantía de la primera semana: si no es para ti, te devolvemos todo, sin preguntas.
+          </p>
+
+          <!-- Countdown kickoff -->
+          <div x-show="countdownKickoff" x-cloak class="mt-8 inline-flex items-center gap-4 bg-brand-surface border border-brand-border rounded-lg px-5 py-3">
+            <span class="text-brand-muted text-xs font-heading uppercase tracking-widest hidden sm:block">El cohort arranca en:</span>
+            <div class="flex items-center gap-3">
+              <div class="text-center"><span class="block font-heading font-black text-2xl text-brand-gold" x-text="countdownKickoff?.d">09</span><span class="block text-[9px] text-brand-muted uppercase tracking-widest">días</span></div>
+              <span class="text-brand-border font-bold text-lg">:</span>
+              <div class="text-center"><span class="block font-heading font-black text-2xl text-white" x-text="countdownKickoff?.h">18</span><span class="block text-[9px] text-brand-muted uppercase tracking-widest">hrs</span></div>
+              <span class="text-brand-border font-bold text-lg">:</span>
+              <div class="text-center"><span class="block font-heading font-black text-2xl text-white" x-text="countdownKickoff?.m">00</span><span class="block text-[9px] text-brand-muted uppercase tracking-widest">min</span></div>
+              <span class="text-brand-border font-bold text-lg">:</span>
+              <div class="text-center"><span class="block font-heading font-black text-2xl text-white" x-text="countdownKickoff?.s">00</span><span class="block text-[9px] text-brand-muted uppercase tracking-widest">seg</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: imagen placeholder portrait -->
+        <div class="hidden lg:block relative">
+          <div class="absolute -inset-6 bg-brand-gold/4 rounded-2xl blur-3xl pointer-events-none"></div>
+          <div class="img-ph aspect-[3/4] relative">
+            <i class="ph-bold ph-user-circle-gear text-7xl"></i>
+            <span>Foto · profesional en su contexto de trabajo</span>
+          </div>
+          <!-- Badge flotante -->
+          <div class="absolute -bottom-5 -left-8 bg-brand-surface border border-brand-gold/25 rounded-lg px-5 py-3 shadow-2xl">
+            <p class="text-brand-gold font-heading font-bold text-xs uppercase tracking-widest">ISO / IEC 17024</p>
+            <p class="text-brand-muted text-xs font-sans mt-0.5">Org. Certificador Acreditado</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STATS BAR ===== -->
+  <div class="bg-brand-surface border-b border-brand-border">
+    <div class="container mx-auto px-5 max-w-6xl">
+      <div class="grid grid-cols-2 md:grid-cols-4 divide-x divide-brand-border">
+        <div class="py-6 px-6 text-center"><p class="font-heading font-black text-3xl text-brand-gold">100%</p><p class="text-brand-muted text-xs font-heading uppercase tracking-widest mt-1">En línea</p></div>
+        <div class="py-6 px-6 text-center"><p class="font-heading font-black text-3xl text-brand-gold">2×sem</p><p class="text-brand-muted text-xs font-heading uppercase tracking-widest mt-1">Sesiones en vivo</p></div>
+        <div class="py-6 px-6 text-center"><p class="font-heading font-black text-3xl text-brand-gold">4</p><p class="text-brand-muted text-xs font-heading uppercase tracking-widest mt-1">Sprints reales</p></div>
+        <div class="py-6 px-6 text-center"><p class="font-heading font-black text-3xl text-brand-gold">24/7</p><p class="text-brand-muted text-xs font-heading uppercase tracking-widest mt-1">Coach AlkIA</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- BLOQUE 2 — EL NUDO (pull-quote izq 40% · prosa dcha 60%) -->
+  <!-- ============================================================ -->
+  <section class="py-20 md:py-28 bg-brand-dark border-b border-brand-border">
+    <div class="container mx-auto px-5 lg:px-8 max-w-6xl">
+      <div class="grid grid-cols-1 md:grid-cols-[40fr_60fr] gap-10 lg:gap-16 items-start">
+
+        <!-- Left: imagen + quote -->
+        <div class="space-y-5">
+          <div class="img-ph aspect-square">
+            <i class="ph-bold ph-presentation-chart text-5xl"></i>
+            <span>Imagen · contexto corporativo · junta de trabajo</span>
+          </div>
+          <div class="bg-brand-surface border-l-4 border-brand-gold rounded-r p-5">
+            <p class="text-white font-sans text-lg italic leading-relaxed">
+              "Ese nudo en el estómago cuando alguien dice 'IA' en la junta —lo conozco."
+            </p>
+          </div>
+        </div>
+
+        <!-- Right: prosa -->
+        <div>
+          <span class="section-kicker">El nudo — y no eres tú</span>
+          <h2 class="font-heading font-black text-3xl md:text-4xl text-white leading-tight mb-6">
+            Llevas años siendo bueno en lo tuyo. Y de repente el mundo se llenó de gente hablando de inteligencia artificial.
+          </h2>
+          <div class="space-y-4 text-brand-muted text-lg leading-relaxed">
+            <p>Lo googleas a escondidas. Finges que entiendes. Y cada vez que abres LinkedIn, alguien presumiendo lo que hizo con IA mientras tú ni sabes por dónde empezar.</p>
+            <p class="text-white font-medium">Déjame decirte algo claro: <strong class="text-brand-text">no eres un dinosaurio esperando el meteorito. Y no eres lento.</strong></p>
+            <p>Te explicaron mal una cosa que, bien enseñada, es más fácil de lo que crees.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- BLOQUE 3 — REFRAME (imagen izq · texto dcha) -->
+  <!-- ============================================================ -->
+  <section class="py-20 md:py-28 bg-brand-black border-b border-brand-border">
+    <div class="container mx-auto px-5 lg:px-8 max-w-6xl">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 items-center">
+
+        <!-- Left: imagen + dato anchoring -->
+        <div class="order-2 md:order-1 space-y-4">
+          <div class="img-ph aspect-video">
+            <i class="ph-bold ph-monitor-play text-6xl"></i>
+            <span>Imagen · pantalla con curso en video · progreso al 4%</span>
+          </div>
+          <div class="flex items-center gap-3 bg-brand-surface border border-brand-border rounded-lg px-4 py-3">
+            <i class="ph-fill ph-warning-circle text-amber-500 text-2xl flex-shrink-0"></i>
+            <p class="text-brand-muted text-sm">Tasa de completación promedio de cursos en video: menos del 4%.</p>
+          </div>
+        </div>
+
+        <!-- Right: copy -->
+        <div class="order-1 md:order-2">
+          <span class="section-kicker">¿Ya compraste un curso que no terminaste?</span>
+          <h2 class="font-heading font-black text-3xl md:text-4xl text-white leading-tight mb-6">
+            Seamos honestos: probablemente ya compraste un curso de IA. Y probablemente no lo terminaste.
+          </h2>
+          <div class="space-y-4 text-brand-muted leading-relaxed">
+            <p><strong class="text-white">No fue tu culpa.</strong></p>
+            <p>Te vendieron la <strong class="text-white">categoría equivocada</strong>: un video que ves solo, a tu ritmo, sin nadie del otro lado. 500 prompts copiados de internet. Tutoriales que siempre usan ejemplos de marketing —nunca de <em>tu</em> trabajo.</p>
+            <p>La IA no se aprende viendo. Se aprende <strong class="text-white">haciendo</strong> —como se aprende a manejar, a cocinar, a vender.</p>
+            <p class="text-white">Por eso esto no es un curso de videos. Es un cohort en vivo. <strong class="text-brand-gold">Es conducta, no contenido.</strong> Esa es toda la diferencia.</p>
+          </div>
+          <div class="mt-8">
+            <a :href="stripeUrl" class="btn-primary" data-preserve-utm>
+              Quiero mi lugar en el cohort →
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- BLOQUE 4 — QUÉ ES (texto izq + grid de features + imagen dcha) -->
+  <!-- ============================================================ -->
+  <section class="py-20 md:py-28 bg-brand-dark border-b border-brand-border">
+    <div class="container mx-auto px-5 lg:px-8 max-w-6xl">
+
+      <div class="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-12 items-start mb-10">
+        <div>
+          <span class="section-kicker">¿Qué es?</span>
+          <h2 class="font-heading font-black text-3xl md:text-4xl text-white leading-tight mb-4">
+            Cuatro semanas. Tu trabajo real. Un coach que te destraba.
+          </h2>
+          <p class="text-brand-muted leading-relaxed max-w-2xl">
+            Alquimistas · Nivel 1 — <strong class="text-white">Prompting Estratégico</strong> es un cohort en vivo de 4 semanas donde pasas de hablarle a la IA como si fuera Google, a dirigirla con precisión sobre lo que haces todos los días. Cada semana un sprint concreto. Al terminar la semana, ya construiste algo que funciona —no apuntes en un cuaderno.
+          </p>
+          <p class="text-brand-muted mt-3 leading-relaxed">No es teoría. <strong class="text-brand-gold">Es la IA metida en tu trabajo, esta semana.</strong></p>
+        </div>
+        <!-- AlkIA placeholder -->
+        <div class="hidden lg:block">
+          <div class="img-ph h-full min-h-[200px]">
+            <i class="ph-bold ph-robot text-5xl"></i>
+            <span>AlkIA · coach 24/7</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature tiles 3-col -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="content-card p-6">
+          <i class="ph-bold ph-laptop text-brand-gold text-3xl mb-3"></i>
+          <h3 class="font-heading font-bold text-white mb-2">100% en línea</h3>
+          <p class="text-brand-muted text-sm leading-relaxed">Desde donde estés. Sin traslados. Grabaciones disponibles.</p>
+        </div>
+        <div class="content-card p-6">
+          <i class="ph-bold ph-video-camera text-brand-gold text-3xl mb-3"></i>
+          <h3 class="font-heading font-bold text-white mb-2">2 sesiones en vivo / sem</h3>
+          <p class="text-brand-muted text-sm leading-relaxed">Coach humano, trabajo real, retroalimentación inmediata.</p>
+        </div>
+        <div class="content-card p-6">
+          <i class="ph-bold ph-lightning text-brand-gold text-3xl mb-3"></i>
+          <h3 class="font-heading font-bold text-white mb-2">4 sprints sobre tu trabajo</h3>
+          <p class="text-brand-muted text-sm leading-relaxed">Acompañamiento 24/7 entre sesiones con coach de IA.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- BLOQUE 5 — METODOLOGÍA (2×2 grid + imagen fullwidth) -->
+  <!-- ============================================================ -->
+  <section id="metodologia" class="py-20 md:py-28 bg-brand-black border-b border-brand-border">
+    <div class="container mx-auto px-5 lg:px-8 max-w-6xl">
+
+      <div class="max-w-2xl mb-12">
+        <span class="section-kicker">Cómo funciona</span>
+        <h2 class="font-heading font-black text-3xl md:text-4xl text-white leading-tight">
+          Diseñado para que la conducta pegue —no para que el contenido se olvide.
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
+        <div class="content-card p-7 flex gap-5">
+          <div class="flex-shrink-0 w-10 h-10 rounded-full border border-brand-gold/40 flex items-center justify-center font-heading font-bold text-brand-gold text-sm">01</div>
+          <div>
+            <h3 class="font-heading font-bold text-white text-lg mb-2">Un traje a tu medida.</h3>
+            <p class="text-brand-muted text-sm leading-relaxed">Antes de arrancar medimos cómo aprendes y qué te mueve. Ese perfil, cruzado con tu trabajo real, hace que el curso sea tuyo —no de talla única.</p>
+          </div>
+        </div>
+        <div class="content-card p-7 flex gap-5">
+          <div class="flex-shrink-0 w-10 h-10 rounded-full border border-brand-gold/40 flex items-center justify-center font-heading font-bold text-brand-gold text-sm">02</div>
+          <div>
+            <h3 class="font-heading font-bold text-white text-lg mb-2">AlkIA, tu coach de IA 24/7.</h3>
+            <p class="text-brand-muted text-sm leading-relaxed">Un coach pedagógico que te acompaña a cualquier hora. Con él construyes tu entrega de cada semana. Cuando te trabas —y te vas a trabar— hay quien te destrabe.</p>
+          </div>
+        </div>
+        <div class="content-card p-7 flex gap-5">
+          <div class="flex-shrink-0 w-10 h-10 rounded-full border border-brand-gold/40 flex items-center justify-center font-heading font-bold text-brand-gold text-sm">03</div>
+          <div>
+            <h3 class="font-heading font-bold text-white text-lg mb-2">Un coach humano que te empuja.</h3>
+            <p class="text-brand-muted text-sm leading-relaxed">Cada semana, en vivo, revisamos trabajo real y destrabamos lo atorado. No estás solo frente a un video.</p>
+          </div>
+        </div>
+        <div class="content-card p-7 flex gap-5">
+          <div class="flex-shrink-0 w-10 h-10 rounded-full border border-brand-gold/40 flex items-center justify-center font-heading font-bold text-brand-gold text-sm">04</div>
+          <div>
+            <h3 class="font-heading font-bold text-white text-lg mb-2">Y se nota quién despunta.</h3>
+            <p class="text-brand-muted text-sm leading-relaxed">En el camino aparecen los champions —los que se sueltan. Con evidencia, no con corazonadas.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Imagen full-width -->
+      <div class="img-ph h-44 md:h-56">
+        <i class="ph-bold ph-chalkboard-teacher text-5xl"></i>
+        <span>Imagen · sesión en vivo · cohort trabajando</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- BLOQUE 6 — SPRINTS (grid asimétrico alternado) -->
+  <!-- ============================================================ -->
+  <section id="sprints" class="py-20 md:py-28 bg-brand-dark border-b border-brand-border">
+    <div class="container mx-auto px-5 lg:px-8 max-w-6xl">
+
+      <div class="max-w-xl mb-12">
+        <span class="section-kicker">Lo que vas a poder hacer</span>
+        <h2 class="font-heading font-black text-3xl md:text-4xl text-white leading-tight">
+          En 4 sprints, esto es lo que te llevas —aplicado a tu trabajo:
+        </h2>
+      </div>
+
+      <!-- Sprint 1 wide (2/3) + Sprint 2 narrow (1/3) -->
+      <div class="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-4 mb-4">
+        <div class="content-card p-8 flex flex-col gap-5">
+          <div class="flex items-start gap-4">
+            <span class="font-heading font-black text-brand-gold/20 text-5xl leading-none flex-shrink-0">01</span>
+            <div>
+              <p class="text-brand-gold font-heading font-bold text-xs uppercase tracking-widest mb-2">Sprint 1</p>
+              <h3 class="font-heading font-bold text-white text-2xl mb-3">De chatear a dirigir.</h3>
+              <p class="text-brand-muted leading-relaxed">Dejas de pedirle cosas sueltas a la IA y empiezas a darle instrucciones con criterio. La diferencia entre "a ver qué me da" y "esto es exactamente lo que necesito".</p>
+            </div>
+          </div>
+          <div class="img-ph h-36 mt-1">
+            <i class="ph-bold ph-cursor-text text-5xl"></i>
+            <span>Imagen · usuario escribiendo un prompt con criterio</span>
+          </div>
+        </div>
+        <div class="content-card p-7 flex flex-col gap-4">
+          <span class="font-heading font-black text-brand-gold/20 text-4xl leading-none">02</span>
+          <p class="text-brand-gold font-heading font-bold text-xs uppercase tracking-widest">Sprint 2</p>
+          <h3 class="font-heading font-bold text-white text-xl">Control y consistencia.</h3>
+          <p class="text-brand-muted text-sm leading-relaxed flex-1">Marcos simples para que la IA te dé lo mismo bien, una y otra vez.</p>
+          <div class="img-ph aspect-video">
+            <i class="ph-bold ph-arrows-clockwise text-4xl"></i>
+            <span>Consistencia</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sprint 3 narrow (1/3) + Sprint 4 wide (2/3) -->
+      <div class="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-4">
+        <div class="content-card p-7 flex flex-col gap-4">
+          <span class="font-heading font-black text-brand-gold/20 text-4xl leading-none">03</span>
+          <p class="text-brand-gold font-heading font-bold text-xs uppercase tracking-widest">Sprint 3</p>
+          <h3 class="font-heading font-bold text-white text-xl">Diseñar sistemas, no respuestas.</h3>
+          <p class="text-brand-muted text-sm leading-relaxed flex-1">Empiezas a armar pequeños sistemas donde la IA hace parte del trabajo por ti.</p>
+          <div class="img-ph aspect-video">
+            <i class="ph-bold ph-graph text-4xl"></i>
+            <span>Sistema · flujo</span>
+          </div>
+        </div>
+        <div class="content-card p-8 flex flex-col gap-5">
+          <div class="flex items-start gap-4">
+            <span class="font-heading font-black text-brand-gold/20 text-5xl leading-none flex-shrink-0">04</span>
+            <div>
+              <p class="text-brand-gold font-heading font-bold text-xs uppercase tracking-widest mb-2">Sprint 4</p>
+              <h3 class="font-heading font-bold text-white text-2xl mb-3">Implementación real.</h3>
+              <p class="text-brand-muted leading-relaxed">Lo aterrizas en un proceso de verdad de tu día a día. <strong class="text-white">Terminas con algo funcionando, no con un diploma de asistencia.</strong></p>
+            </div>
+          </div>
+          <div class="img-ph h-36 mt-1">
+            <i class="ph-bold ph-check-fat text-5xl"></i>
+            <span>Imagen · resultado real · trabajo aplicado</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- BLOQUE 7 — TESTIMONIALES (featured + 2-col) -->
+  <!-- ============================================================ -->
+  <section class="py-20 md:py-28 bg-brand-black border-b border-brand-border">
+    <div class="container mx-auto px-5 lg:px-8 max-w-6xl">
+
+      <div class="mb-12">
+        <span class="section-kicker">Prueba social</span>
+        <h2 class="font-heading font-black text-3xl md:text-4xl text-white">Lo que dicen quienes ya lo vivieron:</h2>
+      </div>
+
+      <!-- Testimonial featured (full width) -->
+      <div class="content-card border-brand-gold/20 p-8 md:p-12 mb-5 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-48 h-48 bg-brand-gold/4 rounded-full blur-3xl pointer-events-none"></div>
+        <i class="ph-fill ph-quotes text-brand-gold/12 text-8xl absolute top-2 right-4"></i>
+        <div class="relative grid grid-cols-1 md:grid-cols-[72px_1fr] gap-6 items-start">
+          <div class="img-ph w-16 h-16 md:w-[72px] md:h-[72px] rounded-full flex-shrink-0">
+            <i class="ph-fill ph-user text-2xl"></i>
+          </div>
+          <div>
+            <p class="font-sans text-2xl md:text-3xl font-light italic text-white leading-relaxed mb-5">
+              "Recuperé al menos un día de vacaciones al mes —lo que antes me tomaba horas, ahora lo resuelvo en minutos."
+            </p>
+            <p class="font-heading font-bold text-brand-gold text-sm uppercase tracking-widest">Karla Pérez</p>
+            <p class="text-brand-muted text-xs mt-0.5">⚠️ Confirmar apellido y wording antes de publicar</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2-col testimonials -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div class="content-card p-7 relative">
+          <i class="ph-fill ph-quotes text-brand-gold/10 text-6xl absolute top-2 right-3"></i>
+          <p class="font-sans text-lg font-light italic text-white leading-relaxed mb-5">
+            "Desde el arranque noté la diferencia en la precisión de lo que le pido a la IA. Ya no es adivinar."
+          </p>
+          <div class="flex items-center gap-3">
+            <div class="img-ph w-10 h-10 rounded-full flex-shrink-0"><i class="ph-fill ph-user text-xl"></i></div>
+            <div>
+              <p class="font-heading font-bold text-brand-gold text-xs uppercase tracking-widest">Arturo Valdés</p>
+              <p class="text-brand-muted text-[10px]">⚠️ Confirmar wording</p>
+            </div>
+          </div>
+        </div>
+        <div class="content-card p-7 relative">
+          <i class="ph-fill ph-quotes text-brand-gold/10 text-6xl absolute top-2 right-3"></i>
+          <p class="font-sans text-lg font-light italic text-white leading-relaxed mb-5">
+            "Aprendí a estructurar la planeación de mis eventos de una forma que no sabía que se podía. Cambió cómo trabajo."
+          </p>
+          <div class="flex items-center gap-3">
+            <div class="img-ph w-10 h-10 rounded-full flex-shrink-0"><i class="ph-fill ph-user text-xl"></i></div>
+            <div>
+              <p class="font-heading font-bold text-brand-gold text-xs uppercase tracking-widest">Gaby Rojas</p>
+              <p class="text-brand-muted text-[10px]">⚠️ Confirmar wording</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- BLOQUE 8 — CERTIFICACIÓN (imagen izq · texto dcha) -->
+  <!-- ============================================================ -->
+  <section class="py-20 md:py-28 bg-brand-dark border-b border-brand-border">
+    <div class="container mx-auto px-5 lg:px-8 max-w-6xl">
+      <div class="grid grid-cols-1 md:grid-cols-[44fr_56fr] gap-10 lg:gap-16 items-center">
+
+        <!-- Left: cert visual -->
+        <div class="space-y-4">
+          <div class="bg-brand-surface border border-brand-gold/15 rounded-lg p-8 text-center space-y-4">
+            <div class="img-ph aspect-square mb-2">
+              <i class="ph-fill ph-medal text-7xl"></i>
+              <span>Medalla ISO · imagen del certificado oficial</span>
+            </div>
+            <p class="font-heading font-bold text-brand-gold text-xs uppercase tracking-[0.2em]">Organismo Certificador Acreditado</p>
+            <div class="flex justify-center gap-4 text-brand-muted text-xs flex-wrap">
+              <span>ISO/IEC 17024</span><span>·</span><span>CNAC</span><span>·</span><span>UNIDO</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: texto -->
+        <div>
+          <span class="section-kicker">Certificación</span>
+          <h2 class="font-heading font-black text-3xl md:text-4xl text-white leading-tight mb-6">
+            Una certificación oficial que sí blinda tu CV.
+          </h2>
+          <div class="space-y-4 text-brand-muted leading-relaxed">
+            <p>No es un badge que nos autoemitimos. Somos <strong class="text-white">organismo certificador acreditado bajo la norma ISO/IEC 17024</strong> (vía CNAC) —la norma internacional para certificar personas.</p>
+            <p><strong class="text-white">Certificamos tus competencias reales en IA</strong> —lo que construiste, no lo que viste. Se emite una semana después de terminar, con tus 4 sprints entregados.</p>
+            <p>En un mercado donde todos dicen "sé usar IA", tú lo tienes <strong class="text-brand-gold">certificado y verificable</strong>. Eso es oro para tu CV.</p>
+          </div>
+          <div class="mt-6 grid grid-cols-2 gap-3">
+            <div class="bg-brand-surface border border-brand-border rounded p-4 text-center">
+              <i class="ph-bold ph-world text-brand-gold text-2xl mb-1"></i>
+              <p class="text-brand-muted text-xs font-heading uppercase tracking-wider mt-1">World Summit Award</p>
+            </div>
+            <div class="bg-brand-surface border border-brand-border rounded p-4 text-center">
+              <i class="ph-bold ph-buildings text-brand-gold text-2xl mb-1"></i>
+              <p class="text-brand-muted text-xs font-heading uppercase tracking-wider mt-1">UNIDO</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- BLOQUE 9 — ¿ES PARA TI? (2-col YES / NO) -->
+  <!-- ============================================================ -->
+  <section class="py-20 md:py-28 bg-brand-black border-b border-brand-border">
+    <div class="container mx-auto px-5 lg:px-8 max-w-5xl">
+      <div class="mb-12">
+        <span class="section-kicker">Filtro honesto</span>
+        <h2 class="font-heading font-black text-3xl md:text-4xl text-white">¿Es para ti?</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div class="bg-brand-surface border border-brand-gold/20 rounded-lg p-8">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-8 h-8 rounded-full bg-brand-gold/15 flex items-center justify-center flex-shrink-0"><i class="ph-bold ph-check text-brand-gold text-sm"></i></div>
+            <h3 class="font-heading font-bold text-white uppercase tracking-wider text-sm">Esto es para ti si:</h3>
+          </div>
+          <ul class="space-y-4">
+            <li class="flex items-start gap-3 text-brand-muted"><i class="ph-bold ph-check-circle text-brand-gold mt-0.5 flex-shrink-0"></i><span>Tienes años de oficio y no quieres que la IA te rebase.</span></li>
+            <li class="flex items-start gap-3 text-brand-muted"><i class="ph-bold ph-check-circle text-brand-gold mt-0.5 flex-shrink-0"></i><span>Ya intentaste aprender por tu cuenta y te perdiste (o te aburriste).</span></li>
+            <li class="flex items-start gap-3 text-brand-muted"><i class="ph-bold ph-check-circle text-brand-gold mt-0.5 flex-shrink-0"></i><span>Quieres aplicarlo a <em>tu</em> trabajo, no a ejemplos de marketing.</span></li>
+            <li class="flex items-start gap-3 text-brand-muted"><i class="ph-bold ph-check-circle text-brand-gold mt-0.5 flex-shrink-0"></i><span>Prefieres construir algo real a coleccionar otro certificado de asistencia.</span></li>
+          </ul>
+        </div>
+        <div class="bg-brand-surface border border-brand-border rounded-lg p-8">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-8 h-8 rounded-full bg-brand-border/40 flex items-center justify-center flex-shrink-0"><i class="ph-bold ph-x text-brand-muted text-sm"></i></div>
+            <h3 class="font-heading font-bold text-brand-muted uppercase tracking-wider text-sm">No es para ti si:</h3>
+          </div>
+          <ul class="space-y-4">
+            <li class="flex items-start gap-3 text-brand-muted"><i class="ph-bold ph-x-circle text-brand-border mt-0.5 flex-shrink-0"></i><span>Buscas 500 prompts para copiar y pegar (eso está gratis en YouTube).</span></li>
+            <li class="flex items-start gap-3 text-brand-muted"><i class="ph-bold ph-x-circle text-brand-border mt-0.5 flex-shrink-0"></i><span>Quieres un video para ver en pausa y nunca terminar.</span></li>
+            <li class="flex items-start gap-3 text-brand-muted"><i class="ph-bold ph-x-circle text-brand-border mt-0.5 flex-shrink-0"></i><span>No estás dispuesto a meterle 4 horas a la semana durante un mes.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- BLOQUE 10 — OFERTA (card con layout 2-col interior) -->
+  <!-- ============================================================ -->
+  <section id="oferta" class="py-20 md:py-28 bg-brand-dark border-b border-brand-border">
+    <div class="container mx-auto px-5 lg:px-8 max-w-5xl">
+
+      <div class="mb-10">
+        <span class="section-kicker">Tu inversión</span>
+        <h2 class="font-heading font-black text-3xl md:text-4xl text-white">Tu lugar en el cohort del 13 de julio.</h2>
+      </div>
+
+      <div class="bg-brand-surface border border-brand-gold/15 rounded-lg overflow-hidden">
+        <div class="grid grid-cols-1 md:grid-cols-2">
+
+          <!-- Left: incluye -->
+          <div class="p-8 md:p-10 border-b md:border-b-0 md:border-r border-brand-border">
+            <p class="text-brand-gold font-heading font-bold text-xs uppercase tracking-widest mb-6">Alquimistas · Nivel 1 — Prompting Estratégico</p>
+            <ul class="space-y-4 mb-8">
+              <li class="flex items-start gap-3 text-brand-muted text-sm"><i class="ph-bold ph-check-circle text-brand-gold mt-0.5 flex-shrink-0"></i><span>Las 4 semanas de cohort en vivo, sobre tu trabajo real</span></li>
+              <li class="flex items-start gap-3 text-brand-muted text-sm"><i class="ph-bold ph-check-circle text-brand-gold mt-0.5 flex-shrink-0"></i><span>AlkIA, tu coach de IA 24/7</span></li>
+              <li class="flex items-start gap-3 text-brand-muted text-sm"><i class="ph-bold ph-check-circle text-brand-gold mt-0.5 flex-shrink-0"></i><span>Tu perfil de aprendizaje + motivación (el traje a tu medida)</span></li>
+              <li class="flex items-start gap-3 text-brand-muted text-sm"><i class="ph-bold ph-check-circle text-brand-gold mt-0.5 flex-shrink-0"></i><span>Coach humano en las sesiones en vivo</span></li>
+              <li class="flex items-start gap-3 text-brand-muted text-sm"><i class="ph-bold ph-check-circle text-brand-gold mt-0.5 flex-shrink-0"></i><span>Certificación oficial de competencias en IA (ISO/IEC 17024)</span></li>
+              <li class="flex items-start gap-3 text-brand-muted text-sm"><i class="ph-bold ph-check-circle text-brand-gold mt-0.5 flex-shrink-0"></i><span>Garantía de la primera semana</span></li>
+            </ul>
+            <p class="text-brand-muted text-sm italic leading-relaxed border-t border-brand-border pt-5">
+              Un tutor 1-a-1 de IA arranca en $1,250 la hora —cuatro semanas serias se van arriba de $15,000, y aun así estudias solo, sin método, sin certificación.
+            </p>
+          </div>
+
+          <!-- Right: precio + CTA -->
+          <div class="p-8 md:p-10 flex flex-col gap-6">
+
+            <div>
+              <div x-show="tieneDescuento" x-cloak class="mb-1 flex items-center gap-2 flex-wrap">
+                <span class="text-brand-muted line-through">$4,500 MXN</span>
+                <span class="text-xs bg-brand-gold/15 text-brand-gold font-heading font-bold uppercase tracking-wider px-2 py-0.5 rounded" x-show="partnerActivo">Alianza</span>
+                <span class="text-xs bg-brand-gold/15 text-brand-gold font-heading font-bold uppercase tracking-wider px-2 py-0.5 rounded" x-show="!partnerActivo && invitacionApplied">Invitación</span>
+                <span class="text-xs bg-brand-gold/15 text-brand-gold font-heading font-bold uppercase tracking-wider px-2 py-0.5 rounded" x-show="!partnerActivo && !invitacionApplied && esEarlyBird">Early Bird</span>
+              </div>
+              <p class="font-heading font-black text-5xl text-white leading-none">
+                $<span x-text="precioMostrar">4,500</span>
+                <span class="text-2xl text-brand-muted font-sans font-normal ml-1">MXN</span>
+              </p>
+              <p class="text-brand-muted text-xs mt-1">IVA incluido · Pago seguro vía Stripe</p>
+            </div>
+
+            <a :href="stripeUrl" class="btn-primary w-full text-sm py-4" data-preserve-utm>
+              <i class="ph-bold ph-arrow-right"></i>
+              Quiero mi lugar en el cohort
+            </a>
+
+            <div class="flex items-center gap-3">
+              <div class="flex-1 h-px bg-brand-border"></div>
+              <span class="text-brand-muted text-xs font-heading uppercase tracking-widest">o bien</span>
+              <div class="flex-1 h-px bg-brand-border"></div>
+            </div>
+
+            <!-- Plazos -->
+            <div class="bg-brand-black rounded-lg p-5 border border-brand-border">
+              <p class="font-heading font-bold text-white text-sm mb-1">¿Prefieres a plazos?</p>
+              <p class="text-brand-muted text-xs mb-4">Mismo precio, 3 momentos por Stripe:</p>
+              <div class="grid grid-cols-3 gap-2 mb-4 text-center">
+                <div class="bg-brand-surface rounded p-2"><p class="font-heading font-bold text-white text-sm">$1,500</p><p class="text-brand-muted text-[10px]">Al inscribir</p></div>
+                <div class="bg-brand-surface rounded p-2"><p class="font-heading font-bold text-white text-sm">$2,500</p><p class="text-brand-muted text-[10px]">Semana 3</p></div>
+                <div class="bg-brand-surface rounded p-2"><p class="font-heading font-bold text-white text-sm">$500</p><p class="text-brand-muted text-[10px]">Al cert.</p></div>
+              </div>
+              <a :href="stripeUrlPlazos" class="btn-outline w-full text-xs py-2.5"><i class="ph-bold ph-envelope-simple"></i> Solicitar plan a plazos</a>
+            </div>
+
+            <!-- Invitación -->
+            <div class="bg-brand-black rounded-lg p-5 border border-brand-border" x-show="!invitacionApplied">
+              <p class="font-heading font-bold text-white text-sm mb-1">¿Tienes clave de invitación?</p>
+              <p class="text-brand-muted text-xs mb-3">Entra a $3,750 —lugares con ese precio, limitados.</p>
+              <div class="flex gap-2">
+                <input type="text" x-model="invitacionCode" @keydown.enter="applyInvitacion()" placeholder="Tu clave aquí" class="flex-1 bg-brand-surface border border-brand-border rounded px-3 py-2.5 text-white font-heading text-sm placeholder-brand-muted/40 focus:border-brand-gold/50 focus:outline-none transition-colors uppercase">
+                <button @click="applyInvitacion()" class="bg-brand-gold/15 hover:bg-brand-gold/25 text-brand-gold border border-brand-gold/30 rounded px-4 py-2.5 font-heading font-bold text-sm transition-colors">Aplicar</button>
+              </div>
+            </div>
+            <div x-show="invitacionApplied" x-cloak class="bg-brand-gold/8 border border-brand-gold/30 rounded-lg p-4 flex items-center justify-between gap-3">
+              <div class="flex items-center gap-2">
+                <i class="ph-bold ph-check-circle text-brand-gold text-lg"></i>
+                <div>
+                  <p class="text-brand-gold font-heading font-bold text-xs uppercase tracking-wide">Clave aplicada</p>
+                  <p class="text-brand-muted text-xs" x-text="invitacionCode.toUpperCase()"></p>
+                </div>
+              </div>
+              <button @click="removeInvitacion()" class="text-brand-muted hover:text-white text-xs font-heading transition-colors">Quitar</button>
+            </div>
+
+            <p class="text-brand-muted text-xs text-center flex items-start justify-center gap-2 leading-relaxed">
+              <i class="ph-bold ph-shield-check text-brand-gold/70 mt-0.5 flex-shrink-0"></i>
+              Garantía de la primera semana: si no es para ti, te devolvemos todo. El riesgo lo cargamos nosotros.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- BLOQUE 11 — FAQ (acordeón) -->
+  <!-- ============================================================ -->
+  <section class="py-20 md:py-28 bg-brand-black border-b border-brand-border">
+    <div class="container mx-auto px-5 lg:px-8 max-w-3xl">
+      <div class="mb-12">
+        <span class="section-kicker">¿Tienes dudas?</span>
+        <h2 class="font-heading font-black text-3xl md:text-4xl text-white">Preguntas frecuentes</h2>
+      </div>
+      <div class="space-y-2">
+        <template x-for="(faq, i) in [
+          { q: '¿Necesito saber de tecnología o programar?', a: 'No. Si puedes escribir un correo, puedes dirigir la IA. Cero código.' },
+          { q: '¿Cuánto tiempo me va a tomar?', a: 'Unas 4 horas a la semana, durante 4 semanas. Y los sprints son sobre el trabajo que ya haces —no es tiempo extra.' },
+          { q: 'Ya compré un curso de IA y no lo terminé. ¿Por qué este sería distinto?', a: 'Porque no es un video. Es un cohort en vivo, con coach que te destraba y trabajo real cada semana. La categoría es otra —y por eso sí se termina.' },
+          { q: '¿No se va a desactualizar en 3 meses?', a: 'Aprendes a dirigir con criterio, no una herramienta de moda. El método no caduca; las versiones sí. Cuando salga el siguiente modelo, tú ya sabes mandarlo.' },
+          { q: '¿Y si me doy cuenta de que no aplica a mi trabajo?', a: 'Los sprints son sobre tu trabajo, no casos abstractos. Y si en la primera semana ves que no es para ti, te devolvemos todo.' },
+          { q: '¿Puedo faltar a una sesión en vivo?', a: 'Sí, quedan grabadas. Pero el jugo está en el vivo.' }
+        ]" :key="i">
+          <div class="border border-brand-border rounded-lg overflow-hidden bg-brand-surface/30">
+            <button @click="toggleFaq(i)" class="w-full flex items-center justify-between gap-4 px-6 py-5 text-left hover:bg-brand-surface/60 transition-colors">
+              <span class="font-heading font-bold text-white" x-text="faq.q"></span>
+              <i class="ph-bold text-brand-gold flex-shrink-0 text-lg" :class="faqOpen === i ? 'ph-minus' : 'ph-plus'"></i>
+            </button>
+            <div class="faq-body" :class="faqOpen === i ? 'open' : ''">
+              <div class="px-6 pb-5 text-brand-muted leading-relaxed" x-text="faq.a"></div>
+            </div>
+          </div>
+        </template>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- BLOQUE 12 — CIERRE -->
+  <!-- ============================================================ -->
+  <section class="relative py-24 md:py-36 bg-brand-dark overflow-hidden text-center">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(240,185,11,0.06)_0%,transparent_70%)] pointer-events-none"></div>
+    <div class="absolute top-1/2 left-1/2 pointer-events-none">
+      <i class="magic-particle ph-fill ph-star-four text-base" style="--tx:-140px;--ty:-80px;animation-delay:0s;"></i>
+      <i class="magic-particle ph-fill ph-star-four text-xl"   style="--tx:130px;--ty:-90px;animation-delay:0.9s;"></i>
+      <i class="magic-particle ph-fill ph-star-four text-sm"   style="--tx:-110px;--ty:70px;animation-delay:1.7s;"></i>
+      <i class="magic-particle ph-fill ph-star-four text-lg"   style="--tx:120px;--ty:65px;animation-delay:2.4s;"></i>
+    </div>
+    <div class="container mx-auto px-5 max-w-4xl relative z-10">
+      <span class="section-kicker">El compound gap</span>
+      <h2 class="font-heading font-black text-4xl md:text-5xl lg:text-6xl text-white leading-tight mb-8">
+        La IA no te espera.
+      </h2>
+      <p class="text-xl text-brand-muted leading-relaxed max-w-2xl mx-auto mb-5">
+        Puedes cerrar esta página y seguir igual. Es lo cómodo. Pero cada mes que lo pospones, la brecha con quien ya la dirige no se suma —<strong class="text-white">se compone.</strong>
+      </p>
+      <p class="text-lg text-brand-muted leading-relaxed max-w-2xl mx-auto mb-10">
+        Esperar al siguiente cohort no es perder 30 días. Es arrancar 30 días más atrás en una carrera que acelera. <strong class="text-white">Hoy la alcanzas. En un mes, la persigues.</strong>
+      </p>
+      <p class="font-heading font-bold text-2xl text-brand-gold mb-10">El cohort arranca el 13 de julio. Cupo limitado.</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a :href="stripeUrl" class="btn-primary text-sm px-10 py-4" data-preserve-utm>
+          <i class="ph-bold ph-arrow-right"></i>
+          Quiero mi lugar en el cohort
+        </a>
+        <a href="#metodologia" class="btn-outline text-sm px-8 py-4">Revisar cómo funciona</a>
+      </div>
+      <p class="text-brand-muted text-sm mt-8 italic">¿Cuánto más vas a esperar para dejar de sentir ese nudo en el estómago?</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-brand-black border-t border-brand-border py-10">
+    <div class="container mx-auto px-5 lg:px-8 max-w-6xl">
+      <div class="grid grid-cols-1 md:grid-cols-[1fr_auto_auto] gap-8 items-start mb-8">
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <i class="ph-fill ph-magic-wand text-brand-gold"></i>
+            <span class="font-heading font-bold text-white tracking-wide text-sm uppercase">Gnius Academy · Alquimistas de I.A.</span>
+          </div>
+          <p class="text-brand-muted text-xs leading-relaxed max-w-xs">Certificaciones y alianzas: ISO/IEC 17024 · CNAC · UNIDO · World Summit Award</p>
+        </div>
+        <div class="space-y-2">
+          <p class="text-brand-muted text-xs font-heading uppercase tracking-widest mb-3">Páginas</p>
+          <a href="index.html" class="block text-brand-muted hover:text-white text-sm transition-colors">Landing</a>
+          <a href="temarios.html" class="block text-brand-muted hover:text-white text-sm transition-colors">Temarios</a>
+          <a href="fechas.html" class="block text-brand-muted hover:text-white text-sm transition-colors">Fechas y Precios</a>
+        </div>
+        <div class="space-y-2">
+          <p class="text-brand-muted text-xs font-heading uppercase tracking-widest mb-3">Contacto</p>
+          <a href="mailto:rudy@gnius.club" class="block text-brand-gold hover:underline text-sm">rudy@gnius.club</a>
+          <a href="mailto:rudy@gnius.club?subject=Equipo" class="block text-brand-muted hover:text-white text-sm transition-colors">¿Capacitar a tu equipo?</a>
+        </div>
+      </div>
+      <div class="border-t border-brand-border pt-6 text-center">
+        <p class="text-brand-muted text-xs">alquimistas.gnius.club · © 2026 Gnius Academy</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- STICKY CTA MOBILE -->
+  <div class="sticky-cta md:hidden" x-show="!cargando">
+    <a :href="stripeUrl" class="btn-primary w-full py-3.5 text-sm" data-preserve-utm>
+      <i class="ph-bold ph-arrow-right"></i>
+      Quiero mi lugar · $<span x-text="precioMostrar">4,500</span> MXN
+    </a>
+  </div>
+  <div class="h-16 md:hidden"></div>
+
+</body>
+</html>

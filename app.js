@@ -59,6 +59,11 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("alianza")?.classList.remove("hidden");
   }
 
+  if (checkPartner("munet")) {
+    document.getElementById("munet-branding")?.classList.remove("hidden");
+    document.getElementById("alianza-munet")?.classList.remove("hidden");
+  }
+
   if (checkPartner("hyde") || checkPartner("seek")) {
     document.getElementById("hydesick-branding")?.classList.remove("hidden");
     document.getElementById("alianza-hyde")?.classList.remove("hidden");
@@ -83,11 +88,14 @@ document.addEventListener("alpine:init", () => {
     calculateOffset() {
       const hyde = document.getElementById("hydesick-branding");
       const worko = document.getElementById("top-branding");
+      const munet = document.getElementById("munet-branding");
       let offset = 0;
       if (hyde && !hyde.classList.contains("hidden"))
         offset = hyde.offsetHeight;
       else if (worko && !worko.classList.contains("hidden"))
         offset = worko.offsetHeight;
+      else if (munet && !munet.classList.contains("hidden"))
+        offset = munet.offsetHeight;
       this.topOffset = offset + "px";
     },
 

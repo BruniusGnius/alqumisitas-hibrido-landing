@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@400;500;600;700;800&family=Saira:wght@400;500;600;700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Saira+Semi+Condensed:wght@400;500;600;700;800&family=Saira:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -120,6 +120,16 @@
         <div class="container mx-auto px-5 flex items-center justify-center gap-4">
             <p class="text-white font-heading font-medium text-sm">En colaboración estratégica con</p>
             <img src="assets/workosfera-logo-01.svg" class="h-6 md:h-7">
+        </div>
+    </div>
+
+    <div id="munet-branding"
+        class="hidden sticky top-0 z-[100] bg-black/95 backdrop-blur py-3 border-b border-brand-border">
+        <div class="container mx-auto px-5 lg:px-8 max-w-6xl flex flex-col md:flex-row items-center justify-center gap-4 md:gap-16">
+            <p class="text-white font-heading font-medium text-sm md:text-base text-center leading-snug max-w-2xl">Los puntos se conectan cuando <span class="text-[#63d64b] font-bold">tu conocimiento</span> dirige la IA y <span class="text-brand-gold font-bold">transforma lo que haces.</span></p>
+            <a href="https://museomunet.com/index.html" target="_blank" rel="noopener noreferrer" aria-label="Visitar MUNET, Museo Nacional de Energía y Tecnología" class="block shrink-0">
+                <img src="assets/munet-logo-manual-vertical.png" alt="MUNET, Museo Nacional de Energía y Tecnología" class="w-44 md:w-56 h-auto object-contain">
+            </a>
         </div>
     </div>
 
@@ -516,7 +526,15 @@
     </main>
 
     <!-- SCRIPTS -->
-    <script src="app.js"></script>
+    <script>
+        (() => {
+            const params = new URLSearchParams(window.location.search);
+            const esMunet = ['utm_source', 'utm_medium', 'utm_campaign', 'ref']
+                .some(key => params.get(key)?.toLowerCase().includes('munet'));
+            if (esMunet) document.getElementById('munet-branding')?.classList.remove('hidden');
+        })();
+    </script>
+    <script src="app.js?v=munet-20261012"></script>
     <script src="https://chatwith.tools/chatbot/668de3d8-c9e9-4b73-846a-1ed817098d3b.js" async></script>
 
     <!-- Lógica Exclusiva del Calendario Global de Fechas -->

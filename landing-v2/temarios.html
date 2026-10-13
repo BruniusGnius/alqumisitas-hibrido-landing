@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Temarios — Alquimistas de I.A.</title>
+  <meta name="description" content="Revisa el contenido de cada nivel de Alquimistas de I.A. antes de inscribirte.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Saira:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'brand-black':   '#0a0a0a',
+            'brand-dark':    '#121212',
+            'brand-surface': '#1c1c1c',
+            'brand-border':  '#2a2a2a',
+            'brand-text':    '#f0f0f0',
+            'brand-muted':   '#a0a0a0',
+            'brand-gold':    '#f0b90b',
+            'brand-gold-dark': '#e8a900',
+          },
+          fontFamily: {
+            'sans':    ['Saira', 'sans-serif'],
+            'heading': ['"IBM Plex Serif"', 'serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="app.js"></script>
+
+  <style>
+    [x-cloak] { display: none !important; }
+    body { background-color: #0a0a0a; color: #f0f0f0; -webkit-font-smoothing: antialiased; }
+
+    .section-kicker {
+      display: block;
+      font-family: 'Saira', sans-serif;
+      font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      color: #f0b90b; margin-bottom: 0.75rem;
+    }
+
+    .img-ph {
+      background: linear-gradient(135deg, rgba(240,185,11,0.04) 0%, rgba(28,28,28,0.8) 100%);
+      border: 1px dashed rgba(240,185,11,0.2);
+      border-radius: 0.5rem;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 0.75rem; color: #a0a0a0;
+    }
+    .img-ph i    { color: rgba(240,185,11,0.25); }
+    .img-ph span { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.45; font-family: 'Saira', sans-serif; }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      padding: 0.85rem 1.75rem;
+      background: #f0b90b; color: #0a0a0a;
+      font-family: 'Saira Semi Condensed', sans-serif; font-weight: 800;
+      font-size: 0.9rem; letter-spacing: 0.08em; text-transform: uppercase;
+      border-radius: 4px; transition: background 0.2s, transform 0.15s;
+      text-decoration: none; cursor: pointer; border: none;
+    }
+    .btn-primary:hover { background: #ffe234; transform: translateY(-1px); }
+
+    .btn-outline {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border: 1px solid rgba(240,185,11,0.4); color: #f0b90b;
+      font-family: 'Saira Semi Condensed', sans-serif; font-weight: 700;
+      font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase;
+      border-radius: 4px; transition: border-color 0.2s, background 0.2s;
+      text-decoration: none; cursor: pointer;
+    }
+    .btn-outline:hover { border-color: #f0b90b; background: rgba(240,185,11,0.06); }
+
+    .content-card {
+      background: #1c1c1c; border: 1px solid #2a2a2a; border-radius: 8px;
+      transition: border-color 0.2s;
+    }
+
+    /* Divisor entre niveles */
+    .nivel-divider {
+      border-top: 1px solid #2a2a2a;
+      padding-top: 4rem; margin-top: 4rem;
+    }
+  </style>
+</head>
+
+<body class="font-sans" x-data="catalogoCursos()" x-init="initData()">
+
+  <!-- ===== PARTNER BANNERS ===== -->
+  <div id="hydesick-branding" class="hidden sticky top-0 z-[100] bg-white/96 backdrop-blur py-3 border-b border-gray-200">
+    <div class="container mx-auto px-5 flex items-center justify-center gap-4">
+      <p class="text-gray-500 font-heading font-bold text-[10px] uppercase tracking-[0.2em]">En colaboración estratégica con</p>
+      <img src="../assets/hyde_seek-logo.png" class="h-6 md:h-8">
+    </div>
+  </div>
+  <div id="top-branding" class="hidden sticky top-0 z-[100] bg-black/96 backdrop-blur py-4 border-b border-brand-border">
+    <div class="container mx-auto px-5 flex items-center justify-center gap-4">
+      <p class="text-brand-muted font-heading font-bold text-[10px] uppercase tracking-[0.2em]">Beneficio de alianza activo</p>
+      <img :src="activePartner?.logo" class="h-6 md:h-8 max-w-[120px] object-contain">
+    </div>
+  </div>
+
+  <!-- ===== NAV ===== -->
+  <nav class="sticky z-50 bg-brand-black/95 backdrop-blur border-b border-brand-border" :style="'top:' + topOffset">
+    <div class="container mx-auto px-5 max-w-7xl flex items-center justify-between h-16">
+      <a href="index.html" class="flex items-center gap-2.5">
+        <i class="ph-fill ph-magic-wand text-brand-gold text-xl"></i>
+        <span class="font-heading font-bold text-white tracking-wide text-sm uppercase">Alquimistas <span class="text-brand-gold">I.A.</span></span>
+      </a>
+      <div class="hidden md:flex items-center gap-6">
+        <a href="index.html" class="text-brand-muted hover:text-white text-sm font-sans transition-colors">Landing</a>
+        <a href="temarios.html" class="text-white text-sm font-sans border-b border-brand-gold pb-0.5">Temarios</a>
+        <a href="fechas.html" class="text-brand-muted hover:text-white text-sm font-sans transition-colors" data-preserve-utm>Fechas</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="bg-brand-dark border-b border-brand-border py-16 md:py-20">
+    <div class="container mx-auto px-5 max-w-6xl">
+      <div class="grid grid-cols-1 md:grid-cols-[1fr_260px] gap-10 items-end">
+        <div>
+          <span class="section-kicker">Contenidos del programa</span>
+          <h1 class="font-heading font-black text-4xl md:text-5xl text-white leading-tight mb-4">Temarios</h1>
+          <p class="text-brand-muted leading-relaxed max-w-lg">Revisa qué aprenderás en cada nivel antes de inscribirte. Cada sprint está diseñado para aplicarse sobre tu trabajo real.</p>
+        </div>
+        <div class="hidden md:block">
+          <div class="img-ph h-36">
+            <i class="ph-bold ph-book-open text-5xl"></i>
+            <span>Imagen · curriculum · contenido</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filtro nivel -->
+      <div class="flex gap-2 mt-8 flex-wrap">
+        <button @click="filtroNivel = 'todos'"
+          :class="filtroNivel === 'todos' ? 'bg-brand-gold text-brand-black font-bold' : 'bg-brand-surface text-brand-muted border border-brand-border hover:border-brand-gold/30 hover:text-white'"
+          class="font-heading text-xs uppercase tracking-widest px-4 py-2.5 rounded transition-colors">
+          Todos
+        </button>
+        <button @click="filtroNivel = 1"
+          :class="filtroNivel === 1 ? 'bg-brand-gold text-brand-black font-bold' : 'bg-brand-surface text-brand-muted border border-brand-border hover:border-brand-gold/30 hover:text-white'"
+          class="font-heading text-xs uppercase tracking-widest px-4 py-2.5 rounded transition-colors">
+          N1 · Prompting
+        </button>
+        <button @click="filtroNivel = 2"
+          :class="filtroNivel === 2 ? 'bg-blue-600 text-white font-bold' : 'bg-brand-surface text-brand-muted border border-brand-border hover:border-blue-500/30 hover:text-white'"
+          class="font-heading text-xs uppercase tracking-widest px-4 py-2.5 rounded transition-colors">
+          N2 · Agentes
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTENIDO CURSOS ===== -->
+  <section class="py-14 md:py-20 bg-brand-black">
+    <div class="container mx-auto px-5 max-w-6xl">
+
+      <!-- Loading -->
+      <div x-show="cargando" class="flex items-center justify-center py-20">
+        <div class="flex items-center gap-3 text-brand-muted">
+          <i class="ph-bold ph-circle-notch animate-spin text-brand-gold text-2xl"></i>
+          <span class="font-heading uppercase tracking-widest text-xs">Cargando temarios...</span>
+        </div>
+      </div>
+
+      <!-- Empty -->
+      <div x-show="!cargando && cursosFiltrados.length === 0" class="text-center py-20 text-brand-muted">
+        <i class="ph-bold ph-scroll text-5xl text-brand-border mb-4 block"></i>
+        <p class="font-heading font-bold uppercase tracking-widest text-sm">Sin temarios para este filtro.</p>
+      </div>
+
+      <!-- Cursos -->
+      <div x-show="!cargando" class="space-y-16">
+        <template x-for="(curso, idx) in cursosFiltrados" :key="curso.id">
+          <div :class="idx > 0 ? 'nivel-divider' : ''">
+
+            <!-- HEADER CURSO: 2-col (info izq · imagen+CTA dcha) -->
+            <div class="grid grid-cols-1 md:grid-cols-[1fr_320px] gap-8 mb-10 items-start">
+
+              <!-- Left: info -->
+              <div>
+                <div class="flex items-center gap-2 flex-wrap mb-3">
+                  <span class="px-2 py-1 rounded text-[10px] font-heading font-bold uppercase tracking-widest"
+                    :class="getEstilosNivel(curso.nivel).badge"
+                    x-text="'Nivel ' + curso.nivel"></span>
+                  <span class="px-2 py-1 rounded text-[10px] font-heading font-bold uppercase tracking-widest"
+                    :class="{
+                      'bg-brand-gold/15 text-brand-gold': curso.estado === 'abierto',
+                      'bg-blue-500/15 text-blue-400': curso.estado === 'proximamente',
+                      'bg-amber-500/15 text-amber-400': curso.estado === 'waitlist',
+                      'bg-brand-muted/10 text-brand-muted': curso.estado === 'cerrado'
+                    }"
+                    x-text="formatEstado(curso.estado)"></span>
+                </div>
+                <h2 class="font-heading font-black text-3xl md:text-4xl text-white leading-tight mb-3" x-text="curso.titulo"></h2>
+                <p class="text-brand-muted leading-relaxed mb-4" x-text="curso.descripcion || ''"></p>
+                <div class="flex flex-wrap gap-x-6 gap-y-2 text-brand-muted text-sm">
+                  <span class="flex items-center gap-1.5"><i class="ph-fill ph-calendar text-brand-gold"></i> <span x-text="formatDateFull(curso.fechaInicio)"></span></span>
+                  <span class="flex items-center gap-1.5"><i class="ph-fill ph-clock text-brand-gold"></i> 4 semanas en vivo</span>
+                  <span class="flex items-center gap-1.5"><i class="ph-fill ph-certificate text-brand-gold"></i> Cert. ISO/IEC 17024</span>
+                </div>
+
+                <!-- Requisitos -->
+                <template x-if="curso.requisitos">
+                  <div class="mt-5 bg-brand-surface border border-brand-border rounded-lg p-4 inline-block">
+                    <p class="text-xs font-heading font-bold uppercase tracking-widest text-brand-muted mb-1">Requisitos</p>
+                    <p class="text-brand-muted text-sm" x-text="curso.requisitos"></p>
+                  </div>
+                </template>
+              </div>
+
+              <!-- Right: imagen + precio + CTA -->
+              <div class="space-y-4">
+                <template x-if="!curso.portada">
+                  <div class="img-ph aspect-video">
+                    <i class="ph-bold ph-image text-4xl"></i>
+                    <span x-text="'Portada N' + curso.nivel"></span>
+                  </div>
+                </template>
+                <template x-if="curso.portada">
+                  <img :src="'../' + curso.portada" class="w-full aspect-video object-cover rounded-lg">
+                </template>
+
+                <!-- Precio + CTA -->
+                <div class="content-card p-5">
+                  <template x-if="tieneDescuentoVisual(curso)">
+                    <div class="flex items-center gap-2 mb-1">
+                      <span class="text-brand-muted line-through text-sm" x-text="'$' + (curso.reg_precio || curso.precio) + ' MXN'"></span>
+                      <span class="text-xs bg-brand-gold/15 text-brand-gold font-heading font-bold uppercase tracking-wide px-2 py-0.5 rounded"
+                        x-text="tienePromoActiva(curso) === 'partner' ? 'Alianza' : 'Early Bird'"></span>
+                    </div>
+                  </template>
+                  <p class="font-heading font-black text-3xl text-white mb-3">
+                    $<span x-text="tieneDescuentoVisual(curso) ? getPrecioDescuento(curso) : (curso.reg_precio || curso.precio)"></span>
+                    <span class="text-brand-muted text-base font-sans font-normal"> MXN</span>
+                  </p>
+                  <template x-if="curso.estado === 'abierto'">
+                    <a :href="generarLinkStripe(curso)" class="btn-primary w-full text-sm py-3" data-preserve-utm>
+                      <i class="ph-bold ph-arrow-right"></i> Inscribirme
+                    </a>
+                  </template>
+                  <template x-if="curso.estado !== 'abierto'">
+                    <a :href="generarUrlConUtms('fechas.html', '')" class="btn-outline w-full text-sm py-3" data-preserve-utm>
+                      Ver fechas disponibles
+                    </a>
+                  </template>
+                </div>
+              </div>
+            </div>
+
+            <!-- SPRINTS: 2-col grid -->
+            <template x-if="curso.sprints?.length">
+              <div class="mb-8">
+                <p class="section-kicker">Contenido sprint a sprint</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <template x-for="(sprint, si) in curso.sprints" :key="si">
+                    <div class="content-card p-6">
+                      <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0 w-9 h-9 rounded-full border border-brand-gold/30 flex items-center justify-center font-heading font-black text-brand-gold text-sm" x-text="(si+1).toString().padStart(2,'0')"></div>
+                        <div class="flex-1 min-w-0">
+                          <h4 class="font-heading font-bold text-white mb-1.5" x-text="sprint.titulo"></h4>
+                          <p class="text-brand-muted text-sm leading-relaxed" x-text="sprint.descripcion"></p>
+                          <template x-if="sprint.resultado">
+                            <p class="text-brand-gold text-xs font-heading font-bold uppercase tracking-wider mt-2" x-text="'→ ' + sprint.resultado"></p>
+                          </template>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+                </div>
+              </div>
+            </template>
+
+            <!-- HERRAMIENTAS + CTA FINAL -->
+            <div class="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-6 items-center border-t border-brand-border pt-6">
+              <template x-if="curso.herramientas?.length">
+                <div>
+                  <p class="text-brand-muted text-xs font-heading uppercase tracking-widest mb-2">Herramientas que usarás</p>
+                  <div class="flex flex-wrap gap-2">
+                    <template x-for="h in curso.herramientas" :key="h">
+                      <span class="px-2.5 py-1.5 bg-brand-surface border border-brand-border rounded text-xs text-brand-muted font-sans" x-text="h"></span>
+                    </template>
+                  </div>
+                </div>
+              </template>
+              <template x-if="!curso.herramientas?.length">
+                <div></div>
+              </template>
+              <template x-if="curso.estado === 'abierto'">
+                <a :href="generarLinkStripe(curso)" class="btn-primary flex-shrink-0 text-sm py-3 px-8" data-preserve-utm>
+                  Inscribirme al N<span x-text="curso.nivel"></span> →
+                </a>
+              </template>
+              <template x-if="curso.estado !== 'abierto'">
+                <a :href="generarUrlConUtms('fechas.html', '')" class="btn-outline flex-shrink-0 text-sm py-3 px-8" data-preserve-utm>
+                  Ver próximas fechas
+                </a>
+              </template>
+            </div>
+
+          </div>
+        </template>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="bg-brand-dark border-t border-brand-border py-8">
+    <div class="container mx-auto px-5 max-w-6xl flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <i class="ph-fill ph-magic-wand text-brand-gold text-lg"></i>
+        <span class="font-heading font-bold text-white text-sm uppercase tracking-wide">Gnius Academy · Alquimistas de I.A.</span>
+      </div>
+      <div class="flex gap-6">
+        <a href="index.html" class="text-brand-muted hover:text-white text-sm transition-colors">Landing</a>
+        <a href="fechas.html" class="text-brand-muted hover:text-white text-sm transition-colors">Fechas y Precios</a>
+        <a href="mailto:rudy@gnius.club" class="text-brand-gold hover:underline text-sm">rudy@gnius.club</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

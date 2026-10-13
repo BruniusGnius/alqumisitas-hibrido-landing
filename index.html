@@ -147,7 +147,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@400;500;600;700;800&family=Saira:wght@400;500;600;700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Saira+Semi+Condensed:wght@400;500;600;700;800&family=Saira:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
 
     <!-- Tailwind CSS (CDN) -->
@@ -843,6 +843,16 @@
                     <img src="assets/workosfera-logo-01.svg" alt="Workosfera" class="h-12 md:h-7 w-auto object-contain">
                 </a>
             </div>
+        </div>
+    </div>
+    <!-- MUNET: barra de alianza visible con ?utm_source=munet -->
+    <div id="munet-branding"
+        class="hidden sticky top-0 z-[100] bg-black/95 backdrop-blur-md py-3 border-b border-[#4dcc36]/40">
+        <div class="container mx-auto px-5 lg:px-8 max-w-6xl flex flex-col md:flex-row items-center justify-center gap-4 md:gap-16">
+            <p class="text-white font-heading font-medium text-sm md:text-base text-center leading-snug max-w-2xl">Los puntos se conectan cuando <span class="text-[#63d64b] font-bold">tu conocimiento</span> dirige la IA y <span class="text-brand-gold font-bold">transforma lo que haces.</span></p>
+            <a href="https://museomunet.com/index.html" target="_blank" rel="noopener noreferrer" aria-label="Visitar MUNET, Museo Nacional de Energía y Tecnología" class="block shrink-0 hover:opacity-80 transition-opacity">
+                <img src="assets/munet-logo-manual-vertical.png" alt="MUNET, Museo Nacional de Energía y Tecnología" class="w-44 md:w-56 h-auto object-contain">
+            </a>
         </div>
     </div>
     <!-- ================================================= -->
@@ -2500,12 +2510,12 @@
                     <!-- CASO 1: Visita de Partner -->
                     <template x-if="activePartner">
                         <div class="flex items-center gap-3 w-full">
-                            <!-- Contenedor del Logo: Altura estricta para forzar renderizado de SVGs -->
-                            <div class="flex-shrink-0 flex items-center justify-center h-10 md:h-12"
-                                :class="{ 'bg-white p-2 ': activePartner.logo_bg }">
-                                <!-- h-full y w-auto obligan al SVG a calcular su ancho correcto -->
-                                <img :src="activePartner.logo" alt="Logo"
-                                    class="h-full w-auto max-w-[110px] md:max-w-[140px] object-contain block">
+                            <!-- El logo completo de MUNET necesita más altura para que se lea la leyenda. -->
+                            <div class="flex-shrink-0 flex items-center justify-center"
+                                :class="[activePartner.id === 'munet' ? 'h-16 md:h-20' : 'h-10 md:h-12', activePartner.logo_bg ? 'bg-white p-2' : '']">
+                                <img :src="activePartner.logo" :alt="'Logo ' + activePartner.id"
+                                    class="h-full w-auto object-contain block"
+                                    :class="activePartner.id === 'munet' ? 'max-w-[150px] md:max-w-[200px]' : 'max-w-[110px] md:max-w-[140px]'">
                             </div>
                             <!-- Texto del Partner -->
                             <div class="pr-2">
@@ -2751,6 +2761,35 @@
         </div>
     </section>
 
+
+    <!-- MUNET: sección de alianza antes del footer -->
+    <section id="alianza-munet" class="hidden py-16 md:py-20 bg-black border-t border-[#328b27]/50">
+        <div class="container mx-auto px-5 lg:px-8 max-w-6xl text-white">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center mb-10">
+                <div class="md:col-span-8">
+                    <p class="text-[#63d64b] text-xs font-bold uppercase tracking-[0.22em] mb-4">MUNET + ALQUIMISTAS DE I.A.</p>
+                    <h2 class="font-heading font-bold text-3xl md:text-5xl leading-tight mb-5">La energía para descubrir.<br><span class="text-[#63d64b]">Las herramientas para transformar.</span></h2>
+                    <p class="text-gray-300 text-base md:text-lg leading-relaxed max-w-2xl">En MUNET, la energía se explora, se juega y se siente. En Alquimistas, esa chispa se convierte en ideas, habilidades y proyectos reales con IA. Juntos, abrimos nuevas formas de aprender y crear.</p>
+                </div>
+                <div class="md:col-span-4 md:text-right">
+                    <a href="https://museomunet.com/index.html" target="_blank" rel="noopener noreferrer" aria-label="Conoce MUNET, Museo Nacional de Energía y Tecnología" class="inline-flex flex-col items-start md:items-center gap-4 group">
+                        <img src="assets/munet-logo-manual-vertical.png" alt="MUNET, Museo Nacional de Energía y Tecnología" class="w-56 md:w-64 h-auto object-contain">
+                        <span class="text-[#63d64b] text-sm font-bold group-hover:underline">Conoce MUNET ↗</span>
+                    </a>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-5">
+                <div class="md:col-span-7 relative overflow-hidden rounded-xl shadow-xl h-64 md:h-80">
+                    <img src="assets/munet-exhibiciones.jpeg" alt="Exhibición interactiva de energía en MUNET" loading="lazy" class="w-full h-full object-cover">
+                    <div class="absolute inset-x-0 bottom-0 p-5 md:p-6 bg-gradient-to-t from-black/80 to-transparent text-white font-heading font-bold text-lg md:text-xl">Explora lo que mueve al mundo.</div>
+                </div>
+                <div class="md:col-span-5 relative overflow-hidden rounded-xl shadow-xl h-64 md:h-80">
+                    <img src="assets/munet-blackbox.jpeg" alt="Espacio inmersivo Black Box de MUNET" loading="lazy" class="w-full h-full object-cover">
+                    <div class="absolute inset-x-0 bottom-0 p-5 md:p-6 bg-gradient-to-t from-black/80 to-transparent text-white font-heading font-bold text-lg md:text-xl">Imagina lo que puedes transformar.</div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- FOOTER COMPLETO -->
     <footer class="py-16 border-t border-brand-border bg-black text-white">
@@ -3126,7 +3165,19 @@
         });
     </script> -->
     <!-- chatwith -->
-    <script src="app.js?v=1.1"></script>
+    <script>
+        // MUNET: mostrar la alianza al abrir su enlace, independientemente de la carga de app.js.
+        (() => {
+            const params = new URLSearchParams(window.location.search);
+            const esMunet = ['utm_source', 'utm_medium', 'utm_campaign', 'ref']
+                .some(key => params.get(key)?.toLowerCase().includes('munet'));
+            if (esMunet) {
+                document.getElementById('munet-branding')?.classList.remove('hidden');
+                document.getElementById('alianza-munet')?.classList.remove('hidden');
+            }
+        })();
+    </script>
+    <script src="app.js?v=munet-20261012"></script>
 
     </script>
     <script src="https://chatwith.tools/chatbot/668de3d8-c9e9-4b73-846a-1ed817098d3b.js" async=""></script>

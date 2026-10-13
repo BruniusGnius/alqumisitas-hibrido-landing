@@ -115,7 +115,7 @@ El sitio incluye un script de atribución para detectar quién realizó la venta
 
 ---
 
-## 5. Branding Dinámico (Workosfera)
+## 5. Branding Dinámico de Partners
 
 El sitio cuenta con un sistema de "Marca Blanca" oculto.
 
@@ -123,14 +123,17 @@ El sitio cuenta con un sistema de "Marca Blanca" oculto.
 
 Compartir el enlace con la palabra clave en la URL:
 
-- **Ejemplo:** `alquimistas.gnius.club/?utm_source=workosfera`
+- **Workosfera:** `alquimistas.gnius.club/?utm_source=workosfera`
+- **MUNET:** `alquimistas.gnius.club/?utm_source=munet`
 
 ### ¿Qué sucede?
 
 El script desbloquea dos secciones ocultas en el HTML:
 
-1.  **Barra Superior:** "Presentado en colaboración con Workosfera".
-2.  **Sección Inferior:** Información sobre la alianza antes del footer.
+1.  **Barra Superior:** Presenta el logo del partner activo.
+2.  **Sección Inferior:** En la landing principal, Workosfera y MUNET tienen una sección visual antes del footer.
+
+El beneficio comercial es independiente del branding: para activar un descuento, registrar monto, cupón de Stripe y niveles aplicables en `partners.json`. Nunca se debe anunciar un descuento sin un cupón válido en Stripe.
 
 ---
 
