@@ -65,7 +65,7 @@ Solo `abierto` muestra botón de pago. Una preventa vencida deja de activar su d
 
 Algunos campos admiten HTML porque se muestran con `x-html`, por ejemplo `<strong>` y `<br>`. Usar solo contenido de confianza. Las fechas usan `AAAA-MM-DD`. Mantener `calendario` en orden cronológico: el calendario global toma su último elemento como fecha de fin.
 
-**Estado local frente al servidor:** `cursos.json` tiene cambios confirmados en Git que no se incluyeron en el último despliegue FTP de MUNET. Compararlo con la versión remota antes de publicar otro curso para no reemplazar cambios posteriores.
+**Estado local frente al servidor:** `cursos.json` no se subió durante el último despliegue FTP de MUNET. En la revisión del 12 de octubre de 2026, el archivo público y el local coincidieron byte por byte. Volver a compararlos antes de publicar otro curso para no reemplazar cambios posteriores.
 
 ## Actualizar o agregar un partner
 
